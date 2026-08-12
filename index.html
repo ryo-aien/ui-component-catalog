@@ -1,0 +1,2523 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Interactive UI Component Catalog for </title>
+<style>
+:root{
+ --bg:#0c0f14; --panel:#121720; --panel2:#171e29; --line:#273140;
+ --text:#f4f7fb; --muted:#94a0af; --accent:#8eb6ff;
+}
+*{box-sizing:border-box}
+body{
+ margin:0;background:var(--bg);color:var(--text);
+ font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+button,input,select{font:inherit}
+.shell{max-width:1500px;margin:auto;padding:30px}
+header{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end}
+.eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+h1{margin:8px 0 12px;font-size:clamp(34px,5vw,64px);line-height:.98;letter-spacing:-.055em}
+.lead{max-width:850px;color:#b4bfcb;line-height:1.7;font-size:15px}
+.search{min-width:300px;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:#0f141b;color:var(--text);outline:none}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:24px 0}
+.filter{border:1px solid var(--line);background:transparent;color:#abb6c4;padding:8px 12px;border-radius:999px;cursor:pointer}
+.filter.active{background:#eef3f8;color:#11151b;border-color:#eef3f8}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.demo{
+ min-height:220px;background:#edf1f6;color:#111722;padding:18px;
+ display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden
+}
+.info{padding:16px}
+.names{display:flex;justify-content:space-between;gap:12px}
+.jp{font-weight:750}
+.en{font:11px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent)}
+.desc{font-size:12px;line-height:1.55;color:#aeb8c5;margin:9px 0}
+.say{background:#0b0e13;border:1px solid #222b36;border-radius:10px;padding:10px;font:11px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;color:#dce4ee}
+.copy{width:100%;margin-top:9px;border:1px solid #344150;background:#1a212b;color:white;padding:8px;border-radius:9px;cursor:pointer}
+.copy:hover{background:#222c37}
+.section-title{grid-column:1/-1;color:#7f8b9a;font-size:11px;text-transform:uppercase;letter-spacing:.13em;margin:12px 0 0}
+.demo-note{position:absolute;left:12px;bottom:10px;font-size:9px;color:#6e7a88}
+.demo button{cursor:pointer}
+.demo .mini-btn{border:1px solid #c8d0d9;background:white;color:#17202a;padding:8px 11px;border-radius:9px}
+.demo .mini-btn.primary{background:#111821;color:white;border-color:#111821}
+
+/* Toggle */
+.toggle{
+ width:58px;height:32px;border:0;border-radius:999px;background:#c4cbd3;padding:4px;
+ transition:.2s;display:flex;align-items:center
+}
+.toggle .knob{width:24px;height:24px;background:white;border-radius:50%;transition:.2s;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.toggle.on{background:#111821}
+.toggle.on .knob{transform:translateX(26px)}
+
+/* hamburger / mobile drawer */
+.phone{
+ width:190px;height:185px;background:white;border:1px solid #cbd3dc;border-radius:20px;position:relative;overflow:hidden;
+ box-shadow:0 12px 32px rgba(37,50,67,.12)
+}
+.phone-head{height:42px;border-bottom:1px solid #e1e5e9;display:flex;align-items:center;justify-content:space-between;padding:0 12px;font-size:10px}
+.hamb{border:0;background:transparent;width:30px;padding:3px}
+.hamb i{display:block;height:2px;background:#111821;border-radius:2px;margin:5px 0}
+.mobile-drawer{
+ position:absolute;left:0;top:0;bottom:0;width:72%;background:#111821;color:white;padding:14px;
+ transform:translateX(-100%);transition:.22s ease;z-index:3
+}
+.mobile-drawer.open{transform:translateX(0)}
+.mobile-drawer .close{float:right;border:0;background:transparent;color:white;font-size:18px}
+.mobile-drawer a{display:block;color:#dce4ec;text-decoration:none;font-size:10px;padding:10px 2px;border-bottom:1px solid #27313d}
+
+/* status bar */
+.status-phone{width:180px;height:170px;background:white;border:1px solid #cbd3dc;border-radius:20px;overflow:hidden}
+.statusbar{height:26px;background:#10151c;color:white;display:flex;align-items:center;justify-content:space-between;padding:0 10px;font-size:8px}
+.status-content{padding:18px 14px}
+.status-content .line{height:8px;background:#d9e0e7;border-radius:8px;margin:8px 0}
+.status-content .line:nth-child(2){width:70%}
+
+/* tabs */
+.tabs{width:90%}
+.tab-list{display:flex;gap:14px;border-bottom:1px solid #cdd4dc}
+.tab-btn{border:0;background:transparent;padding:9px 3px;font-size:11px;color:#6a7480}
+.tab-btn.active{color:#111821;border-bottom:2px solid #111821}
+.tab-panel{padding:18px 2px;font-size:11px;color:#3d4853}
+
+/* segmented */
+.segment{display:flex;background:#dfe5eb;border-radius:11px;padding:3px}
+.segment button{border:0;background:transparent;font-size:10px;padding:8px 12px;border-radius:8px;color:#56616d}
+.segment button.active{background:white;color:#111821;box-shadow:0 1px 5px rgba(0,0,0,.12)}
+
+/* checkbox / radio */
+.check-row,.radio-row{display:flex;gap:10px;align-items:center;font-size:11px}
+.checkbox{
+ width:22px;height:22px;border:1px solid #9ca8b4;border-radius:5px;background:white;display:grid;place-items:center;color:white
+}
+.checkbox.checked{background:#111821;border-color:#111821}
+.radio-group{display:flex;gap:12px}
+.radio{
+ width:22px;height:22px;border:2px solid #8d99a5;border-radius:50%;padding:4px;background:white
+}
+.radio.selected{border-color:#111821}
+.radio.selected:after{content:"";display:block;width:10px;height:10px;border-radius:50%;background:#111821}
+
+/* dropdown */
+.select-wrap{position:relative;width:180px}
+.select-trigger{width:100%;display:flex;justify-content:space-between;border:1px solid #cbd4dd;background:white;border-radius:9px;padding:9px 11px;font-size:11px}
+.select-menu{display:none;position:absolute;top:44px;left:0;right:0;background:white;border:1px solid #cbd4dd;border-radius:9px;box-shadow:0 10px 25px rgba(0,0,0,.14);overflow:hidden;z-index:5}
+.select-menu.open{display:block}
+.select-menu button{width:100%;border:0;background:white;text-align:left;padding:9px 11px;font-size:10px}
+.select-menu button:hover{background:#edf1f5}
+
+/* slider */
+.range-wrap{width:80%;text-align:center}
+.range-wrap input{width:100%}
+.range-value{font-size:12px;margin-top:8px}
+
+/* date picker */
+.datebox{width:190px}
+.date-trigger{width:100%;border:1px solid #cbd4dd;background:white;border-radius:9px;padding:9px 10px;font-size:10px}
+.calendar{
+ margin-top:8px;background:white;border:1px solid #cbd4dd;border-radius:12px;padding:10px;display:none
+}
+.calendar.open{display:block}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:7px;font-size:8px;text-align:center}
+.cal-grid button{border:0;background:transparent;padding:5px 0;border-radius:5px}
+.cal-grid button:hover,.cal-grid button.sel{background:#111821;color:white}
+
+/* pagination */
+.pagination{display:flex;gap:6px;align-items:center}
+.pagination button{
+ min-width:30px;height:30px;border:1px solid #ccd4dc;background:white;border-radius:7px;font-size:10px
+}
+.pagination button.active{background:#111;color:white}
+.page-text{font-size:11px;margin-left:10px;color:#5d6975}
+
+/* search */
+.search-demo{width:88%}
+.search-demo input{width:100%;border:1px solid #cbd3dc;background:white;border-radius:10px;padding:10px 12px}
+.search-results{margin-top:8px;font-size:10px;color:#4c5966}
+.result-item{padding:6px 2px;border-bottom:1px solid #dde3e8}
+
+/* command palette */
+.command-btn{border:1px solid #ccd4dc;background:white;border-radius:10px;padding:9px 12px}
+.command-overlay{
+ display:none;position:absolute;inset:0;background:rgba(28,34,42,.35);align-items:center;justify-content:center;z-index:5
+}
+.command-overlay.open{display:flex}
+.command{
+ width:220px;background:white;border:1px solid #cbd4dd;border-radius:14px;box-shadow:0 14px 30px rgba(0,0,0,.13);overflow:hidden
+}
+.command input{width:100%;border:0;border-bottom:1px solid #e1e5e9;padding:11px;outline:none}
+.command .cmd-item{padding:9px 11px;font-size:9px}
+.command .cmd-item.active{background:#eef2f6}
+
+/* toast */
+.toast-btn{border:1px solid #ccd4dc;background:white;border-radius:9px;padding:9px 11px}
+.toast{
+ position:absolute;bottom:-50px;left:50%;transform:translateX(-50%);background:#111;color:white;border-radius:10px;
+ padding:10px 14px;font-size:10px;white-space:nowrap;transition:.25s
+}
+.toast.show{bottom:18px}
+
+/* progress */
+.progress-wrap{width:80%;text-align:center}
+.progress{height:10px;background:#d7dde4;border-radius:99px;overflow:hidden}
+.progress .fill{height:100%;background:#111;width:20%;transition:.25s}
+.progress-actions{display:flex;justify-content:center;gap:6px;margin-top:12px}
+
+/* spinner */
+.spinner{width:34px;height:34px;border-radius:50%;border:4px solid #d1d7de;border-top-color:#111;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* skeleton */
+.skeleton{width:82%}
+.skeleton div{height:10px;background:linear-gradient(90deg,#d9dfe5,#f5f7f9,#d9dfe5);background-size:200% 100%;border-radius:6px;margin:8px 0;animation:shimmer 1.2s infinite}
+.skeleton div:nth-child(2){width:65%}
+@keyframes shimmer{to{background-position:-200% 0}}
+
+/* stepper */
+.stepper-wrap{width:85%}
+.stepper{display:flex;align-items:center}
+.step{width:24px;height:24px;border-radius:50%;background:#c5ccd4;color:#555;font-size:9px;display:flex;align-items:center;justify-content:center}
+.step.active,.step.done{background:#111;color:white}
+.stepline{height:2px;flex:1;background:#ccd4dc}
+.stepper-actions{display:flex;gap:8px;justify-content:center;margin-top:18px}
+
+/* modal */
+.modal-btn{border:0;background:#111821;color:white;border-radius:9px;padding:9px 12px}
+.modal-bg{display:none;position:absolute;inset:0;background:rgba(24,30,38,.32);align-items:center;justify-content:center;z-index:5}
+.modal-bg.open{display:flex}
+.modal{width:190px;background:white;border-radius:14px;padding:14px;box-shadow:0 15px 40px rgba(0,0,0,.2)}
+.modal-actions{display:flex;justify-content:flex-end;gap:7px;margin-top:13px}
+
+/* drawer */
+.drawer-btn{border:1px solid #ccd4dc;background:white;border-radius:9px;padding:9px 11px}
+.drawer-bg{display:none;position:absolute;inset:0;background:rgba(24,30,38,.25)}
+.drawer-bg.open{display:block}
+.drawer{
+ position:absolute;right:0;top:0;height:100%;width:68%;background:white;box-shadow:-14px 0 28px rgba(0,0,0,.16);padding:14px;
+ transform:translateX(100%);transition:.22s;z-index:3
+}
+.drawer.open{transform:translateX(0)}
+.drawer .close{float:right;border:0;background:transparent;font-size:18px}
+
+/* popover / tooltip */
+.pop-anchor{position:relative}
+.popover-trigger{border:1px solid #ccd4dc;background:white;border-radius:8px;padding:9px 11px}
+.popover{
+ display:none;position:absolute;top:44px;left:50%;transform:translateX(-50%);width:160px;background:white;border:1px solid #cbd4dd;
+ border-radius:12px;padding:12px;box-shadow:0 12px 25px rgba(25,35,48,.16);font-size:10px;z-index:4
+}
+.popover.open{display:block}
+.tooltip-wrap{position:relative}
+.tooltip{display:none;position:absolute;bottom:40px;left:50%;transform:translateX(-50%);background:#111;color:white;padding:7px 9px;border-radius:6px;font-size:9px;white-space:nowrap}
+.tooltip-wrap:hover .tooltip,.tooltip-wrap:focus-within .tooltip{display:block}
+
+/* accordion */
+.accord{width:90%;border-top:1px solid #ccd4dc}
+.accord-item{border-bottom:1px solid #ccd4dc}
+.accord-head{width:100%;border:0;background:transparent;text-align:left;padding:11px 2px;font-size:11px;display:flex;justify-content:space-between}
+.accord-body{display:none;padding:0 2px 11px;font-size:10px;color:#5a6672}
+.accord-item.open .accord-body{display:block}
+
+/* card / chips */
+.demo-card{width:170px;background:white;border:1px solid #ced5dd;border-radius:14px;overflow:hidden}
+.demo-card .pic{height:76px;background:#cbd7e5}
+.demo-card .body{padding:10px;font-size:9px}
+.chiprow{display:flex;gap:7px;flex-wrap:wrap;width:85%}
+.chip{border:1px solid #cbd3dc;border-radius:999px;padding:7px 10px;background:white;font-size:9px}
+.chip.active{background:#111821;color:white;border-color:#111821}
+
+/* table */
+.table{width:92%;background:white;border:1px solid #ccd4dc;border-radius:10px;overflow:hidden;font-size:8px}
+.tr{display:grid;grid-template-columns:1.2fr .8fr .7fr}
+.tr div{padding:8px;border-bottom:1px solid #e0e5ea}
+.tr.head{background:#f2f5f7;font-weight:700}
+.sort{border:0;background:transparent;padding:0;font-size:8px;font-weight:700}
+
+/* fab */
+.fab{width:52px;height:52px;border:0;border-radius:50%;background:#111;color:white;font-size:24px;box-shadow:0 8px 20px rgba(0,0,0,.22);transition:.18s}
+.fab:active{transform:scale(.94)}
+.fab-msg{position:absolute;bottom:24px;right:78px;font-size:10px;color:#4c5966}
+
+/* empty state */
+.empty{text-align:center}
+.empty .circle{width:58px;height:58px;border-radius:50%;background:#dce3ea;margin:0 auto 10px}
+.empty b{font-size:11px}.empty p{font-size:9px;color:#75808c}
+.empty button{border:0;background:#111821;color:white;border-radius:8px;padding:8px 10px;font-size:9px}
+
+@media(max-width:1150px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){header{grid-template-columns:1fr}.search{width:100%;min-width:0}}
+@media(max-width:620px){.shell{padding:16px}.grid{grid-template-columns:1fr}}
+
+/* ===== Added list-pattern demos ===== */
+.list-demo{width:92%;background:white;border:1px solid #cbd4dd;border-radius:12px;overflow:hidden}
+.list-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #e4e8ec;font-size:10px}
+.list-row:last-child{border-bottom:0}
+.list-row:hover{background:#f5f7f9}
+.list-icon{width:30px;height:30px;border-radius:8px;background:#dbe3ec;flex:0 0 auto}
+.list-main{min-width:0;flex:1}
+.list-title{font-weight:700;font-size:10px}
+.list-sub{color:#77828e;font-size:9px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.list-meta{font-size:9px;color:#6e7985;white-space:nowrap}
+.chev{color:#8994a0;font-size:14px}
+
+.settings-list{width:92%;background:white;border:1px solid #cbd4dd;border-radius:12px;overflow:hidden}
+.settings-row{display:flex;align-items:center;gap:10px;padding:11px 12px;border-bottom:1px solid #e4e8ec}
+.settings-row:last-child{border-bottom:0}
+.settings-label{flex:1;font-size:10px}
+.settings-value{font-size:9px;color:#7a8590}
+
+.select-list{width:92%;background:white;border:1px solid #cbd4dd;border-radius:12px;overflow:hidden}
+.select-list .list-row{cursor:pointer}
+.select-list .list-row.selected{background:#e9eef5}
+.select-dot{width:18px;height:18px;border:1px solid #9da8b3;border-radius:50%;display:grid;place-items:center;flex:0 0 auto}
+.select-list .selected .select-dot{border-color:#111821}
+.select-list .selected .select-dot:after{content:"";width:9px;height:9px;border-radius:50%;background:#111821}
+
+.grouped{width:92%}
+.group-label{font-size:9px;font-weight:700;color:#68737e;padding:8px 2px 5px;text-transform:uppercase;letter-spacing:.08em}
+.group-box{background:white;border:1px solid #cbd4dd;border-radius:12px;overflow:hidden}
+
+.tree{width:90%;font-size:10px}
+.tree-row{display:flex;align-items:center;gap:6px;padding:6px 4px;cursor:pointer}
+.tree-children{padding-left:20px}
+.tree-children.hidden{display:none}
+.tree-caret{width:14px;color:#64707c}
+.tree-node{width:16px;height:13px;border:1px solid #9ea9b4;border-radius:3px;background:white}
+.tree-file{width:12px;height:15px;border:1px solid #a3adb7;background:white}
+
+.timeline{width:88%;position:relative}
+.timeline:before{content:"";position:absolute;left:11px;top:4px;bottom:4px;width:2px;background:#cbd3dc}
+.time-item{position:relative;padding-left:34px;margin:13px 0}
+.time-dot{position:absolute;left:4px;top:2px;width:16px;height:16px;border-radius:50%;background:white;border:3px solid #111821}
+.time-title{font-size:10px;font-weight:700}
+.time-sub{font-size:9px;color:#74808c;margin-top:3px}
+
+.activity{width:92%;background:white;border:1px solid #cbd4dd;border-radius:12px;overflow:hidden}
+.activity-row{display:grid;grid-template-columns:28px 1fr auto;gap:9px;padding:10px 11px;border-bottom:1px solid #e4e8ec;align-items:start}
+.activity-row:last-child{border-bottom:0}
+.avatar-sm{width:28px;height:28px;border-radius:50%;background:#c7d3df}
+.activity-text{font-size:9px;line-height:1.45}
+.activity-time{font-size:8px;color:#89939e}
+
+.notification-list{width:92%;background:white;border:1px solid #cbd4dd;border-radius:12px;overflow:hidden}
+.notification-row{display:flex;gap:10px;padding:11px 12px;border-bottom:1px solid #e4e8ec;cursor:pointer}
+.notification-row:last-child{border-bottom:0}
+.notification-row.unread{background:#f4f7fb}
+.unread-dot{width:8px;height:8px;border-radius:50%;background:#2463eb;margin-top:5px;flex:0 0 auto}
+.notification-row.read .unread-dot{background:transparent}
+.notification-main{flex:1}
+.notification-title{font-size:10px;font-weight:700}
+.notification-sub{font-size:9px;color:#78838f;margin-top:3px}
+
+.swipe-list{width:92%;background:white;border:1px solid #cbd4dd;border-radius:12px;overflow:hidden}
+.swipe-shell{position:relative;overflow:hidden;border-bottom:1px solid #e4e8ec}
+.swipe-shell:last-child{border-bottom:0}
+.swipe-actions{position:absolute;right:0;top:0;bottom:0;display:flex}
+.swipe-actions button{border:0;color:white;padding:0 12px;font-size:9px}
+.swipe-actions .archive{background:#53616f}
+.swipe-actions .delete{background:#a82f2f}
+.swipe-content{position:relative;background:white;padding:11px 12px;font-size:10px;transition:.2s;cursor:pointer}
+.swipe-shell.open .swipe-content{transform:translateX(-108px)}
+
+.master-detail{display:grid;grid-template-columns:42% 58%;width:94%;height:160px;background:white;border:1px solid #cbd4dd;border-radius:12px;overflow:hidden}
+.master{border-right:1px solid #dfe4e8;overflow:auto}
+.master button{width:100%;border:0;background:white;text-align:left;padding:10px;border-bottom:1px solid #e7ebef;font-size:9px}
+.master button.active{background:#eef2f6}
+.detail{padding:14px;font-size:9px;color:#5e6975}
+.detail h4{margin:0 0 8px;color:#111821;font-size:12px}
+
+.virtual-list{width:92%;height:145px;overflow:auto;background:white;border:1px solid #cbd4dd;border-radius:12px}
+.virtual-row{padding:8px 10px;border-bottom:1px solid #e7ebef;font-size:9px}
+
+.reorder-list{width:92%;background:white;border:1px solid #cbd4dd;border-radius:12px;overflow:hidden}
+.reorder-row{display:grid;grid-template-columns:18px 1fr auto;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid #e4e8ec;font-size:10px}
+.reorder-row:last-child{border-bottom:0}
+.drag{color:#8a95a0;cursor:grab;letter-spacing:-2px}
+.reorder-controls button{border:1px solid #ccd4dc;background:white;border-radius:6px;padding:3px 6px;font-size:9px}
+
+.inline-edit{width:92%;background:white;border:1px solid #cbd4dd;border-radius:12px;overflow:hidden}
+.edit-row{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid #e4e8ec}
+.edit-row:last-child{border-bottom:0}
+.edit-row input{flex:1;border:1px solid transparent;background:transparent;padding:6px 7px;border-radius:7px;font-size:10px}
+.edit-row input:focus{border-color:#9eabb8;background:#f7f9fb;outline:none}
+.edit-save{border:1px solid #ccd4dc;background:white;border-radius:7px;padding:5px 7px;font-size:9px}
+
+.kanban{display:flex;gap:8px;width:95%;overflow-x:auto;align-items:flex-start}
+.kan-col{min-width:120px;background:#e1e6eb;border-radius:10px;padding:8px}
+.kan-head{font-size:9px;font-weight:700;margin-bottom:7px}
+.kan-card{background:white;border:1px solid #cbd4dd;border-radius:8px;padding:8px;font-size:9px;margin-bottom:6px;cursor:pointer}
+.kan-card.selected{outline:2px solid #111821}
+
+.rank-list{width:92%;background:white;border:1px solid #cbd4dd;border-radius:12px;overflow:hidden}
+.rank-row{display:grid;grid-template-columns:24px 1fr auto;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid #e4e8ec}
+.rank-row:last-child{border-bottom:0}
+.rank-num{font-size:11px;font-weight:800;color:#58636e}
+.rank-score{font-size:9px;color:#687480}
+
+.desc-list{width:92%;background:white;border:1px solid #cbd4dd;border-radius:12px;overflow:hidden}
+.desc-row{display:grid;grid-template-columns:38% 62%;border-bottom:1px solid #e4e8ec;font-size:9px}
+.desc-row:last-child{border-bottom:0}
+.desc-row dt,.desc-row dd{margin:0;padding:9px 10px}
+.desc-row dt{background:#f4f6f8;color:#65717c;font-weight:700}
+.desc-row dd{color:#202933}
+
+.chat-list{width:92%;background:white;border:1px solid #cbd4dd;border-radius:12px;overflow:hidden}
+.chat-row{display:grid;grid-template-columns:34px 1fr auto;gap:9px;padding:10px 11px;border-bottom:1px solid #e4e8ec;align-items:center;cursor:pointer}
+.chat-row:last-child{border-bottom:0}
+.chat-avatar{width:34px;height:34px;border-radius:50%;background:#c8d4df}
+.chat-title{font-size:10px;font-weight:700}
+.chat-preview{font-size:9px;color:#78838e;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-meta{font-size:8px;color:#8d97a1;text-align:right}
+.count-badge{display:inline-grid;place-items:center;min-width:17px;height:17px;padding:0 5px;border-radius:999px;background:#111821;color:white;font-size:8px;margin-top:4px}
+
+.contact-list{width:92%}
+.contact-index{font-size:9px;color:#65717d;font-weight:700;padding:6px 2px}
+.contact-box{background:white;border:1px solid #cbd4dd;border-radius:12px;overflow:hidden}
+.contact-row{display:flex;align-items:center;gap:9px;padding:9px 11px;border-bottom:1px solid #e4e8ec;font-size:10px}
+.contact-row:last-child{border-bottom:0}
+.contact-avatar{width:28px;height:28px;border-radius:50%;background:#cad6e0}
+
+
+/* ===== More list patterns ===== */
+.inbox-list,.file-list,.command-list,.check-list,.filter-list,.log-list,.search-list,.compare-list,.pricing-list,.queue-list,.people-list,.nested-list,.disclosure-list,.batch-list,.pinned-list,.metric-list,.audit-list,.download-list,.nav-list,.dense-list{
+ width:92%;background:white;border:1px solid #cbd4dd;border-radius:12px;overflow:hidden
+}
+.inbox-row{display:grid;grid-template-columns:18px 1fr auto;gap:9px;padding:10px 11px;border-bottom:1px solid #e5e9ed;align-items:start;cursor:pointer}
+.inbox-row:last-child{border-bottom:0}.inbox-row.unread{background:#f5f8fc}.inbox-row.unread .inbox-title{font-weight:800}
+.star-btn{border:0;background:transparent;padding:0;font-size:14px;color:#a0a9b3}.star-btn.on{color:#111821}
+.inbox-title{font-size:10px}.inbox-preview{font-size:9px;color:#78838e;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.inbox-time{font-size:8px;color:#8a95a0}
+
+.file-row{display:grid;grid-template-columns:24px 1fr auto;gap:9px;padding:9px 11px;border-bottom:1px solid #e5e9ed;align-items:center}
+.file-row:last-child{border-bottom:0}.file-ico{font-size:14px}.file-name{font-size:10px}.file-meta{font-size:8px;color:#7f8994}
+.file-row.selected{background:#eef2f6}
+.file-row{cursor:pointer}
+
+.cmd-row{display:grid;grid-template-columns:26px 1fr auto;gap:8px;padding:9px 11px;border-bottom:1px solid #e7ebef;align-items:center;cursor:pointer}
+.cmd-row:last-child{border-bottom:0}.cmd-row.active{background:#eef2f6}
+.cmd-icon{width:24px;height:24px;border-radius:7px;background:#dce4ec;display:grid;place-items:center;font-size:9px}
+.cmd-name{font-size:10px}.shortcut{font:8px ui-monospace,SFMono-Regular,Menlo,monospace;color:#7e8995;border:1px solid #ccd4dc;border-radius:5px;padding:2px 5px}
+
+.check-row2{display:grid;grid-template-columns:20px 1fr auto;gap:9px;padding:10px 11px;border-bottom:1px solid #e5e9ed;align-items:center}
+.check-row2:last-child{border-bottom:0}.task-check{width:18px;height:18px;border:1px solid #9ca8b4;border-radius:5px;background:white;display:grid;place-items:center;color:white;padding:0}
+.task-check.done{background:#111821}.task-label{font-size:10px}.check-row2.done .task-label{text-decoration:line-through;color:#8b96a1}
+.task-meta{font-size:8px;color:#87919c}
+
+.filter-row{display:flex;align-items:center;gap:9px;padding:10px 11px;border-bottom:1px solid #e5e9ed}
+.filter-row:last-child{border-bottom:0}.filter-name{flex:1;font-size:10px}.filter-count{font-size:8px;color:#7b8692}
+.filter-toggle{width:18px;height:18px;border-radius:5px;border:1px solid #9ca7b2;background:white}.filter-row.active .filter-toggle{background:#111821;box-shadow:inset 0 0 0 4px white}
+.filter-row{cursor:pointer}
+
+.log-list{height:155px;overflow:auto;background:#0c1118;color:#ced8e3;border-color:#25303c;font:9px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace}
+.log-row{padding:6px 8px;border-bottom:1px solid #1d2732;white-space:nowrap}.log-level{display:inline-block;width:42px;color:#92a0ae}
+.log-level.error{color:#ff9a9a}.log-level.warn{color:#ffd37a}
+
+.audit-row{display:grid;grid-template-columns:58px 1fr auto;gap:8px;padding:9px 10px;border-bottom:1px solid #e5e9ed;align-items:start}
+.audit-row:last-child{border-bottom:0}.audit-type{font-size:8px;font-weight:700;color:#5f6b77}.audit-action{font-size:9px;line-height:1.45}.audit-who{font-size:8px;color:#88939e}
+
+.search-result{padding:11px 12px;border-bottom:1px solid #e5e9ed;cursor:pointer}.search-result:last-child{border-bottom:0}
+.result-title{font-size:10px;font-weight:700}.result-path{font-size:8px;color:#76818c;margin:3px 0}.result-snippet{font-size:9px;color:#53606c}
+mark{background:#ffef9a;padding:0 1px}
+
+.compare-row{display:grid;grid-template-columns:1fr 72px 72px;border-bottom:1px solid #e5e9ed;font-size:9px}
+.compare-row:last-child{border-bottom:0}.compare-row>div{padding:9px 10px}.compare-row.head{background:#f2f5f7;font-weight:700}
+.compare-row>div:not(:first-child){text-align:center;border-left:1px solid #e5e9ed}
+
+.price-row{display:grid;grid-template-columns:1fr auto auto;gap:10px;padding:10px 11px;border-bottom:1px solid #e5e9ed;align-items:center}
+.price-row:last-child{border-bottom:0}.price-name{font-size:10px;font-weight:700}.price-sub{font-size:8px;color:#7b8691;margin-top:2px}
+.price-val{font-size:10px;font-weight:800}.price-cta{border:1px solid #cbd4dd;background:white;border-radius:7px;padding:5px 8px;font-size:8px}
+
+.queue-row{display:grid;grid-template-columns:24px 1fr auto;gap:8px;padding:9px 10px;border-bottom:1px solid #e5e9ed;align-items:center}
+.queue-row:last-child{border-bottom:0}.queue-num{font-size:9px;color:#6c7782}.queue-name{font-size:10px}.queue-state{font-size:8px;border-radius:999px;padding:4px 7px;background:#eef2f6}
+.queue-state.run{background:#dfeee4}.queue-state.fail{background:#f4dddd}
+.queue-controls{display:flex;gap:5px;margin-top:9px}.queue-controls button{border:1px solid #cbd4dd;background:white;border-radius:7px;padding:5px 8px;font-size:8px}
+
+.person-row{display:grid;grid-template-columns:30px 1fr 18px;gap:9px;padding:9px 11px;border-bottom:1px solid #e5e9ed;align-items:center;cursor:pointer}
+.person-row:last-child{border-bottom:0}.person-avatar{width:30px;height:30px;border-radius:50%;background:#cad6e1}
+.person-name{font-size:10px}.person-mail{font-size:8px;color:#7e8994}.person-check{width:18px;height:18px;border:1px solid #9da8b3;border-radius:50%}
+.person-row.selected{background:#eef2f6}.person-row.selected .person-check{background:#111821;box-shadow:inset 0 0 0 4px white}
+
+.nested-row{padding:9px 11px;border-bottom:1px solid #e5e9ed;font-size:10px}.nested-row:last-child{border-bottom:0}
+.nested-row.child{padding-left:32px;background:#fafbfc;color:#56616d}.nested-row.grand{padding-left:52px;background:#f6f8fa;color:#67727d}
+
+.disclosure-row{border-bottom:1px solid #e5e9ed}.disclosure-row:last-child{border-bottom:0}
+.disclosure-head{width:100%;border:0;background:white;text-align:left;padding:10px 11px;font-size:10px;display:flex;justify-content:space-between}
+.disclosure-body{display:none;padding:0 11px 11px;font-size:9px;color:#66727e}.disclosure-row.open .disclosure-body{display:block}
+
+.batch-toolbar{display:none;align-items:center;justify-content:space-between;padding:8px 10px;background:#eef2f6;border-bottom:1px solid #dbe1e7;font-size:9px}
+.batch-toolbar.show{display:flex}.batch-row{display:grid;grid-template-columns:20px 1fr auto;gap:8px;padding:9px 10px;border-bottom:1px solid #e5e9ed;align-items:center}
+.batch-row:last-child{border-bottom:0}.batch-box{width:18px;height:18px;border:1px solid #9da8b3;border-radius:4px;background:white}
+.batch-row.selected .batch-box{background:#111821;box-shadow:inset 0 0 0 4px white}.batch-name{font-size:10px}.batch-meta{font-size:8px;color:#7f8a95}
+.batch-row{cursor:pointer}
+
+.pin-section{font-size:8px;font-weight:700;color:#6e7984;padding:7px 10px;background:#f7f9fb;text-transform:uppercase;letter-spacing:.08em}
+.pin-row{display:grid;grid-template-columns:20px 1fr auto;gap:8px;padding:9px 10px;border-bottom:1px solid #e5e9ed;align-items:center}
+.pin-ico{font-size:12px}.pin-name{font-size:10px}.pin-action{border:0;background:transparent;font-size:11px}
+
+.metric-row{display:grid;grid-template-columns:1fr auto;gap:8px;padding:10px 11px;border-bottom:1px solid #e5e9ed;align-items:center}
+.metric-row:last-child{border-bottom:0}.metric-name{font-size:9px;color:#66727e}.metric-val{font-size:14px;font-weight:800}.metric-delta{font-size:8px;margin-left:5px;color:#57735f}
+
+.download-row{display:grid;grid-template-columns:1fr 58px auto;gap:8px;padding:9px 10px;border-bottom:1px solid #e5e9ed;align-items:center}
+.download-row:last-child{border-bottom:0}.download-name{font-size:9px}.download-bar{height:5px;background:#dce2e8;border-radius:99px;overflow:hidden}.download-fill{height:100%;background:#111821}
+.download-pct{font-size:8px;color:#77828d}
+
+.nav-row{display:grid;grid-template-columns:24px 1fr auto;gap:8px;padding:9px 10px;border-bottom:1px solid #e5e9ed;align-items:center;cursor:pointer}
+.nav-row:last-child{border-bottom:0}.nav-row.active{background:#eef2f6}.nav-icon{width:22px;height:22px;border-radius:6px;background:#dbe3eb}.nav-name{font-size:10px}.nav-count{font-size:8px;color:#6f7a85}
+
+.dense-row{display:grid;grid-template-columns:1.4fr .8fr .7fr .5fr;gap:6px;padding:7px 8px;border-bottom:1px solid #e5e9ed;font-size:8px;align-items:center}
+.dense-row:last-child{border-bottom:0}.dense-row.head{background:#f3f6f8;font-weight:700}.status-pill{font-size:7px;padding:3px 5px;border-radius:999px;background:#e4eee7;text-align:center}
+
+
+/* ===== Forms / Search / Table / Mobile / Dashboard patterns ===== */
+.form-stack,.filter-bar,.advanced-filter,.table-wrap,.mobile-sheet,.dashboard-demo,.stats-grid,.wizard-form,.inline-form,.split-form,.search-combo,.facet-panel,.token-filter,.range-filter,.column-table,.tree-table,.sticky-table,.mobile-cards,.bottom-sheet,.action-sheet,.pull-refresh,.swipe-tabs,.fab-menu,.chart-card,.spark-list,.health-grid,.summary-strip,.seg-dashboard{
+ width:92%
+}
+.form-stack,.wizard-form,.inline-form,.split-form,.search-combo,.facet-panel,.token-filter,.range-filter,.advanced-filter,.dashboard-demo,.stats-grid,.chart-card,.health-grid,.summary-strip{
+ background:white;border:1px solid #cbd4dd;border-radius:12px;padding:12px
+}
+.field{margin-bottom:10px}.field:last-child{margin-bottom:0}
+.label{display:block;font-size:9px;font-weight:700;margin-bottom:5px;color:#4f5b67}
+.input,.textarea{width:100%;border:1px solid #cbd4dd;border-radius:8px;padding:8px 9px;background:white;font-size:10px;outline:none}
+.input:focus,.textarea:focus{border-color:#111821;box-shadow:0 0 0 2px #e2e7ec}
+.textarea{height:58px;resize:none}
+.help{font-size:8px;color:#7f8994;margin-top:4px}
+.error-text{font-size:8px;color:#a12b2b;margin-top:4px}
+.input.error{border-color:#b64a4a}
+.form-actions{display:flex;justify-content:flex-end;gap:7px;margin-top:10px}
+
+.inline-form{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end}
+.split-form{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.wizard-steps{display:flex;align-items:center;gap:6px;margin-bottom:12px}.wiz-step{width:22px;height:22px;border-radius:50%;background:#d7dde4;display:grid;place-items:center;font-size:8px}.wiz-step.active,.wiz-step.done{background:#111821;color:white}.wiz-line{height:2px;flex:1;background:#d7dde4}
+
+.combo{position:relative}.combo-menu{display:none;position:absolute;left:0;right:0;top:40px;background:white;border:1px solid #cbd4dd;border-radius:9px;box-shadow:0 10px 24px rgba(0,0,0,.12);overflow:hidden;z-index:5}.combo-menu.open{display:block}.combo-item{padding:8px 9px;font-size:9px;cursor:pointer}.combo-item:hover{background:#eef2f6}
+
+.filter-bar{display:flex;gap:7px;flex-wrap:wrap}
+.filter-pill{border:1px solid #cbd4dd;background:white;border-radius:999px;padding:7px 9px;font-size:9px;cursor:pointer}
+.filter-pill.active{background:#111821;color:white;border-color:#111821}
+.filter-token{display:inline-flex;align-items:center;gap:5px;border-radius:999px;background:#eef2f6;padding:6px 8px;font-size:9px}.filter-token button{border:0;background:transparent;padding:0;font-size:11px}
+.facet-panel .filter-row{padding-left:0;padding-right:0}
+.range-filter input[type=range]{width:100%}
+.range-labels{display:flex;justify-content:space-between;font-size:8px;color:#7d8792;margin-top:5px}
+
+.advanced-filter .rule{display:grid;grid-template-columns:80px 1fr auto;gap:7px;align-items:center;margin-bottom:7px}.advanced-filter select,.advanced-filter input{border:1px solid #cbd4dd;border-radius:7px;padding:7px;font-size:9px;background:white}.rule-remove{border:0;background:transparent;font-size:14px}
+.add-rule{border:1px dashed #aeb8c2;background:#f8fafb;border-radius:8px;padding:7px 9px;font-size:9px;width:100%}
+
+.table-wrap{background:white;border:1px solid #cbd4dd;border-radius:12px;overflow:auto;max-height:170px}
+.trow{display:grid;grid-template-columns:28px 1.2fr .8fr .7fr .6fr;min-width:420px;border-bottom:1px solid #e5e9ed;font-size:8px;align-items:center}
+.trow.head{background:#f2f5f7;font-weight:700;position:sticky;top:0;z-index:2}
+.trow>div{padding:7px 8px}.trow:last-child{border-bottom:0}
+.rowcheck{width:16px;height:16px;border:1px solid #9ea9b4;border-radius:4px;background:white}.trow.selected{background:#eef2f6}.trow.selected .rowcheck{background:#111821;box-shadow:inset 0 0 0 4px white}
+.col-sort{border:0;background:transparent;padding:0;font-size:8px;font-weight:700}
+.tree-table .child1{padding-left:18px}.tree-table .child2{padding-left:32px}
+.tree-toggle{border:0;background:transparent;padding:0 4px 0 0;font-size:9px}
+.mobile-table-note{font-size:8px;color:#7a8590;margin-top:6px}
+
+.mobile-cards{display:grid;gap:8px}
+.mobile-card{background:white;border:1px solid #cbd4dd;border-radius:12px;padding:10px}
+.mobile-card-head{display:flex;justify-content:space-between;font-size:10px;font-weight:700}.mobile-card-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px;font-size:8px;color:#66727e}
+
+.bottom-sheet-phone,.action-sheet-phone,.pull-phone,.swipe-phone,.fab-phone{width:190px;height:190px;background:white;border:1px solid #cbd4dd;border-radius:22px;position:relative;overflow:hidden}
+.sheet-bg{position:absolute;inset:0;background:rgba(20,26,34,.18);display:none}.sheet-bg.open{display:block}
+.bottom-sheet-panel{position:absolute;left:0;right:0;bottom:0;background:white;border-radius:18px 18px 0 0;padding:12px;transform:translateY(100%);transition:.22s;z-index:2;box-shadow:0 -10px 25px rgba(0,0,0,.14)}
+.bottom-sheet-panel.open{transform:translateY(0)}
+.sheet-handle{width:38px;height:4px;background:#ccd4dc;border-radius:999px;margin:0 auto 10px}
+.sheet-option{padding:9px 3px;border-bottom:1px solid #e5e9ed;font-size:10px}
+.sheet-option:last-child{border-bottom:0}
+
+.action-sheet{position:absolute;left:10px;right:10px;bottom:10px;display:none;z-index:2}.action-sheet.open{display:block}.action-group{background:white;border-radius:12px;overflow:hidden;margin-bottom:7px;box-shadow:0 10px 25px rgba(0,0,0,.12)}.action-group button{width:100%;border:0;background:white;padding:10px;font-size:10px;border-bottom:1px solid #e5e9ed}.action-group button:last-child{border-bottom:0}
+
+.pull-content{position:absolute;inset:0;overflow:auto;padding:12px}.pull-indicator{text-align:center;font-size:9px;color:#7b8691;margin-bottom:8px}
+.pull-item{padding:9px 0;border-bottom:1px solid #e5e9ed;font-size:9px}
+.refresh-btn{position:absolute;right:10px;top:10px;border:1px solid #cbd4dd;background:white;border-radius:8px;padding:6px 8px;font-size:8px;z-index:2}
+
+.swipe-tabs{position:absolute;left:0;right:0;top:0}.swipe-tabbar{display:flex;border-bottom:1px solid #e0e5ea}.swipe-tabbar button{flex:1;border:0;background:white;padding:10px 0;font-size:9px}.swipe-tabbar button.active{border-bottom:2px solid #111821;font-weight:700}.swipe-page{padding:18px 12px;font-size:10px}
+
+.fab-menu-main{position:absolute;right:14px;bottom:14px;width:46px;height:46px;border-radius:50%;border:0;background:#111821;color:white;font-size:22px;z-index:3}.fab-option{position:absolute;right:18px;width:38px;height:38px;border-radius:50%;border:1px solid #cbd4dd;background:white;display:grid;place-items:center;font-size:12px;opacity:0;transform:translateY(20px);transition:.2s}.fab-phone.open .fab-option{opacity:1;transform:translateY(0)}.fab-option.o1{bottom:68px}.fab-option.o2{bottom:112px}
+
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.stat-card{border:1px solid #d8dee5;border-radius:10px;padding:10px}.stat-label{font-size:8px;color:#6e7985}.stat-value{font-size:18px;font-weight:800;margin-top:5px}.stat-delta{font-size:8px;color:#5f7a66;margin-top:3px}
+.chart-box{height:78px;margin-top:8px;border:1px solid #e0e5ea;border-radius:9px;background:linear-gradient(135deg,transparent 48%,#111821 49%,#111821 51%,transparent 52%)}
+.spark-list{background:white;border:1px solid #cbd4dd;border-radius:12px;overflow:hidden;width:92%}.spark-row{display:grid;grid-template-columns:1fr auto 70px;gap:8px;padding:9px 10px;border-bottom:1px solid #e5e9ed;align-items:center}.spark-row:last-child{border-bottom:0}.spark-name{font-size:9px}.spark-val{font-size:10px;font-weight:700}.spark{height:24px;background:linear-gradient(150deg,transparent 45%,#111821 46%,#111821 49%,transparent 50%)}
+.health-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.health-item{border:1px solid #d9dfe5;border-radius:9px;padding:9px;text-align:center}.health-dot{width:9px;height:9px;border-radius:50%;background:#4b7d58;margin:0 auto 6px}.health-name{font-size:8px}.health-val{font-size:10px;font-weight:700;margin-top:3px}
+.summary-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding:0;overflow:hidden}.summary-cell{padding:10px;border-right:1px solid #e5e9ed}.summary-cell:last-child{border-right:0}.summary-label{font-size:7px;color:#74808c}.summary-val{font-size:12px;font-weight:800;margin-top:4px}
+.seg-dashboard{background:white;border:1px solid #cbd4dd;border-radius:12px;padding:10px}.seg-top{display:flex;justify-content:space-between;align-items:center}.seg-content{font-size:9px;color:#65717d;margin-top:12px}.seg-metric{font-size:22px;font-weight:800;color:#111821}
+
+
+/* library additions */
+.lib-badge{position:absolute;top:10px;right:10px;background:#111821;color:#fff;border-radius:999px;padding:5px 7px;font:700 8px ui-monospace,monospace;z-index:8}.libbox{width:92%;background:#fff;border:1px solid #cbd4dd;border-radius:12px;overflow:hidden}.libhead{padding:8px 10px;background:#f4f6f8;border-bottom:1px solid #e3e8ed;font-size:8px;font-weight:700}.librow{padding:8px 10px;border-bottom:1px solid #e7ebef;font-size:9px}.librow:last-child{border-bottom:0}.librow.active{background:#eef2f6}.libbtn{border:1px solid #cbd4dd;background:#fff;border-radius:8px;padding:7px 9px;font-size:9px}.libbtn.primary{background:#111821;color:#fff;border-color:#111821}.libgrid{display:grid;gap:7px}.libtiny{font-size:8px;color:#71808c}.libcode{font:8px ui-monospace,monospace;color:#596673;background:#eef2f6;border-radius:5px;padding:3px 5px}
+.commandlib{width:92%;background:#fff;border:1px solid #cbd4dd;border-radius:12px;overflow:hidden;box-shadow:0 10px 25px rgba(0,0,0,.08)}.commandlib input{width:100%;border:0;border-bottom:1px solid #e5e9ed;padding:10px;outline:none;font-size:9px}.cmdlibrow{display:flex;justify-content:space-between;padding:8px 10px;font-size:9px}.cmdlibrow.active{background:#eef2f6}
+.sheetframe{width:185px;height:155px;background:#fff;border:1px solid #cbd4dd;border-radius:12px;position:relative;overflow:hidden}.sheetpane{position:absolute;right:0;top:0;bottom:0;width:68%;background:#fff;padding:11px;box-shadow:-10px 0 24px rgba(0,0,0,.15);transform:translateX(100%);transition:.2s;z-index:3}.sheetframe.open .sheetpane{transform:none}.sheetshade{display:none;position:absolute;inset:0;background:rgba(20,25,32,.22)}.sheetframe.open .sheetshade{display:block}.sheetlaunch{margin:57px 0 0 48px}
+.speedlib{width:180px;height:145px;background:#fff;border:1px solid #cbd4dd;border-radius:12px;position:relative}.speedmain,.speedact{position:absolute;border:0;border-radius:50%}.speedmain{right:12px;bottom:12px;width:44px;height:44px;background:#2457d6;color:white;font-size:20px}.speedact{right:16px;width:36px;height:36px;background:#fff;border:1px solid #cbd4dd;opacity:0;transition:.18s}.speedlib.open .speedact{opacity:1}.speedact.a1{bottom:64px}.speedact.a2{bottom:106px}
+.cascade{width:92%;position:relative}.castrigger{width:100%;border:1px solid #cbd4dd;background:#fff;border-radius:8px;padding:9px 10px;text-align:left;display:flex;justify-content:space-between;font-size:9px}.casmenu{display:none;margin-top:6px;background:#fff;border:1px solid #cbd4dd;border-radius:9px;grid-template-columns:1fr 1fr;overflow:hidden}.cascade.open .casmenu{display:grid}.cascol+ .cascol{border-left:1px solid #e4e9ed}.casitem{padding:8px 9px;font-size:8px}.casitem.active{background:#eef2f6}
+.dual{width:92%;display:grid;grid-template-columns:1fr 34px 1fr;gap:7px;align-items:center}.dualbox{background:#fff;border:1px solid #cbd4dd;border-radius:9px;overflow:hidden}.dualitem{padding:7px 8px;border-top:1px solid #e7ebef;font-size:8px;cursor:pointer}.dualitem.selected{background:#eef2f6}.dualbuttons{display:grid;gap:5px}.dualbuttons button{border:1px solid #cbd4dd;background:#fff;border-radius:6px;padding:5px}
+.pinlib{display:flex;gap:7px;justify-content:center}.pinlib input{width:33px;height:39px;border:1px solid #cbd4dd;border-radius:8px;text-align:center;font-size:16px;outline:none}.pinlib input:focus{border-color:#111821;box-shadow:0 0 0 2px #e5e9ed}
+.hoverhost{position:relative}.hovercard{display:none;position:absolute;left:80px;top:82px;width:170px;background:#fff;border:1px solid #cbd4dd;border-radius:10px;padding:10px;box-shadow:0 10px 24px rgba(0,0,0,.12);font-size:9px}.hoverhost:hover .hovercard{display:block}
+.treeselect{width:92%;background:#fff;border:1px solid #cbd4dd;border-radius:10px;padding:9px}.tsmenu{display:none;margin-top:6px;border:1px solid #d8dfe6;border-radius:8px;padding:6px}.treeselect.open .tsmenu{display:block}.tsitem{padding:6px;font-size:8px}.tsitem.child{padding-left:22px}.tsitem.active{background:#eef2f6;border-radius:5px}
+.multi{width:92%;background:#fff;border:1px solid #cbd4dd;border-radius:10px;padding:9px}.chips{display:flex;gap:5px;flex-wrap:wrap}.mchip{background:#eef2f6;border-radius:999px;padding:5px 7px;font-size:8px}.multiopts{display:none;border-top:1px solid #e4e9ed;margin-top:8px;padding-top:6px}.multi.open .multiopts{display:block}.mopt{padding:6px;font-size:8px}
+.org{width:92%;display:flex;flex-direction:column;align-items:center}.orgnode{background:#fff;border:1px solid #cbd4dd;border-radius:9px;padding:8px 12px;font-size:8px;text-align:center}.orgline{height:12px;width:1px;background:#aeb8c2}.orgkids{display:flex;gap:12px}
+.ratinglib{display:flex;gap:4px}.ratinglib button{border:0;background:transparent;color:#c4cbd2;font-size:21px;padding:0}.ratinglib button.on{color:#111821}
+.resultlib{width:92%;background:#fff;border:1px solid #cbd4dd;border-radius:12px;text-align:center;padding:13px}.resulticon{font-size:28px}.resulttitle{font-size:11px;font-weight:700}.resultsub{font-size:8px;color:#78838e;margin:4px 0 9px}
+.carousel-lib{width:92%;height:140px;background:#fff;border:1px solid #cbd4dd;border-radius:12px;position:relative;display:grid;place-items:center;font-size:18px;font-weight:800}.cararrow{position:absolute;top:50%;transform:translateY(-50%);border:0;background:#fff;border-radius:50%;width:28px;height:28px;box-shadow:0 2px 8px rgba(0,0,0,.12)}.carprev{left:8px}.carnext{right:8px}.cardots{position:absolute;bottom:8px;font-size:10px}
+
+.headless-options button.active{background:#eef2f6;font-weight:700}
+.headless-lib:focus{outline:none;box-shadow:0 0 0 2px #dce4ec}
+
+/* ===== Additional library primitives ===== */
+.lib-tooltip-host{position:relative;display:inline-flex}
+.lib-tooltip-box{display:none;position:absolute;bottom:38px;left:50%;transform:translateX(-50%);background:#111821;color:white;border-radius:7px;padding:7px 9px;font-size:8px;white-space:nowrap;z-index:6}
+.lib-tooltip-host:hover .lib-tooltip-box,.lib-tooltip-host:focus-within .lib-tooltip-box{display:block}
+
+.ctx-area{width:92%;height:120px;background:white;border:1px dashed #aeb8c2;border-radius:12px;display:grid;place-items:center;font-size:9px;color:#6d7884;position:relative}
+.ctx-menu{display:none;position:absolute;width:140px;background:white;border:1px solid #cbd4dd;border-radius:9px;box-shadow:0 12px 25px rgba(0,0,0,.15);overflow:hidden;z-index:8}
+.ctx-menu.open{display:block}.ctx-menu button{width:100%;border:0;background:white;text-align:left;padding:8px 10px;font-size:8px}.ctx-menu button:hover{background:#eef2f6}
+
+.drop-root{position:relative}.drop-trigger{border:1px solid #cbd4dd;background:white;border-radius:8px;padding:8px 10px;font-size:9px}
+.drop-menu{display:none;position:absolute;top:38px;left:0;width:150px;background:white;border:1px solid #cbd4dd;border-radius:9px;box-shadow:0 12px 24px rgba(0,0,0,.13);z-index:6;overflow:hidden}.drop-root.open .drop-menu{display:block}
+.drop-item{padding:8px 10px;font-size:8px;cursor:pointer}.drop-item:hover{background:#eef2f6}.drop-sep{height:1px;background:#e7ebef}
+
+.sonner-stack{position:absolute;right:12px;bottom:12px;display:grid;gap:6px;z-index:5}.sonner-toast{background:#111821;color:white;border-radius:9px;padding:9px 11px;font-size:8px;box-shadow:0 8px 18px rgba(0,0,0,.2)}
+.sonner-toast.success{background:#1d3a29}.sonner-toast.error{background:#4a2020}
+
+.scroll-area{width:92%;height:130px;background:white;border:1px solid #cbd4dd;border-radius:12px;overflow:auto;padding:10px}
+.scroll-row{padding:8px 0;border-bottom:1px solid #e6eaee;font-size:8px}.scroll-row:last-child{border-bottom:0}
+
+.aspect-wrap{width:92%;background:white;border:1px solid #cbd4dd;border-radius:12px;padding:10px}.aspect-box{aspect-ratio:16/9;border-radius:9px;background:linear-gradient(135deg,#c7d4e2,#e4e9ee);display:grid;place-items:center;font-size:10px;color:#43515e}
+
+.collapsible{width:92%;background:white;border:1px solid #cbd4dd;border-radius:12px;overflow:hidden}.coll-head{width:100%;border:0;background:white;padding:10px 11px;display:flex;justify-content:space-between;font-size:9px}.coll-body{display:none;padding:0 11px 11px;font-size:8px;color:#68747f}.collapsible.open .coll-body{display:block}
+
+.navmenu{width:92%;background:white;border:1px solid #cbd4dd;border-radius:12px;padding:4px;display:flex;gap:2px;position:relative}.navmenu-root{position:relative}.navmenu-root>button{border:0;background:white;padding:8px 10px;font-size:9px;border-radius:7px}.navmenu-root.open>button{background:#eef2f6}.navmenu-panel{display:none;position:absolute;top:38px;left:0;width:220px;background:white;border:1px solid #cbd4dd;border-radius:10px;box-shadow:0 12px 24px rgba(0,0,0,.13);padding:10px;z-index:6}.navmenu-root.open .navmenu-panel{display:grid;grid-template-columns:1fr 1fr;gap:6px}.navmenu-link{padding:8px;border-radius:7px;font-size:8px}.navmenu-link:hover{background:#eef2f6}
+
+.avatar-group{display:flex;align-items:center}.avatar-g{width:34px;height:34px;border-radius:50%;background:#cad6e0;border:2px solid white;margin-left:-8px;display:grid;place-items:center;font-size:8px}.avatar-g:first-child{margin-left:0}.avatar-more{background:#111821;color:white}
+
+.breadcrumb-lib{width:92%;background:white;border:1px solid #cbd4dd;border-radius:10px;padding:10px;font-size:9px}.breadcrumb-lib a{color:#5d6975;text-decoration:none}.breadcrumb-lib b{color:#111821}
+
+.pagination-lib{display:flex;gap:5px}.pagination-lib button{min-width:29px;height:29px;border:1px solid #cbd4dd;background:white;border-radius:7px;font-size:8px}.pagination-lib button.active{background:#111821;color:white}
+
+.otp-wrap{display:flex;gap:6px}.otp-box{width:30px;height:36px;border:1px solid #cbd4dd;border-radius:8px;text-align:center;font-size:15px;outline:none}.otp-box:focus{border-color:#111821;box-shadow:0 0 0 2px #e1e6eb}
+
+.progress-lib{width:82%;height:9px;background:#dce2e8;border-radius:999px;overflow:hidden}.progress-lib>div{height:100%;background:#111821;width:46%;transition:.25s}
+
+.badge-row{display:flex;gap:6px;flex-wrap:wrap}.badge-lib{padding:5px 7px;border-radius:999px;background:#eef2f6;font-size:8px}.badge-lib.outline{background:white;border:1px solid #cbd4dd}.badge-lib.destructive{background:#f1dada;color:#7e2626}
+
+.skeleton-lib{width:82%}.skeleton-lib div{height:11px;border-radius:6px;background:linear-gradient(90deg,#d9dfe5,#f4f6f8,#d9dfe5);background-size:200% 100%;animation:shimmer2 1.2s infinite;margin:7px 0}.skeleton-lib div:nth-child(2){width:70%}.skeleton-lib div:nth-child(3){width:48%}
+@keyframes shimmer2{to{background-position:-200% 0}}
+
+.resizable-lib{width:92%;height:130px;display:grid;grid-template-columns:1fr 6px 1fr;background:white;border:1px solid #cbd4dd;border-radius:12px;overflow:hidden}.resizable-pane{padding:10px;font-size:8px}.resizable-handle{background:#dfe5ea;cursor:col-resize}
+
+.calendar-lib{width:210px;background:white;border:1px solid #cbd4dd;border-radius:12px;padding:10px}.cal-head{display:flex;justify-content:space-between;align-items:center;font-size:9px;font-weight:700}.cal-grid2{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px}.cal-grid2 button,.cal-grid2 span{border:0;background:transparent;font-size:8px;padding:5px 0;text-align:center;border-radius:5px}.cal-grid2 button.selected{background:#111821;color:white}
+
+.hovercard-lib{position:relative}.hovercard-trigger{border:0;background:transparent;text-decoration:underline;font-size:9px}.hovercard-panel{display:none;position:absolute;top:28px;left:0;width:180px;background:white;border:1px solid #cbd4dd;border-radius:10px;padding:10px;box-shadow:0 12px 24px rgba(0,0,0,.13);z-index:5}.hovercard-lib:hover .hovercard-panel{display:block}
+
+
+/* ===== Sidebar category navigation ===== */
+.catalog-layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:22px;align-items:start}
+.category-sidebar{position:sticky;top:18px;align-self:start;background:#10151c;border:1px solid var(--line);border-radius:16px;padding:10px;max-height:calc(100vh - 36px);overflow:auto}
+.sidebar-title{padding:8px 10px 10px;color:#758291;font-size:10px;font-weight:750;letter-spacing:.12em;text-transform:uppercase}
+.sidebar-nav{display:grid;gap:4px}
+.category-sidebar .filter{width:100%;min-height:40px;display:flex;align-items:center;justify-content:space-between;gap:10px;border:0;background:transparent;color:#aeb8c4;padding:9px 10px;border-radius:10px;text-align:left;cursor:pointer}
+.category-sidebar .filter:hover{background:#171e27;color:#f3f6f9}
+.category-sidebar .filter.active{background:#eef3f8;color:#11151b}
+.sidebar-count{min-width:24px;text-align:right;font-size:9px;opacity:.65}
+.catalog-main{min-width:0}
+.catalog-toolbar{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:0 0 14px;padding:2px 2px 0}
+.catalog-current-label{color:#7d8997;font-size:9px;letter-spacing:.1em;text-transform:uppercase}
+.catalog-current{margin-top:3px;font-size:18px;font-weight:760;letter-spacing:-.025em}
+.catalog-visible-count{color:#7f8b98;font-size:11px}
+.filters{display:none!important}
+@media(max-width:900px){
+  .catalog-layout{display:block}
+  .category-sidebar{position:sticky;top:0;z-index:20;max-height:none;margin:0 -2px 16px;padding:8px;border-radius:14px;overflow-x:auto;overflow-y:hidden;background:rgba(16,21,28,.96);backdrop-filter:blur(12px)}
+  .sidebar-title{display:none}
+  .sidebar-nav{display:flex;gap:6px;min-width:max-content}
+  .category-sidebar .filter{width:auto;min-height:34px;padding:7px 10px;white-space:nowrap}
+  .sidebar-count{display:none}
+}
+
+</style>
+</head>
+<body>
+<div class="shell">
+<header>
+ <div>
+  <div class="eyebrow">INTERACTIVE UI COMPONENT GLOSSARY FOR </div>
+  <h1>触って分かるUI部品カタログ</h1>
+  <div class="lead">各サンプルは実際に操作できます。名前を覚えるだけでなく、挙動を確認してから、その下の文をへ渡せます。</div>
+ </div>
+ <input class="search" id="search" placeholder="検索: toggle / modal / menu / loading">
+</header>
+
+<div class="catalog-layout">
+  <aside class="category-sidebar">
+    <div class="sidebar-title">カテゴリ</div>
+    <nav class="sidebar-nav" aria-label="UIカテゴリ">
+      <button class="filter active" data-filter="all"><span>すべて</span><span class="sidebar-count" data-count="all"></span></button>
+      <button class="filter" data-filter="input"><span>入力・フォーム</span><span class="sidebar-count" data-count="input"></span></button>
+      <button class="filter" data-filter="navigation"><span>ナビゲーション</span><span class="sidebar-count" data-count="navigation"></span></button>
+      <button class="filter" data-filter="feedback"><span>状態・通知</span><span class="sidebar-count" data-count="feedback"></span></button>
+      <button class="filter" data-filter="overlay"><span>オーバーレイ</span><span class="sidebar-count" data-count="overlay"></span></button>
+      <button class="filter" data-filter="content"><span>表示・コンテンツ</span><span class="sidebar-count" data-count="content"></span></button>
+      <button class="filter" data-filter="dashboard"><span>ダッシュボード</span><span class="sidebar-count" data-count="dashboard"></span></button>
+      <button class="filter" data-filter="library"><span>ライブラリUI</span><span class="sidebar-count" data-count="library"></span></button>
+    </nav>
+  </aside>
+  <main class="catalog-main">
+    <div class="catalog-toolbar">
+      <div>
+        <div class="catalog-current-label">表示中</div>
+        <div class="catalog-current" id="catalogCurrent">すべて</div>
+      </div>
+      <div class="catalog-visible-count"><span id="visibleCount">0</span> 件</div>
+    </div>
+    <div class="grid" id="grid">
+
+<div class="section-title">Controls / Input</div>
+
+<article class="card" data-tags="input toggle switch トグル スイッチ">
+<div class="demo"><button class="toggle" aria-pressed="false"><span class="knob"></span></button><div class="demo-note">クリックでON / OFF</div></div>
+<div class="info"><div class="names"><span class="jp">トグル / スイッチ</span><span class="en">Toggle / Switch</span></div>
+<div class="desc">ON / OFF の二値設定。</div><div class="say">この真偽値の設定にはトグルスイッチを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="navigation hamburger menu ハンバーガー メニュー">
+<div class="demo">
+ <div class="phone">
+  <div class="phone-head"><b>APP</b><button class="hamb"><i></i><i></i><i></i></button></div>
+  <div style="padding:18px;font-size:10px;color:#5e6975">Tap the menu icon.</div>
+  <div class="mobile-drawer"><button class="close">×</button><b style="font-size:11px">Menu</b><a href="#">Home</a><a href="#">Projects</a><a href="#">Settings</a></div>
+ </div>
+ <div class="demo-note">三本線をクリック</div>
+</div>
+<div class="info"><div class="names"><span class="jp">ハンバーガーメニュー</span><span class="en">Hamburger Menu</span></div>
+<div class="desc">モバイルのナビゲーション開閉。</div><div class="say">モバイルでは、ナビゲーションドロワーを開くハンバーガーメニューボタンを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input checkbox チェックボックス">
+<div class="demo"><div class="check-row"><button class="checkbox" aria-pressed="false"></button><span>Enable notifications</span></div><div class="demo-note">クリックで選択</div></div>
+<div class="info"><div class="names"><span class="jp">チェックボックス</span><span class="en">Checkbox</span></div>
+<div class="desc">複数項目を独立して選択。</div><div class="say">複数選択の項目にはチェックボックスを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input radio ラジオボタン">
+<div class="demo"><div class="radio-group"><div class="radio-row"><button class="radio selected"></button><span>Basic</span></div><div class="radio-row"><button class="radio"></button><span>Pro</span></div></div><div class="demo-note">片方をクリック</div></div>
+<div class="info"><div class="names"><span class="jp">ラジオボタン</span><span class="en">Radio Button</span></div>
+<div class="desc">複数候補から1つだけ選択。</div><div class="say">1つだけ選ぶ選択肢グループにはラジオボタンを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input select dropdown ドロップダウン セレクト">
+<div class="demo">
+ <div class="select-wrap">
+  <button class="select-trigger"><span class="selected-label">Choose plan</span><span>⌄</span></button>
+  <div class="select-menu"><button>Free</button><button>Pro</button><button>Business</button></div>
+ </div><div class="demo-note">開いて選択</div>
+</div>
+<div class="info"><div class="names"><span class="jp">セレクト / ドロップダウン</span><span class="en">Select / Dropdown</span></div>
+<div class="desc">候補リストから1項目を選択。</div><div class="say">あらかじめ定義された候補から1つ選ぶ場合は、セレクトドロップダウンを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input segmented control セグメント">
+<div class="demo"><div class="segment"><button class="active">Day</button><button>Week</button><button>Month</button></div><div class="demo-note">表示単位を切替</div></div>
+<div class="info"><div class="names"><span class="jp">セグメントコントロール</span><span class="en">Segmented Control</span></div>
+<div class="desc">少数の表示モードを切り替える。</div><div class="say">日・週・月の表示を切り替えるには、セグメントコントロールを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input slider range スライダー">
+<div class="demo"><div class="range-wrap"><input class="range" type="range" min="0" max="100" value="42"><div class="range-value">42</div></div><div class="demo-note">ドラッグして値を変更</div></div>
+<div class="info"><div class="names"><span class="jp">スライダー</span><span class="en">Slider / Range</span></div>
+<div class="desc">連続値を調整。</div><div class="say">この数値を調整するにはレンジスライダーを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input date picker calendar 日付">
+<div class="demo">
+ <div class="datebox">
+  <button class="date-trigger">2026-08-12</button>
+  <div class="calendar"><b style="font-size:10px">August 2026</b><div class="cal-grid">
+   <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+   <button>10</button><button>11</button><button class="sel">12</button><button>13</button><button>14</button><button>15</button><button>16</button>
+  </div></div>
+ </div><div class="demo-note">日付欄をクリック</div>
+</div>
+<div class="info"><div class="names"><span class="jp">日付ピッカー</span><span class="en">Date Picker</span></div>
+<div class="desc">カレンダーから日付を選択。</div><div class="say">日付フィールドをクリックしたときに、日付ピッカーのポップオーバーを開く。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<div class="section-title">Navigation</div>
+
+<article class="card" data-tags="navigation tabs タブ">
+<div class="demo">
+ <div class="tabs">
+  <div class="tab-list"><button class="tab-btn active">Overview</button><button class="tab-btn">Activity</button><button class="tab-btn">Settings</button></div>
+  <div class="tab-panel">Overview content</div>
+ </div><div class="demo-note">タブを切替</div>
+</div>
+<div class="info"><div class="names"><span class="jp">タブ</span><span class="en">Tabs</span></div>
+<div class="desc">同一ページ内の関連コンテンツ切替。</div><div class="say">概要・アクティビティ・設定の切り替えにはタブを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="navigation pagination ページネーション">
+<div class="demo"><div><div class="pagination"><button class="prev">‹</button><button class="num active">1</button><button class="num">2</button><button class="num">3</button><button class="next">›</button></div><div class="page-text">Page 1</div></div><div class="demo-note">ページを移動</div></div>
+<div class="info"><div class="names"><span class="jp">ページネーション</span><span class="en">Pagination</span></div>
+<div class="desc">複数ページのデータを移動。</div><div class="say">テーブルの下に、前へ・ページ番号・次への操作を備えたページネーションを配置する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="navigation search search bar 検索">
+<div class="demo">
+ <div class="search-demo">
+  <input placeholder="Search projects..." class="live-search">
+  <div class="search-results"></div>
+ </div><div class="demo-note">Alpha / Beta / Gamma を検索</div>
+</div>
+<div class="info"><div class="names"><span class="jp">検索バー</span><span class="en">Search Bar</span></div>
+<div class="desc">検索専用の入力欄。</div><div class="say">検索結果の候補を自動補完する検索バーを追加する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="navigation command palette command menu コマンドパレット">
+<div class="demo">
+ <button class="command-btn">Open Command Palette</button>
+ <div class="command-overlay"><div class="command"><input placeholder="Search commands..."><div class="cmd-item active">Open project</div><div class="cmd-item">Create issue</div><div class="cmd-item">Go to settings</div></div></div>
+ <div class="demo-note">ボタンまたは Cmd/Ctrl+K</div>
+</div>
+<div class="info"><div class="names"><span class="jp">コマンドパレット</span><span class="en">Command Palette</span></div>
+<div class="desc">キーボード中心でコマンドを検索・実行。</div><div class="say">Cmd/Ctrl+Kで開くコマンドパレットを追加する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<div class="section-title">Feedback / Status</div>
+
+<article class="card" data-tags="feedback status bar ステータスバー">
+<div class="demo"><div class="status-phone"><div class="statusbar"><span>9:41</span><span>● ◔ ▰</span></div><div class="status-content"><div class="line"></div><div class="line"></div></div></div></div>
+<div class="info"><div class="names"><span class="jp">ステータスバー</span><span class="en">Status Bar</span></div>
+<div class="desc">OS上部の時刻・通信・バッテリー表示。</div><div class="say">モバイルのシステムステータスバーとセーフエリアを考慮する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="feedback toast snackbar 通知">
+<div class="demo"><button class="toast-btn">Save changes</button><div class="toast">Changes saved successfully</div><div class="demo-note">ボタンで通知表示</div></div>
+<div class="info"><div class="names"><span class="jp">トースト / スナックバー</span><span class="en">Toast / Snackbar</span></div>
+<div class="desc">処理結果を短時間だけ表示。</div><div class="say">保存完了後に、操作を妨げないトースト通知を表示する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="feedback progress bar プログレス">
+<div class="demo">
+ <div class="progress-wrap"><div class="progress"><div class="fill"></div></div><div class="progress-actions"><button class="mini-btn minus">-10</button><button class="mini-btn plus">+10</button></div><div class="range-value">20%</div></div>
+ <div class="demo-note">進捗を増減</div>
+</div>
+<div class="info"><div class="names"><span class="jp">プログレスバー</span><span class="en">Progress Bar</span></div>
+<div class="desc">処理の進捗率を表示。</div><div class="say">アップロードの進捗には、進捗率が分かるプログレスバーを表示する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="feedback spinner loading ローディング">
+<div class="demo"><div class="spinner"></div><div class="demo-note">実際に回転</div></div>
+<div class="info"><div class="names"><span class="jp">スピナー</span><span class="en">Loading Spinner</span></div>
+<div class="desc">処理中状態を示す。</div><div class="say">リクエスト処理中は、小さなローディングスピナーを表示する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="feedback skeleton loading スケルトン">
+<div class="demo"><div class="skeleton"><div></div><div></div><div></div></div><div class="demo-note">シマーアニメーション</div></div>
+<div class="info"><div class="names"><span class="jp">スケルトンローダー</span><span class="en">Skeleton Loader</span></div>
+<div class="desc">読み込み前の仮レイアウト。</div><div class="say">読み込み中は、最終的なレイアウトに合わせたスケルトンを表示する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="feedback stepper progress steps ステッパー">
+<div class="demo">
+ <div class="stepper-wrap">
+  <div class="stepper"><div class="step active">1</div><div class="stepline"></div><div class="step">2</div><div class="stepline"></div><div class="step">3</div></div>
+  <div class="stepper-actions"><button class="mini-btn back">Back</button><button class="mini-btn primary next-step">Next</button></div>
+ </div><div class="demo-note">Back / Next で進行</div>
+</div>
+<div class="info"><div class="names"><span class="jp">ステッパー</span><span class="en">Stepper / Progress Steps</span></div>
+<div class="desc">複数工程の現在位置を表示。</div><div class="say">複数ステップの進行状況は、横型ステッパーで表示する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<div class="section-title">Overlay / Temporary UI</div>
+
+<article class="card" data-tags="overlay tooltip ツールチップ">
+<div class="demo"><div class="tooltip-wrap"><div class="tooltip">Delete item</div><button class="mini-btn">🗑</button></div><div class="demo-note">ホバー / フォーカス</div></div>
+<div class="info"><div class="names"><span class="jp">ツールチップ</span><span class="en">Tooltip</span></div>
+<div class="desc">ホバーやフォーカス時の短い補足。</div><div class="say">アイコンだけのボタンには、ホバー時とキーボードフォーカス時にツールチップを表示する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="overlay popover ポップオーバー">
+<div class="demo"><div class="pop-anchor"><button class="popover-trigger">Quick actions</button><div class="popover"><b>Quick actions</b><div style="margin-top:9px;color:#596673">Rename<br><br>Duplicate<br><br>Archive</div></div></div><div class="demo-note">クリックで開閉</div></div>
+<div class="info"><div class="names"><span class="jp">ポップオーバー</span><span class="en">Popover</span></div>
+<div class="desc">トリガー付近に一時パネルを表示。</div><div class="say">トリガーボタンに紐づくポップオーバーを開き、クイックアクションを表示する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="overlay modal dialog モーダル ダイアログ">
+<div class="demo">
+ <button class="modal-btn">Delete project</button>
+ <div class="modal-bg"><div class="modal"><b style="font-size:11px">Delete project?</b><div style="font-size:9px;color:#707b86;margin:8px 0">This action cannot be undone.</div><div class="modal-actions"><button class="mini-btn cancel">Cancel</button><button class="mini-btn primary confirm">Delete</button></div></div></div>
+ <div class="demo-note">確認ダイアログを開く</div>
+</div>
+<div class="info"><div class="names"><span class="jp">モーダル / ダイアログ</span><span class="en">Modal / Dialog</span></div>
+<div class="desc">注意と操作を一時的に集中。</div><div class="say">この破壊的操作には、確認用のモーダルダイアログを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="overlay drawer sheet panel ドロワー シート">
+<div class="demo">
+ <button class="drawer-btn">Open details</button><div class="drawer-bg"></div>
+ <div class="drawer"><button class="close">×</button><b style="font-size:11px">Details</b><p style="font-size:9px;color:#66727e;margin-top:18px">A side sheet keeps context while showing secondary content.</p></div>
+ <div class="demo-note">右からスライド</div>
+</div>
+<div class="info"><div class="names"><span class="jp">ドロワー / サイドシート</span><span class="en">Drawer / Side Sheet</span></div>
+<div class="desc">画面端から出る補助パネル。</div><div class="say">現在のページを離れずに、項目の詳細を右側ドロワーで表示する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<div class="section-title">Content / Data Display</div>
+
+<article class="card" data-tags="content accordion アコーディオン">
+<div class="demo">
+ <div class="accord">
+  <div class="accord-item open"><button class="accord-head">What is included?<span>⌃</span></button><div class="accord-body">Design, implementation, and basic interaction states.</div></div>
+  <div class="accord-item"><button class="accord-head">How billing works<span>⌄</span></button><div class="accord-body">Billing is calculated monthly based on your selected plan.</div></div>
+ </div><div class="demo-note">見出しをクリック</div>
+</div>
+<div class="info"><div class="names"><span class="jp">アコーディオン</span><span class="en">Accordion</span></div>
+<div class="desc">内容を展開・折りたたみ。</div><div class="say">折りたたみ可能なFAQにはアコーディオンを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content card カード">
+<div class="demo"><div class="demo-card"><div class="pic"></div><div class="body"><b>Project Alpha</b><div style="color:#72808e;margin-top:5px">Updated 2 hours ago</div><button class="mini-btn" style="margin-top:8px">Open</button></div></div></div>
+<div class="info"><div class="names"><span class="jp">カード</span><span class="en">Card</span></div>
+<div class="desc">関連情報を1つの面としてまとめる。</div><div class="say">各プロジェクトを、タイトル・メタ情報・操作を含むコンパクトなカードにまとめる。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content table data grid テーブル">
+<div class="demo">
+ <div class="table">
+  <div class="tr head"><div><button class="sort">Name ↕</button></div><div>Status</div><div>Owner</div></div>
+  <div class="tr data-row"><div>Alpha</div><div>Active</div><div>MK</div></div>
+  <div class="tr data-row"><div>Gamma</div><div>Draft</div><div>AY</div></div>
+  <div class="tr data-row"><div>Beta</div><div>Review</div><div>ST</div></div>
+ </div><div class="demo-note">Name をクリックで並び替え</div>
+</div>
+<div class="info"><div class="names"><span class="jp">データテーブル</span><span class="en">Data Table / Data Grid</span></div>
+<div class="desc">多数の行・列データを比較。</div><div class="say">固定ヘッダー、行選択、並べ替えに対応したデータテーブルを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content chip tag filter chips チップ">
+<div class="demo"><div class="chiprow"><button class="chip active">Design</button><button class="chip">Frontend</button><button class="chip">Active</button></div><div class="demo-note">複数選択可能</div></div>
+<div class="info"><div class="names"><span class="jp">チップ / タグ</span><span class="en">Chip / Tag</span></div>
+<div class="desc">属性やフィルタ条件を短く表示。</div><div class="say">有効なカテゴリフィルターにはフィルターチップを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content fab floating action button フローティング">
+<div class="demo"><div class="fab-msg"></div><button class="fab">＋</button><div class="demo-note">クリックで主要アクション</div></div>
+<div class="info"><div class="names"><span class="jp">フローティングアクションボタン</span><span class="en">FAB</span></div>
+<div class="desc">画面上に浮かせた主要アクション。</div><div class="say">モバイルの主要な作成操作には、フローティングアクションボタンを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content empty state 空状態">
+<div class="demo"><div class="empty"><div class="circle"></div><b class="empty-title">No projects yet</b><p class="empty-copy">Create your first project to get started.</p><button class="create-project">Create project</button></div><div class="demo-note">作成後に状態変化</div></div>
+<div class="info"><div class="names"><span class="jp">空状態</span><span class="en">Empty State</span></div>
+<div class="desc">データ0件時の説明・誘導UI。</div><div class="say">データがない場合は、短い説明と主要な作成アクションを含む分かりやすい空状態を表示する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+
+<div class="section-title">List Patterns / Collection UI</div>
+
+<article class="card" data-tags="content list basic list リスト basic">
+<div class="demo">
+ <div class="list-demo">
+  <div class="list-row"><div class="list-icon"></div><div class="list-main"><div class="list-title">Project Alpha</div><div class="list-sub">Updated 12 minutes ago</div></div><div class="chev">›</div></div>
+  <div class="list-row"><div class="list-icon"></div><div class="list-main"><div class="list-title">Project Beta</div><div class="list-sub">Updated yesterday</div></div><div class="chev">›</div></div>
+  <div class="list-row"><div class="list-icon"></div><div class="list-main"><div class="list-title">Project Gamma</div><div class="list-sub">Updated 3 days ago</div></div><div class="chev">›</div></div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">基本リスト</span><span class="en">Basic List</span></div>
+<div class="desc">タイトル・補助情報・末尾アクションで構成する最も基本的な行リスト。</div><div class="say">タイトル・補助テキスト・末尾のシェブロンを備えたコンパクトな基本リストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content list media list thumbnail メディアリスト">
+<div class="demo">
+ <div class="list-demo">
+  <div class="list-row"><div class="list-icon" style="border-radius:6px"></div><div class="list-main"><div class="list-title">Design systems at scale</div><div class="list-sub">12 min · Product Design</div></div><div class="list-meta">Today</div></div>
+  <div class="list-row"><div class="list-icon" style="background:#d7cfe7;border-radius:6px"></div><div class="list-main"><div class="list-title">Frontend architecture</div><div class="list-sub">8 min · Engineering</div></div><div class="list-meta">Mon</div></div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">メディアリスト</span><span class="en">Media List</span></div>
+<div class="desc">サムネイル＋タイトル＋メタ情報。記事、動画、ファイル一覧向け。</div><div class="say">サムネイル・主要タイトル・メタ情報・末尾の時刻を備えたメディアリストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content settings list 設定リスト preference">
+<div class="demo">
+ <div class="settings-list">
+  <div class="settings-row"><div class="settings-label">Notifications</div><button class="toggle on"><span class="knob"></span></button></div>
+  <div class="settings-row"><div class="settings-label">Theme</div><div class="settings-value">System&nbsp; ›</div></div>
+  <div class="settings-row"><div class="settings-label">Language</div><div class="settings-value">日本語&nbsp; ›</div></div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">設定リスト</span><span class="en">Settings List</span></div>
+<div class="desc">設定名と現在値・トグル・遷移先を1行にまとめる。</div><div class="say">左に設定名、右にスイッチまたは現在値を配置した設定リストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content selectable list selection 選択リスト">
+<div class="demo">
+ <div class="select-list">
+  <div class="list-row selected"><div class="select-dot"></div><div class="list-main"><div class="list-title">Standard</div><div class="list-sub">Balanced defaults</div></div></div>
+  <div class="list-row"><div class="select-dot"></div><div class="list-main"><div class="list-title">Compact</div><div class="list-sub">Higher information density</div></div></div>
+  <div class="list-row"><div class="select-dot"></div><div class="list-main"><div class="list-title">Comfortable</div><div class="list-sub">More breathing room</div></div></div>
+ </div><div class="demo-note">行をクリックして選択</div>
+</div>
+<div class="info"><div class="names"><span class="jp">選択リスト</span><span class="en">Selectable List</span></div>
+<div class="desc">行全体を選択対象にする。設定プリセットや候補選択向け。</div><div class="say">行全体をクリック可能にし、選択中の項目が明確に分かる選択リストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content grouped list sectioned list グループリスト">
+<div class="demo">
+ <div class="grouped">
+  <div class="group-label">Favorites</div>
+  <div class="group-box"><div class="list-row"><div class="list-main"><div class="list-title">Dashboard</div></div><div class="chev">›</div></div><div class="list-row"><div class="list-main"><div class="list-title">Reports</div></div><div class="chev">›</div></div></div>
+  <div class="group-label">Workspace</div>
+  <div class="group-box"><div class="list-row"><div class="list-main"><div class="list-title">Members</div></div><div class="chev">›</div></div></div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">グループ化リスト</span><span class="en">Grouped / Sectioned List</span></div>
+<div class="desc">カテゴリ見出しごとに項目をまとめる。設定画面やメニューで多用。</div><div class="say">関連するリスト項目を見出し付きのセクションにまとめ、グループ間を視覚的に分ける。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content tree view hierarchical list ツリービュー 階層">
+<div class="demo">
+ <div class="tree">
+  <div class="tree-row parent"><span class="tree-caret">⌄</span><span class="tree-node"></span><b>src</b></div>
+  <div class="tree-children">
+   <div class="tree-row"><span class="tree-caret"></span><span class="tree-file"></span>app.tsx</div>
+   <div class="tree-row parent"><span class="tree-caret">⌄</span><span class="tree-node"></span><b>components</b></div>
+   <div class="tree-children"><div class="tree-row"><span class="tree-caret"></span><span class="tree-file"></span>Button.tsx</div></div>
+  </div>
+ </div><div class="demo-note">フォルダをクリックで展開/折りたたみ</div>
+</div>
+<div class="info"><div class="names"><span class="jp">ツリービュー</span><span class="en">Tree View</span></div>
+<div class="desc">ファイルや組織などの階層構造を展開・折りたたみ表示。</div><div class="say">階層データには、開閉用のシェブロンと明確なインデントを備えたツリービューを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content timeline list 時系列 タイムライン">
+<div class="demo">
+ <div class="timeline">
+  <div class="time-item"><div class="time-dot"></div><div class="time-title">Build deployed</div><div class="time-sub">10:42 · Production</div></div>
+  <div class="time-item"><div class="time-dot"></div><div class="time-title">Review approved</div><div class="time-sub">09:18 · by Aki</div></div>
+  <div class="time-item"><div class="time-dot"></div><div class="time-title">PR opened</div><div class="time-sub">Yesterday</div></div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">タイムライン</span><span class="en">Timeline</span></div>
+<div class="desc">出来事を時系列に沿って可視化。履歴、配送、監査ログ向け。</div><div class="say">時系列イベントには、マーカーを線でつないだ縦型タイムラインを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content activity feed feed アクティビティ">
+<div class="demo">
+ <div class="activity">
+  <div class="activity-row"><div class="avatar-sm"></div><div class="activity-text"><b>Mori</b> merged PR #184 into main.</div><div class="activity-time">2m</div></div>
+  <div class="activity-row"><div class="avatar-sm" style="background:#d9cfe8"></div><div class="activity-text"><b>Aki</b> commented on “API cleanup”.</div><div class="activity-time">1h</div></div>
+  <div class="activity-row"><div class="avatar-sm" style="background:#cfe0cf"></div><div class="activity-text"><b>Sato</b> created a new issue.</div><div class="activity-time">3h</div></div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">アクティビティフィード</span><span class="en">Activity Feed</span></div>
+<div class="desc">ユーザー行動や更新履歴をストリーム形式で表示。</div><div class="say">アバター・操作内容・対象・相対時刻を含むアクティビティフィードを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content notification list 通知リスト unread">
+<div class="demo">
+ <div class="notification-list">
+  <div class="notification-row unread"><div class="unread-dot"></div><div class="notification-main"><div class="notification-title">Build failed</div><div class="notification-sub">Production deploy needs attention.</div></div></div>
+  <div class="notification-row unread"><div class="unread-dot"></div><div class="notification-main"><div class="notification-title">Mentioned by Aki</div><div class="notification-sub">“Can you check this API?”</div></div></div>
+  <div class="notification-row read"><div class="unread-dot"></div><div class="notification-main"><div class="notification-title">Invoice paid</div><div class="notification-sub">Payment was successful.</div></div></div>
+ </div><div class="demo-note">クリックで既読/未読を切替</div>
+</div>
+<div class="info"><div class="names"><span class="jp">通知リスト</span><span class="en">Notification List</span></div>
+<div class="desc">未読状態、タイトル、補足を明確に分ける通知一覧。</div><div class="say">未読状態を明確にし、補助テキストを簡潔にした通知リストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content swipe action list mobile スワイプリスト">
+<div class="demo">
+ <div class="swipe-list">
+  <div class="swipe-shell"><div class="swipe-actions"><button class="archive">Archive</button><button class="delete">Delete</button></div><div class="swipe-content">Swipe-style actions — click row</div></div>
+  <div class="swipe-shell"><div class="swipe-actions"><button class="archive">Archive</button><button class="delete">Delete</button></div><div class="swipe-content">Another item</div></div>
+ </div><div class="demo-note">行をクリックで操作を露出</div>
+</div>
+<div class="info"><div class="names"><span class="jp">スワイプアクションリスト</span><span class="en">Swipe Actions List</span></div>
+<div class="desc">モバイルで行を横スワイプし、削除・アーカイブ等を露出するパターン。</div><div class="say">モバイルのリスト行では、スワイプでアーカイブや削除などの操作を表示する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content master detail split view マスター詳細">
+<div class="demo">
+ <div class="master-detail">
+  <div class="master"><button class="active" data-title="Alpha">Alpha</button><button data-title="Beta">Beta</button><button data-title="Gamma">Gamma</button></div>
+  <div class="detail"><h4>Alpha</h4><div>Select an item on the left to inspect details without leaving the list.</div></div>
+ </div><div class="demo-note">左の項目を選択</div>
+</div>
+<div class="info"><div class="names"><span class="jp">マスター・詳細</span><span class="en">Master–Detail / Split View</span></div>
+<div class="desc">一覧を残したまま右側で詳細を確認。メール、管理画面、ファイルブラウザ向け。</div><div class="say">左に項目一覧、右に詳細を常時表示するマスター・詳細の分割ビューを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content virtualized infinite list virtualization 大量リスト">
+<div class="demo">
+ <div class="virtual-list" id="virtualList"></div><div class="demo-note">スクロールして大量行を確認</div>
+</div>
+<div class="info"><div class="names"><span class="jp">大量スクロールリスト</span><span class="en">Virtualized / Infinite List</span></div>
+<div class="desc">数百〜数万件を扱う前提の高速スクロールリスト。</div><div class="say">大量データでは、画面に見えている行だけを描画する仮想化リストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content reorderable list sortable drag drop 並べ替え">
+<div class="demo">
+ <div class="reorder-list">
+  <div class="reorder-row"><span class="drag">⠿</span><span>First priority</span><span class="reorder-controls"><button class="down">↓</button></span></div>
+  <div class="reorder-row"><span class="drag">⠿</span><span>Second priority</span><span class="reorder-controls"><button class="up">↑</button><button class="down">↓</button></span></div>
+  <div class="reorder-row"><span class="drag">⠿</span><span>Third priority</span><span class="reorder-controls"><button class="up">↑</button></span></div>
+ </div><div class="demo-note">矢印で順序変更</div>
+</div>
+<div class="info"><div class="names"><span class="jp">並べ替え可能リスト</span><span class="en">Reorderable List</span></div>
+<div class="desc">ドラッグ&ドロップ等で優先順位や表示順を変更する。</div><div class="say">ドラッグハンドルとキーボード操作可能な移動ボタンを備えた並べ替えリストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content inline editable list edit インライン編集">
+<div class="demo">
+ <div class="inline-edit">
+  <div class="edit-row"><input value="Frontend"><button class="edit-save">Save</button></div>
+  <div class="edit-row"><input value="Backend"><button class="edit-save">Save</button></div>
+  <div class="edit-row"><input value="Infrastructure"><button class="edit-save">Save</button></div>
+ </div><div class="demo-note">直接入力してSave</div>
+</div>
+<div class="info"><div class="names"><span class="jp">インライン編集リスト</span><span class="en">Inline Editable List</span></div>
+<div class="desc">別画面へ遷移せず、行内で値を直接編集。</div><div class="say">各リスト行の中で直接編集できるようにし、保存状態とバリデーション状態を明確にする。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content kanban board list columns カンバン">
+<div class="demo">
+ <div class="kanban">
+  <div class="kan-col"><div class="kan-head">Todo</div><div class="kan-card">API cleanup</div><div class="kan-card">Update docs</div></div>
+  <div class="kan-col"><div class="kan-head">Doing</div><div class="kan-card">Dashboard UI</div></div>
+  <div class="kan-col"><div class="kan-head">Done</div><div class="kan-card">Auth flow</div></div>
+ </div><div class="demo-note">カードをクリックして選択</div>
+</div>
+<div class="info"><div class="names"><span class="jp">カンバンボード</span><span class="en">Kanban Board</span></div>
+<div class="desc">状態ごとに列を分け、カードを移動して進捗管理するコレクションUI。</div><div class="say">状態ごとの列とドラッグ可能なタスクカードを備えたカンバンボードを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content ranked list leaderboard ランキング">
+<div class="demo">
+ <div class="rank-list">
+  <div class="rank-row"><div class="rank-num">1</div><div class="list-main"><div class="list-title">Alpha</div></div><div class="rank-score">98</div></div>
+  <div class="rank-row"><div class="rank-num">2</div><div class="list-main"><div class="list-title">Gamma</div></div><div class="rank-score">91</div></div>
+  <div class="rank-row"><div class="rank-num">3</div><div class="list-main"><div class="list-title">Beta</div></div><div class="rank-score">87</div></div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">ランキングリスト</span><span class="en">Ranked List / Leaderboard</span></div>
+<div class="desc">順位とスコアを前面に出した一覧。</div><div class="say">順位を大きく表示し、スコアを右揃えにしたランキングリストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content description list key value definition list 詳細">
+<div class="demo">
+ <dl class="desc-list">
+  <div class="desc-row"><dt>Status</dt><dd>Active</dd></div>
+  <div class="desc-row"><dt>Owner</dt><dd>Mori K.</dd></div>
+  <div class="desc-row"><dt>Region</dt><dd>ap-northeast-1</dd></div>
+  <div class="desc-row"><dt>Created</dt><dd>2026-08-12</dd></div>
+ </dl>
+</div>
+<div class="info"><div class="names"><span class="jp">説明リスト / Key-Value</span><span class="en">Description List</span></div>
+<div class="desc">属性名と値を対にして表示。詳細画面、スペック、管理画面向け。</div><div class="say">キーと値のメタ情報やエンティティ詳細には説明リストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content chat list conversation list message メッセージ">
+<div class="demo">
+ <div class="chat-list">
+  <div class="chat-row"><div class="chat-avatar"></div><div><div class="chat-title">Design Team</div><div class="chat-preview">Aki: Updated the component spec.</div></div><div class="chat-meta">10:42<div class="count-badge">3</div></div></div>
+  <div class="chat-row"><div class="chat-avatar" style="background:#d7cfe5"></div><div><div class="chat-title">Mori</div><div class="chat-preview">Can you review this PR?</div></div><div class="chat-meta">09:18</div></div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">会話リスト</span><span class="en">Conversation / Chat List</span></div>
+<div class="desc">アバター、最新メッセージ、時刻、未読数をまとめるメッセージ一覧。</div><div class="say">アバター・最新メッセージのプレビュー・時刻・未読数を含む会話リストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content contact list alphabetical contacts 連絡先">
+<div class="demo">
+ <div class="contact-list">
+  <div class="contact-index">A</div>
+  <div class="contact-box"><div class="contact-row"><div class="contact-avatar"></div><span>Aki Tanaka</span></div><div class="contact-row"><div class="contact-avatar"></div><span>Akira Mori</span></div></div>
+  <div class="contact-index">S</div>
+  <div class="contact-box"><div class="contact-row"><div class="contact-avatar"></div><span>Sato Yui</span></div></div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">連絡先リスト</span><span class="en">Alphabetical Contact List</span></div>
+<div class="desc">頭文字インデックスでグループ化された人物一覧。</div><div class="say">アバター付きの連絡先をアルファベットごとに区切り、見出しを固定表示する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+
+<div class="section-title">More List Patterns / Operational UI</div>
+
+<article class="card" data-tags="content inbox list mail email メール inbox">
+<div class="demo">
+ <div class="inbox-list">
+  <div class="inbox-row unread"><button class="star-btn">☆</button><div><div class="inbox-title">Build failed on main</div><div class="inbox-preview">CI reported 2 failing checks...</div></div><div class="inbox-time">10:42</div></div>
+  <div class="inbox-row unread"><button class="star-btn">☆</button><div><div class="inbox-title">Design review notes</div><div class="inbox-preview">Aki added comments to the latest spec.</div></div><div class="inbox-time">09:18</div></div>
+  <div class="inbox-row"><button class="star-btn">☆</button><div><div class="inbox-title">Weekly summary</div><div class="inbox-preview">7 projects updated this week.</div></div><div class="inbox-time">Mon</div></div>
+ </div><div class="demo-note">行で既読、☆でスター</div>
+</div>
+<div class="info"><div class="names"><span class="jp">インボックスリスト</span><span class="en">Inbox List</span></div>
+<div class="desc">未読、スター、件名、本文プレビュー、時刻を横一列で扱う。</div><div class="say">未読の強調、スター操作、件名、本文プレビュー、時刻を備えたインボックス形式のリストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content file browser list files ファイルブラウザ">
+<div class="demo">
+ <div class="file-list">
+  <div class="file-row"><div class="file-ico">📁</div><div class="file-name">components</div><div class="file-meta">12 items</div></div>
+  <div class="file-row"><div class="file-ico">📄</div><div class="file-name">app.tsx</div><div class="file-meta">4.2 KB</div></div>
+  <div class="file-row"><div class="file-ico">📄</div><div class="file-name">tokens.css</div><div class="file-meta">2.8 KB</div></div>
+ </div><div class="demo-note">クリックで選択</div>
+</div>
+<div class="info"><div class="names"><span class="jp">ファイルブラウザリスト</span><span class="en">File Browser List</span></div>
+<div class="desc">ファイル種別、名前、サイズや更新日時を並べる。</div><div class="say">ファイル種別アイコン・ファイル名・メタ情報・選択状態を備えたファイルブラウザリストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content command list action list コマンドリスト shortcut">
+<div class="demo">
+ <div class="command-list">
+  <div class="cmd-row active"><div class="cmd-icon">↗</div><div class="cmd-name">Open project</div><div class="shortcut">⌘O</div></div>
+  <div class="cmd-row"><div class="cmd-icon">＋</div><div class="cmd-name">Create issue</div><div class="shortcut">C</div></div>
+  <div class="cmd-row"><div class="cmd-icon">⚙</div><div class="cmd-name">Settings</div><div class="shortcut">⌘,</div></div>
+ </div><div class="demo-note">クリックでハイライト</div>
+</div>
+<div class="info"><div class="names"><span class="jp">コマンドリスト</span><span class="en">Command List</span></div>
+<div class="desc">アクション名、アイコン、ショートカットを並べる。</div><div class="say">アイコン・コマンド名・右揃えのキーボードショートカットを備えたコマンドリストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content checklist task list todo チェックリスト">
+<div class="demo">
+ <div class="check-list">
+  <div class="check-row2"><button class="task-check"></button><div class="task-label">Review PR #184</div><div class="task-meta">Today</div></div>
+  <div class="check-row2"><button class="task-check"></button><div class="task-label">Update docs</div><div class="task-meta">Tomorrow</div></div>
+  <div class="check-row2 done"><button class="task-check done">✓</button><div class="task-label">Fix CI</div><div class="task-meta">Done</div></div>
+ </div><div class="demo-note">チェックで完了状態</div>
+</div>
+<div class="info"><div class="names"><span class="jp">チェックリスト / タスクリスト</span><span class="en">Checklist / Task List</span></div>
+<div class="desc">完了状態を直接操作できるToDo形式。</div><div class="say">完了チェック・タスク名・期限情報を備えたタスクリストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content filter list facet filters フィルターリスト">
+<div class="demo">
+ <div class="filter-list">
+  <div class="filter-row active"><div class="filter-toggle"></div><div class="filter-name">Open</div><div class="filter-count">24</div></div>
+  <div class="filter-row"><div class="filter-toggle"></div><div class="filter-name">In review</div><div class="filter-count">8</div></div>
+  <div class="filter-row"><div class="filter-toggle"></div><div class="filter-name">Closed</div><div class="filter-count">103</div></div>
+ </div><div class="demo-note">クリックでフィルターON/OFF</div>
+</div>
+<div class="info"><div class="names"><span class="jp">フィルターリスト</span><span class="en">Filter / Facet List</span></div>
+<div class="desc">カテゴリごとの件数と選択状態を並べる検索・絞り込みUI。</div><div class="say">件数と有効状態が明確に分かるファセットフィルターリストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content log viewer logs console ログ">
+<div class="demo">
+ <div class="log-list">
+  <div class="log-row"><span class="log-level">INFO</span> server started on :3000</div>
+  <div class="log-row"><span class="log-level warn">WARN</span> cache miss for user:42</div>
+  <div class="log-row"><span class="log-level">INFO</span> GET /api/projects 200 24ms</div>
+  <div class="log-row"><span class="log-level error">ERROR</span> DB timeout after 5000ms</div>
+  <div class="log-row"><span class="log-level">INFO</span> retrying connection...</div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">ログビューア</span><span class="en">Log Viewer</span></div>
+<div class="desc">時系列ログを高密度・等幅フォントで流す開発者向け一覧。</div><div class="say">時刻・重要度・メッセージ列を持つ、高密度な等幅フォントのログビューアを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content audit trail audit log 監査ログ">
+<div class="demo">
+ <div class="audit-list">
+  <div class="audit-row"><div class="audit-type">UPDATE</div><div class="audit-action">Changed role from Viewer to Editor</div><div class="audit-who">Mori · 10:42</div></div>
+  <div class="audit-row"><div class="audit-type">LOGIN</div><div class="audit-action">Signed in from Tokyo, JP</div><div class="audit-who">Aki · 09:11</div></div>
+  <div class="audit-row"><div class="audit-type">DELETE</div><div class="audit-action">Removed API key “production”</div><div class="audit-who">Sato · Mon</div></div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">監査ログ</span><span class="en">Audit Trail / Audit Log</span></div>
+<div class="desc">誰が、何を、いつ変更したかを追跡する一覧。</div><div class="say">操作種別・分かりやすい変更内容・実行者・時刻を含む監査ログを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content search results list 検索結果">
+<div class="demo">
+ <div class="search-list">
+  <div class="search-result"><div class="result-title">UI component <mark>catalog</mark></div><div class="result-path">docs / design / ui-catalog.md</div><div class="result-snippet">A reference <mark>catalog</mark> of reusable interface patterns...</div></div>
+  <div class="search-result"><div class="result-title"> UI prompts</div><div class="result-path">notes / prompts.md</div><div class="result-snippet">Use specific component names when describing...</div></div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">検索結果リスト</span><span class="en">Search Results List</span></div>
+<div class="desc">タイトル、場所、本文抜粋、検索語ハイライトを組み合わせる。</div><div class="say">タイトル・パスまたは出典・抜粋・検索語の強調表示を含む検索結果リストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content comparison list compare 比較表">
+<div class="demo">
+ <div class="compare-list">
+  <div class="compare-row head"><div>Feature</div><div>Free</div><div>Pro</div></div>
+  <div class="compare-row"><div>Projects</div><div>3</div><div>∞</div></div>
+  <div class="compare-row"><div>SSO</div><div>—</div><div>✓</div></div>
+  <div class="compare-row"><div>Audit logs</div><div>—</div><div>✓</div></div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">比較リスト</span><span class="en">Comparison List</span></div>
+<div class="desc">複数プランや製品の差分を行単位で比較。</div><div class="say">機能を行、選択肢やプランを揃えた列として表示する比較リストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content pricing list price plan 料金リスト">
+<div class="demo">
+ <div class="pricing-list">
+  <div class="price-row"><div><div class="price-name">Free</div><div class="price-sub">For personal use</div></div><div class="price-val">¥0</div><button class="price-cta">Choose</button></div>
+  <div class="price-row"><div><div class="price-name">Pro</div><div class="price-sub">For professionals</div></div><div class="price-val">¥2,000</div><button class="price-cta">Choose</button></div>
+  <div class="price-row"><div><div class="price-name">Business</div><div class="price-sub">For teams</div></div><div class="price-val">¥4,000</div><button class="price-cta">Choose</button></div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">料金プランリスト</span><span class="en">Pricing List</span></div>
+<div class="desc">縦方向にプランを比較するコンパクトな料金UI。</div><div class="say">プラン名・短い説明・価格・CTAを備えたコンパクトな縦型料金リストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content queue list jobs processing キュー ジョブ">
+<div class="demo">
+ <div>
+  <div class="queue-list">
+   <div class="queue-row"><div class="queue-num">01</div><div class="queue-name">Generate thumbnails</div><div class="queue-state run">Running</div></div>
+   <div class="queue-row"><div class="queue-num">02</div><div class="queue-name">Export CSV</div><div class="queue-state">Queued</div></div>
+   <div class="queue-row"><div class="queue-num">03</div><div class="queue-name">Sync CRM</div><div class="queue-state fail">Failed</div></div>
+  </div>
+  <div class="queue-controls"><button class="queue-cycle">Cycle states</button></div>
+ </div><div class="demo-note">状態を巡回</div>
+</div>
+<div class="info"><div class="names"><span class="jp">ジョブキューリスト</span><span class="en">Queue / Job List</span></div>
+<div class="desc">処理待ち・実行中・失敗など、バックグラウンド処理状態を表示。</div><div class="say">順番・ジョブ名・待機中・実行中・失敗の状態が明確なジョブキューリストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content people picker list member select ピープルピッカー">
+<div class="demo">
+ <div class="people-list">
+  <div class="person-row"><div class="person-avatar"></div><div><div class="person-name">Aki Tanaka</div><div class="person-mail">aki@example.com</div></div><div class="person-check"></div></div>
+  <div class="person-row selected"><div class="person-avatar" style="background:#d8cde5"></div><div><div class="person-name">Mori K.</div><div class="person-mail">mori@example.com</div></div><div class="person-check"></div></div>
+  <div class="person-row"><div class="person-avatar" style="background:#cfe0d0"></div><div><div class="person-name">Sato Yui</div><div class="person-mail">sato@example.com</div></div><div class="person-check"></div></div>
+ </div><div class="demo-note">複数人を選択</div>
+</div>
+<div class="info"><div class="names"><span class="jp">ピープルピッカー</span><span class="en">People Picker List</span></div>
+<div class="desc">メンバー・担当者・共有相手を選択する人物一覧。</div><div class="say">アバター・名前・メールアドレス・複数選択状態を備えた人物選択リストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content nested list hierarchy ネストリスト">
+<div class="demo">
+ <div class="nested-list">
+  <div class="nested-row"><b>Workspace</b></div>
+  <div class="nested-row child">Design</div>
+  <div class="nested-row grand">Components</div>
+  <div class="nested-row grand">Tokens</div>
+  <div class="nested-row child">Engineering</div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">ネストリスト</span><span class="en">Nested List</span></div>
+<div class="desc">インデントだけで親子関係を示すシンプルな階層一覧。</div><div class="say">親子関係が分かるように、一定のインデントを使ったネストリストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content disclosure list expandable 展開リスト">
+<div class="demo">
+ <div class="disclosure-list">
+  <div class="disclosure-row open"><button class="disclosure-head">API usage <span>⌃</span></button><div class="disclosure-body">18,420 requests this month.</div></div>
+  <div class="disclosure-row"><button class="disclosure-head">Storage <span>⌄</span></button><div class="disclosure-body">4.2 GB of 10 GB used.</div></div>
+  <div class="disclosure-row"><button class="disclosure-head">Members <span>⌄</span></button><div class="disclosure-body">12 active members.</div></div>
+ </div><div class="demo-note">各行を個別に展開</div>
+</div>
+<div class="info"><div class="names"><span class="jp">ディスクロージャーリスト</span><span class="en">Disclosure List</span></div>
+<div class="desc">行単位で補足情報を展開する。Accordionより独立性が高い。</div><div class="say">各行を個別に展開して補足情報を表示できるディスクロージャーリストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content batch selection multi select bulk 一括選択">
+<div class="demo">
+ <div class="batch-list">
+  <div class="batch-toolbar"><span class="batch-count">0 selected</span><span>Archive · Delete</span></div>
+  <div class="batch-row"><div class="batch-box"></div><div class="batch-name">Alpha</div><div class="batch-meta">Active</div></div>
+  <div class="batch-row"><div class="batch-box"></div><div class="batch-name">Beta</div><div class="batch-meta">Draft</div></div>
+  <div class="batch-row"><div class="batch-box"></div><div class="batch-name">Gamma</div><div class="batch-meta">Review</div></div>
+ </div><div class="demo-note">複数行を選択するとツールバー表示</div>
+</div>
+<div class="info"><div class="names"><span class="jp">一括選択リスト</span><span class="en">Batch Selection List</span></div>
+<div class="desc">複数行選択後に一括アクションを表示する業務UI。</div><div class="say">複数行を選択したときに、一括操作用のコンテキストツールバーを表示する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content pinned list favorites ピン留め">
+<div class="demo">
+ <div class="pinned-list">
+  <div class="pin-section">Pinned</div>
+  <div class="pin-row"><div class="pin-ico">📌</div><div class="pin-name">Production dashboard</div><button class="pin-action">×</button></div>
+  <div class="pin-section">Recent</div>
+  <div class="pin-row"><div class="pin-ico">•</div><div class="pin-name">API metrics</div><button class="pin-action">＋</button></div>
+  <div class="pin-row"><div class="pin-ico">•</div><div class="pin-name">Release notes</div><button class="pin-action">＋</button></div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">ピン留めリスト</span><span class="en">Pinned / Favorites List</span></div>
+<div class="desc">重要項目を上部の固定セクションへ昇格させる。</div><div class="say">最近の項目より上にピン留めセクションを置き、ピン留め・解除操作を明示する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content metric list kpi stats 指標リスト">
+<div class="demo">
+ <div class="metric-list">
+  <div class="metric-row"><div class="metric-name">Monthly active users</div><div><span class="metric-val">18.4k</span><span class="metric-delta">+8%</span></div></div>
+  <div class="metric-row"><div class="metric-name">Conversion</div><div><span class="metric-val">4.8%</span><span class="metric-delta">+0.6</span></div></div>
+  <div class="metric-row"><div class="metric-name">Churn</div><div><span class="metric-val">1.2%</span><span class="metric-delta">-0.2</span></div></div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">指標リスト</span><span class="en">Metric / KPI List</span></div>
+<div class="desc">カードを並べず、指標名と値を縦に高密度表示。</div><div class="say">指標名・主要値・小さな増減値を備えたコンパクトなKPIリストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content download list transfer progress ダウンロード">
+<div class="demo">
+ <div class="download-list">
+  <div class="download-row"><div class="download-name">design-assets.zip</div><div class="download-bar"><div class="download-fill" style="width:72%"></div></div><div class="download-pct">72%</div></div>
+  <div class="download-row"><div class="download-name">export.csv</div><div class="download-bar"><div class="download-fill" style="width:100%"></div></div><div class="download-pct">Done</div></div>
+  <div class="download-row"><div class="download-name">video.mp4</div><div class="download-bar"><div class="download-fill" style="width:34%"></div></div><div class="download-pct">34%</div></div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">転送・ダウンロードリスト</span><span class="en">Transfer / Download List</span></div>
+<div class="desc">複数ファイルの進捗を同時に追跡する。</div><div class="say">ファイル名・項目ごとの進捗バー・完了状態を備えた転送リストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="navigation nav list menu vertical ナビリスト">
+<div class="demo">
+ <div class="nav-list">
+  <div class="nav-row active"><div class="nav-icon"></div><div class="nav-name">Overview</div><div class="nav-count"></div></div>
+  <div class="nav-row"><div class="nav-icon"></div><div class="nav-name">Issues</div><div class="nav-count">24</div></div>
+  <div class="nav-row"><div class="nav-icon"></div><div class="nav-name">Pull requests</div><div class="nav-count">8</div></div>
+  <div class="nav-row"><div class="nav-icon"></div><div class="nav-name">Settings</div><div class="nav-count"></div></div>
+ </div><div class="demo-note">行をクリックで現在位置変更</div>
+</div>
+<div class="info"><div class="names"><span class="jp">縦型ナビゲーションリスト</span><span class="en">Navigation List</span></div>
+<div class="desc">サイドバー内で使う、現在位置と件数付きの縦型メニュー。</div><div class="say">アイコン・現在位置の状態・任意の件数表示を備えた縦型ナビゲーションリストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content dense list compact enterprise 高密度リスト">
+<div class="demo">
+ <div class="dense-list">
+  <div class="dense-row head"><div>Service</div><div>Owner</div><div>Status</div><div>Latency</div></div>
+  <div class="dense-row"><div>API Gateway</div><div>Mori</div><div><span class="status-pill">Healthy</span></div><div>24ms</div></div>
+  <div class="dense-row"><div>Auth</div><div>Aki</div><div><span class="status-pill">Healthy</span></div><div>12ms</div></div>
+  <div class="dense-row"><div>Billing</div><div>Sato</div><div><span class="status-pill">Review</span></div><div>48ms</div></div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">高密度オペレーションリスト</span><span class="en">Dense Operational List</span></div>
+<div class="desc">テーブルほど大げさにせず、複数列の業務情報を圧縮表示。</div><div class="say">状態確認を重視する業務フローには、揃ったコンパクトな列を持つ高密度リストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+
+<div class="section-title">Forms / Search / Filters</div>
+
+<article class="card" data-tags="input form stacked form フォーム">
+<div class="demo">
+ <form class="form-stack demo-form">
+  <div class="field"><label class="label">Project name</label><input class="input" value="UI Catalog"></div>
+  <div class="field"><label class="label">Description</label><textarea class="textarea">Interactive reference for prompts.</textarea><div class="help">Keep it short and specific.</div></div>
+  <div class="form-actions"><button type="button" class="mini-btn">Cancel</button><button type="submit" class="mini-btn primary">Save</button></div>
+ </form><div class="demo-note">Saveで送信状態</div>
+</div>
+<div class="info"><div class="names"><span class="jp">縦積みフォーム</span><span class="en">Stacked Form</span></div><div class="desc">最も一般的なラベル＋入力を縦に積むフォーム。</div><div class="say">常時表示のラベル・補助テキスト・明確な主操作と副操作を備えた縦積みフォームを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input inline form compact フォーム インライン">
+<div class="demo">
+ <div class="inline-form">
+  <div class="field"><label class="label">First name</label><input class="input" value="Aki"></div>
+  <div class="field"><label class="label">Last name</label><input class="input" value="Mori"></div>
+  <button class="mini-btn primary inline-submit">Add</button>
+ </div><div class="demo-note">1行で完結する小フォーム</div>
+</div>
+<div class="info"><div class="names"><span class="jp">インラインフォーム</span><span class="en">Inline Form</span></div><div class="desc">短い入力を1行に収める。追加・招待・検索条件など向け。</div><div class="say">1〜2個の入力欄と末尾の送信ボタンで完結する、コンパクトなインラインフォームを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input split form two column フォーム 2カラム">
+<div class="demo">
+ <div class="split-form">
+  <div class="field"><label class="label">First name</label><input class="input" value="Aki"></div>
+  <div class="field"><label class="label">Last name</label><input class="input" value="Tanaka"></div>
+  <div class="field"><label class="label">Company</label><input class="input" value="Acme"></div>
+  <div class="field"><label class="label">Role</label><input class="input" value="Engineer"></div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">2カラムフォーム</span><span class="en">Two-column Form</span></div><div class="desc">関連する短い項目を横並びにし、縦方向の長さを抑える。</div><div class="say">関連する短い入力欄はレスポンシブな2カラムフォームにし、モバイルでは1カラムにする。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input wizard multistep form ステップフォーム">
+<div class="demo">
+ <div class="wizard-form">
+  <div class="wizard-steps"><div class="wiz-step active">1</div><div class="wiz-line"></div><div class="wiz-step">2</div><div class="wiz-line"></div><div class="wiz-step">3</div></div>
+  <div class="field"><label class="label">Workspace name</label><input class="input" value="Product Team"></div>
+  <div class="form-actions"><button class="mini-btn wizard-back">Back</button><button class="mini-btn primary wizard-next">Next</button></div>
+ </div><div class="demo-note">Next / Backでステップ移動</div>
+</div>
+<div class="info"><div class="names"><span class="jp">ウィザードフォーム</span><span class="en">Multi-step Wizard</span></div><div class="desc">長い入力フローを段階分けして進める。</div><div class="say">進捗が見える複数ステップウィザードを使用し、各ステップでは1つの作業に集中させ、戻る・次へを用意する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input validation error form バリデーション エラー">
+<div class="demo">
+ <div class="form-stack">
+  <div class="field"><label class="label">Email</label><input class="input error" value="invalid-email"><div class="error-text">Enter a valid email address.</div></div>
+  <div class="field"><label class="label">Password</label><input class="input" value="••••••••"><div class="help">At least 8 characters.</div></div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">インラインバリデーション</span><span class="en">Inline Validation</span></div><div class="desc">入力欄の直下でエラーや補助説明を明示する。</div><div class="say">対象フィールドの直下にインラインバリデーションを表示し、入力内容を保持したまま修正方法を説明する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input combobox autocomplete search コンボボックス">
+<div class="demo">
+ <div class="search-combo combo">
+  <label class="label">Assignee</label><input class="input combo-input" placeholder="Search people...">
+  <div class="combo-menu"><div class="combo-item">Aki Tanaka</div><div class="combo-item">Mori K.</div><div class="combo-item">Sato Yui</div></div>
+ </div><div class="demo-note">入力で候補表示</div>
+</div>
+<div class="info"><div class="names"><span class="jp">コンボボックス / オートコンプリート</span><span class="en">Combobox / Autocomplete</span></div><div class="desc">入力と候補選択を組み合わせる検索型セレクト。</div><div class="say">入力候補の自動補完とキーボード操作に対応したアクセシブルなコンボボックスを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input filter chips toolbar フィルターバー">
+<div class="demo">
+ <div class="filter-bar"><button class="filter-pill active">All</button><button class="filter-pill">Open</button><button class="filter-pill">Review</button><button class="filter-pill">Closed</button></div><div class="demo-note">複数ボタンを切替</div>
+</div>
+<div class="info"><div class="names"><span class="jp">フィルターバー</span><span class="en">Filter Bar</span></div><div class="desc">検索結果や一覧の上に置く、素早い絞り込み操作。</div><div class="say">検索結果の上にコンパクトなフィルターバーを配置し、有効なフィルターがすぐ分かるようにする。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input facet panel sidebar filter ファセット">
+<div class="demo">
+ <div class="facet-panel">
+  <div class="label">Status</div>
+  <div class="filter-row active"><div class="filter-toggle"></div><div class="filter-name">Open</div><div class="filter-count">24</div></div>
+  <div class="filter-row"><div class="filter-toggle"></div><div class="filter-name">Review</div><div class="filter-count">8</div></div>
+  <div class="label" style="margin-top:8px">Owner</div>
+  <div class="filter-row"><div class="filter-toggle"></div><div class="filter-name">Me</div><div class="filter-count">12</div></div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">ファセットパネル</span><span class="en">Facet Filter Panel</span></div><div class="desc">カテゴリを複数グループに分けた詳細絞り込み。</div><div class="say">フィルター条件をグループ化し、各選択肢の結果件数を表示するファセットパネルを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input filter tokens query builder フィルタートークン">
+<div class="demo">
+ <div class="token-filter"><div class="label">Active filters</div><div class="filter-token">Status: Open <button>×</button></div> <div class="filter-token">Owner: Me <button>×</button></div> <div class="filter-token">Priority: High <button>×</button></div></div><div class="demo-note">×で条件削除</div>
+</div>
+<div class="info"><div class="names"><span class="jp">フィルタートークン</span><span class="en">Filter Tokens</span></div><div class="desc">適用済み条件をチップ状に明示し、個別解除できる。</div><div class="say">有効な検索条件を削除可能なトークンとして表示し、各条件を個別に確認・解除できるようにする。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input advanced filter query builder rules 高度フィルター">
+<div class="demo">
+ <div class="advanced-filter">
+  <div class="rule"><select><option>Status</option><option>Owner</option></select><input value="Open"><button class="rule-remove">×</button></div>
+  <div class="rule"><select><option>Priority</option><option>Label</option></select><input value="High"><button class="rule-remove">×</button></div>
+  <button class="add-rule">+ Add rule</button>
+ </div><div class="demo-note">条件行を追加/削除</div>
+</div>
+<div class="info"><div class="names"><span class="jp">高度なフィルタービルダー</span><span class="en">Advanced Filter / Query Builder</span></div><div class="desc">複数条件を明示的なルールとして組み立てる。</div><div class="say">フィールド・演算子・値のルールを追加・削除・組み合わせできる高度なフィルタービルダーを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<div class="section-title">Tables / Dense Data</div>
+
+<article class="card" data-tags="content table selectable data grid selectable rows">
+<div class="demo">
+ <div class="table-wrap selectable-table">
+  <div class="trow head"><div></div><div>Name</div><div>Status</div><div>Owner</div><div>ARR</div></div>
+  <div class="trow"><div><button class="rowcheck"></button></div><div>Alpha</div><div>Active</div><div>Mori</div><div>8.2m</div></div>
+  <div class="trow"><div><button class="rowcheck"></button></div><div>Beta</div><div>Review</div><div>Aki</div><div>5.1m</div></div>
+  <div class="trow"><div><button class="rowcheck"></button></div><div>Gamma</div><div>Draft</div><div>Sato</div><div>3.7m</div></div>
+ </div><div class="demo-note">チェックで行選択</div>
+</div>
+<div class="info"><div class="names"><span class="jp">選択可能データテーブル</span><span class="en">Selectable Data Table</span></div><div class="desc">複数行を選択して一括操作する業務テーブル。</div><div class="say">行チェックボックス・選択状態・一括操作を備えた選択可能なデータテーブルを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content table sortable columns ソート テーブル">
+<div class="demo">
+ <div class="table-wrap sortable-table2">
+  <div class="trow head"><div></div><div><button class="col-sort">Name ↕</button></div><div>Status</div><div>Owner</div><div>ARR</div></div>
+  <div class="trow data"><div></div><div>Gamma</div><div>Draft</div><div>Sato</div><div>3.7m</div></div>
+  <div class="trow data"><div></div><div>Alpha</div><div>Active</div><div>Mori</div><div>8.2m</div></div>
+  <div class="trow data"><div></div><div>Beta</div><div>Review</div><div>Aki</div><div>5.1m</div></div>
+ </div><div class="demo-note">Nameで昇順/降順</div>
+</div>
+<div class="info"><div class="names"><span class="jp">ソート可能テーブル</span><span class="en">Sortable Table</span></div><div class="desc">列ヘッダーから並び順を切り替える。</div><div class="say">並べ替え方向が明確に分かり、行の位置が安定するソート可能な列ヘッダーを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content tree table hierarchical table ツリーテーブル">
+<div class="demo">
+ <div class="table-wrap tree-table">
+  <div class="trow head"><div></div><div>Name</div><div>Type</div><div>Owner</div><div>Size</div></div>
+  <div class="trow"><div></div><div><button class="tree-toggle">⌄</button>src</div><div>Folder</div><div>—</div><div>12</div></div>
+  <div class="trow tree-child"><div></div><div class="child1">app.tsx</div><div>File</div><div>Aki</div><div>4KB</div></div>
+  <div class="trow tree-child"><div></div><div class="child1">components</div><div>Folder</div><div>—</div><div>8</div></div>
+ </div><div class="demo-note">⌄で子行を隠す</div>
+</div>
+<div class="info"><div class="names"><span class="jp">ツリーテーブル</span><span class="en">Tree Table</span></div><div class="desc">階層構造と複数列データを同時に扱う。</div><div class="say">階層行に加えて整列したメタ情報列が必要な場合は、ツリーテーブルを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content sticky table header 固定ヘッダー">
+<div class="demo">
+ <div class="table-wrap sticky-table" id="stickyDemo"></div><div class="demo-note">縦スクロールしてヘッダー固定</div>
+</div>
+<div class="info"><div class="names"><span class="jp">固定ヘッダーテーブル</span><span class="en">Sticky-header Table</span></div><div class="desc">長い一覧でも列名を常時確認できる。</div><div class="say">縦スクロール中も列名が見えるように、テーブルヘッダーを固定する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content mobile responsive table cards レスポンシブ テーブル">
+<div class="demo">
+ <div class="mobile-cards">
+  <div class="mobile-card"><div class="mobile-card-head"><span>Alpha</span><span>Active</span></div><div class="mobile-card-grid"><span>Owner<br><b>Mori</b></span><span>ARR<br><b>8.2m</b></span></div></div>
+  <div class="mobile-card"><div class="mobile-card-head"><span>Beta</span><span>Review</span></div><div class="mobile-card-grid"><span>Owner<br><b>Aki</b></span><span>ARR<br><b>5.1m</b></span></div></div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">モバイルカード化テーブル</span><span class="en">Responsive Table-to-Cards</span></div><div class="desc">狭い画面で行データをカードへ再構成する。</div><div class="say">モバイルでは、読めないほど列を縮めるのではなく、高密度なテーブル行をキー・値形式のカードに変換する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<div class="section-title">Mobile-specific Patterns</div>
+
+<article class="card" data-tags="overlay mobile bottom sheet ボトムシート">
+<div class="demo">
+ <div class="bottom-sheet-phone"><div style="padding:14px;font-size:10px">Page content</div><button class="mini-btn open-sheet" style="margin:28px 0 0 42px">Open sheet</button><div class="sheet-bg"></div><div class="bottom-sheet-panel"><div class="sheet-handle"></div><div class="sheet-option">Share</div><div class="sheet-option">Duplicate</div><div class="sheet-option">Archive</div></div></div><div class="demo-note">下からスライド</div>
+</div>
+<div class="info"><div class="names"><span class="jp">ボトムシート</span><span class="en">Bottom Sheet</span></div><div class="desc">モバイルで画面下からせり上がる補助パネル。</div><div class="say">モバイルの補助操作やコンパクトな文脈情報には、モーダル式のボトムシートを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="overlay mobile action sheet アクションシート">
+<div class="demo">
+ <div class="action-sheet-phone"><button class="mini-btn open-action" style="margin:70px 0 0 48px">More actions</button><div class="sheet-bg"></div><div class="action-sheet"><div class="action-group"><button>Save image</button><button>Share</button><button style="color:#a12b2b">Delete</button></div><div class="action-group"><button class="cancel-action">Cancel</button></div></div></div><div class="demo-note">iOS系の選択肢表示</div>
+</div>
+<div class="info"><div class="names"><span class="jp">アクションシート</span><span class="en">Action Sheet</span></div><div class="desc">複数アクションを画面下にまとめて提示する。</div><div class="say">モバイルで短い操作一覧を表示する場合は、キャンセルを分離したアクションシートを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="feedback mobile pull to refresh プルトゥリフレッシュ">
+<div class="demo">
+ <div class="pull-phone"><button class="refresh-btn">Refresh</button><div class="pull-content"><div class="pull-indicator">Pull to refresh</div><div class="pull-item">Latest activity</div><div class="pull-item">Project updated</div><div class="pull-item">Build completed</div><div class="pull-item">New comment</div></div></div><div class="demo-note">Refreshで更新状態を再現</div>
+</div>
+<div class="info"><div class="names"><span class="jp">プルトゥリフレッシュ</span><span class="en">Pull to Refresh</span></div><div class="desc">リスト上端を引っ張って再読み込みするモバイルパターン。</div><div class="say">モバイルフィードではプルトゥリフレッシュに対応し、更新中表示を明確にしつつスクロール位置を保持する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="navigation mobile swipe tabs segmented pages スワイプタブ">
+<div class="demo">
+ <div class="swipe-phone"><div class="swipe-tabs"><div class="swipe-tabbar"><button class="active">For you</button><button>Following</button></div><div class="swipe-page">For you content</div></div></div><div class="demo-note">タブでページ切替</div>
+</div>
+<div class="info"><div class="names"><span class="jp">スワイプタブ</span><span class="en">Swipeable Tabs / Pager</span></div><div class="desc">横スワイプ可能な複数ページを上部タブで示す。</div><div class="say">隣接するモバイルページにはスワイプ可能な上部タブを使用し、横ページ移動と選択中タブを同期する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content mobile fab menu speed dial スピードダイヤル">
+<div class="demo">
+ <div class="fab-phone"><div style="padding:16px;font-size:10px">Canvas</div><button class="fab-option o2">✎</button><button class="fab-option o1">＋</button><button class="fab-menu-main">＋</button></div><div class="demo-note">＋でFABメニュー展開</div>
+</div>
+<div class="info"><div class="names"><span class="jp">FABスピードダイヤル</span><span class="en">FAB Speed Dial</span></div><div class="desc">主要FABから複数の関連アクションを展開する。</div><div class="say">主要なモバイル操作から少数の関連操作を展開する場合は、FABスピードダイヤルを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<div class="section-title">Dashboard Patterns</div>
+
+<article class="card" data-tags="dashboard stat cards kpi grid ダッシュボード">
+<div class="demo">
+ <div class="stats-grid">
+  <div class="stat-card"><div class="stat-label">Revenue</div><div class="stat-value">¥8.4m</div><div class="stat-delta">+12%</div></div>
+  <div class="stat-card"><div class="stat-label">Users</div><div class="stat-value">18.4k</div><div class="stat-delta">+8%</div></div>
+  <div class="stat-card"><div class="stat-label">Conversion</div><div class="stat-value">4.8%</div><div class="stat-delta">+0.6</div></div>
+  <div class="stat-card"><div class="stat-label">Churn</div><div class="stat-value">1.2%</div><div class="stat-delta">-0.2</div></div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">KPIカードグリッド</span><span class="en">KPI Card Grid</span></div><div class="desc">主要指標をカード単位で並べる定番ダッシュボード。</div><div class="say">各カードに1つの主要指標・短いラベル・小さな増減値を持つKPIカードグリッドを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="dashboard chart card timeseries チャートカード">
+<div class="demo">
+ <div class="chart-card"><div style="display:flex;justify-content:space-between"><div><div class="stat-label">Weekly active users</div><div class="stat-value" style="font-size:20px">12,842</div></div><div class="stat-delta">+7.2%</div></div><div class="chart-box"></div></div>
+</div>
+<div class="info"><div class="names"><span class="jp">チャートカード</span><span class="en">Chart Card</span></div><div class="desc">指標値と時系列グラフを1カードにまとめる。</div><div class="say">指標サマリーの下にコンパクトな時系列グラフを置き、対象期間が明確なチャートカードを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="dashboard sparkline list metrics スパークライン">
+<div class="demo">
+ <div class="spark-list">
+  <div class="spark-row"><div class="spark-name">API requests</div><div class="spark-val">84k</div><div class="spark"></div></div>
+  <div class="spark-row"><div class="spark-name">Errors</div><div class="spark-val">0.2%</div><div class="spark"></div></div>
+  <div class="spark-row"><div class="spark-name">Latency</div><div class="spark-val">24ms</div><div class="spark"></div></div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">スパークラインリスト</span><span class="en">Sparkline Metric List</span></div><div class="desc">複数指標の傾向を小型グラフで縦に比較。</div><div class="say">値を右揃えにし、小さなスパークラインを添えて傾向を素早く比較できる指標リストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="dashboard service health status grid ヘルス">
+<div class="demo">
+ <div class="health-grid">
+  <div class="health-item"><div class="health-dot"></div><div class="health-name">API</div><div class="health-val">24ms</div></div>
+  <div class="health-item"><div class="health-dot"></div><div class="health-name">Database</div><div class="health-val">11ms</div></div>
+  <div class="health-item"><div class="health-dot" style="background:#b27a35"></div><div class="health-name">Queue</div><div class="health-val">68%</div></div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">サービスヘルスグリッド</span><span class="en">Service Health Grid</span></div><div class="desc">サービス単位の状態・レイテンシ・負荷を一覧化。</div><div class="say">各サービスに1つの状態表示と1つの主要運用指標を持たせたサービスヘルスグリッドを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="dashboard summary strip metrics compact サマリーストリップ">
+<div class="demo">
+ <div class="summary-strip">
+  <div class="summary-cell"><div class="summary-label">MRR</div><div class="summary-val">¥8.4m</div></div>
+  <div class="summary-cell"><div class="summary-label">Users</div><div class="summary-val">18.4k</div></div>
+  <div class="summary-cell"><div class="summary-label">NPS</div><div class="summary-val">68</div></div>
+  <div class="summary-cell"><div class="summary-label">Churn</div><div class="summary-val">1.2%</div></div>
+ </div>
+</div>
+<div class="info"><div class="names"><span class="jp">サマリーストリップ</span><span class="en">Metric Summary Strip</span></div><div class="desc">ページ上部に主要KPIを横一列で圧縮表示。</div><div class="say">ダッシュボード上部に、最重要KPIを横一列で表示するコンパクトなサマリーストリップを配置する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="dashboard segmented dashboard overview tabs">
+<div class="demo">
+ <div class="seg-dashboard"><div class="seg-top"><div class="segment seg-switch"><button class="active">Revenue</button><button>Users</button><button>Errors</button></div></div><div class="seg-content"><div class="seg-metric">¥8.4m</div><div>Revenue this month</div></div></div><div class="demo-note">指標を切替</div>
+</div>
+<div class="info"><div class="names"><span class="jp">切替式ダッシュボードカード</span><span class="en">Segmented Metric Card</span></div><div class="desc">同じ領域内で指標を切り替えて詳細を表示。</div><div class="say">関連する複数指標が同じ可視化領域を共有する場合は、セグメント切り替え式の指標カードを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+
+<div class="section-title">React / Vue UI Libraries — Library-specific Components</div>
+
+<article class="card" data-tags="library react shadcn command palette"><div class="demo"><span class="lib-badge">shadcn/ui · React</span><div class="commandlib"><input placeholder="Type a command..."><div class="libhead">Suggestions</div><div class="cmdlibrow active"><span>Calendar</span><span class="libcode">⌘C</span></div><div class="cmdlibrow"><span>Search Emoji</span><span class="libcode">⌘E</span></div><div class="cmdlibrow"><span>Settings</span><span class="libcode">⌘S</span></div></div></div><div class="info"><div class="names"><span class="jp">Command</span><span class="en">shadcn/ui</span></div><div class="desc">検索型のコマンドメニュー。Command Paletteや検索セレクタ向け。</div><div class="say">shadcn/uiのCommandを使用し、CommandInput、CommandGroup、キーボード操作可能なCommandItemで構成する。</div><button class="copy">指示文をコピー</button></div></article>
+
+<article class="card" data-tags="library react shadcn sheet"><div class="demo"><span class="lib-badge">shadcn/ui · React</span><div class="sheetframe"><button class="libbtn sheetlaunch">Open Sheet</button><div class="sheetshade"></div><div class="sheetpane"><b style="font-size:10px">Edit profile</b><div class="libtiny" style="margin:5px 0 9px">Stay on the current page.</div><input class="input" value="Aki"></div></div><div class="demo-note">右からSheetを開く</div></div><div class="info"><div class="names"><span class="jp">Sheet</span><span class="en">shadcn/ui</span></div><div class="desc">Dialogを画面端から出すサイドパネル。</div><div class="say">shadcn/uiのSheetを使用し、SheetTriggerとSheetContentで右側から開くようにする。</div><button class="copy">指示文をコピー</button></div></article>
+
+<article class="card" data-tags="library react mui datagrid"><div class="demo"><span class="lib-badge">MUI X · React</span><div class="libbox"><div class="libhead">Data Grid · Columns · Filters</div><div class="librow active">☑ Alpha　 Active　 Mori</div><div class="librow">□ Beta　 Review　 Aki</div><div class="librow">□ Gamma　 Draft　 Sato</div></div></div><div class="info"><div class="names"><span class="jp">Data Grid</span><span class="en">MUI X</span></div><div class="desc">ソート、選択、フィルター、ページング等を備えた高機能グリッド。</div><div class="say">MUI XのDataGridを使用し、行選択・列ソート・フィルター・ページネーション・コンパクト表示に対応する。</div><button class="copy">指示文をコピー</button></div></article>
+
+<article class="card" data-tags="library react mui speed dial"><div class="demo"><span class="lib-badge">MUI · React</span><div class="speedlib"><button class="speedact a2">✉</button><button class="speedact a1">✎</button><button class="speedmain">＋</button></div><div class="demo-note">＋をクリック</div></div><div class="info"><div class="names"><span class="jp">Speed Dial</span><span class="en">MUI</span></div><div class="desc">FABから関連アクションを展開。</div><div class="say">MUIのSpeedDialを使用し、SpeedDialActionでフローティングの副操作を表示する。</div><button class="copy">指示文をコピー</button></div></article>
+
+<article class="card" data-tags="library react antd cascader"><div class="demo"><span class="lib-badge">Ant Design · React</span><div class="cascade"><button class="castrigger"><span class="caslabel">Select location</span><span>⌄</span></button><div class="casmenu"><div class="cascol"><div class="casitem active">Japan ›</div><div class="casitem">USA ›</div></div><div class="cascol"><div class="casitem final">Tokyo</div><div class="casitem final">Osaka</div></div></div></div><div class="demo-note">階層を辿って選択</div></div><div class="info"><div class="names"><span class="jp">Cascader</span><span class="en">Ant Design</span></div><div class="desc">カテゴリや地域などの階層候補を列を辿って選ぶ。</div><div class="say">階層選択には、通常のSelectではなくAnt DesignのCascaderを使用する。</div><button class="copy">指示文をコピー</button></div></article>
+
+<article class="card" data-tags="library react antd transfer"><div class="demo"><span class="lib-badge">Ant Design · React</span><div class="dual transferlib"><div class="dualbox source"><div class="libhead">Available</div><div class="dualitem selected">Aki</div><div class="dualitem">Mori</div><div class="dualitem">Sato</div></div><div class="dualbuttons"><button class="right">→</button><button class="left">←</button></div><div class="dualbox target"><div class="libhead">Selected</div><div class="dualitem">Yui</div></div></div><div class="demo-note">選択して左右移動</div></div><div class="info"><div class="names"><span class="jp">Transfer</span><span class="en">Ant Design</span></div><div class="desc">2リスト間で項目を移動する権限・所属設定UI。</div><div class="say">利用可能一覧と選択済み一覧の間で項目を移動するには、Ant DesignのTransferを使用する。</div><button class="copy">指示文をコピー</button></div></article>
+
+<article class="card" data-tags="library react chakra action bar"><div class="demo"><span class="lib-badge">Chakra UI · React</span><div class="libbox chakra-select"><div class="librow">□ Alpha</div><div class="librow">□ Beta</div><div class="librow">□ Gamma</div></div><div class="toast chakra-bar">2 selected · Archive · Delete</div><div class="demo-note">行クリックで選択</div></div><div class="info"><div class="names"><span class="jp">Action Bar</span><span class="en">Chakra UI</span></div><div class="desc">選択状態に応じて画面下へ文脈操作を表示。</div><div class="say">行が選択されたときだけ表示される一括操作領域として、Chakra UIのAction Barを使用する。</div><button class="copy">指示文をコピー</button></div></article>
+
+<article class="card" data-tags="library react chakra pin input otp"><div class="demo"><span class="lib-badge">Chakra UI · React</span><div class="pinlib"><input maxlength="1"><input maxlength="1"><input maxlength="1"><input maxlength="1"></div><div class="demo-note">1文字入力で次へ</div></div><div class="info"><div class="names"><span class="jp">Pin Input</span><span class="en">Chakra UI</span></div><div class="desc">OTP・認証コードを分割して入力。</div><div class="say">認証コード入力にはChakra UIのPin Inputを使用し、入力後に自動で次の欄へフォーカスを移す。</div><button class="copy">指示文をコピー</button></div></article>
+
+<article class="card" data-tags="library react radix hover card"><div class="demo hoverhost"><span class="lib-badge">Radix Primitives · React</span><button class="libbtn" style="margin-top:45px">@openai</button><div class="hovercard"><b>@openai</b><div class="libtiny" style="margin-top:5px">Rich preview content shown on hover.</div></div><div class="demo-note">ボタンをホバー</div></div><div class="info"><div class="names"><span class="jp">Hover Card</span><span class="en">Radix UI</span></div><div class="desc">短文Tooltipよりリッチなホバー時プレビュー。</div><div class="say">リッチなホバープレビューにはRadixのHoverCardを使用し、短いラベルにはTooltipを使用する。</div><button class="copy">指示文をコピー</button></div></article>
+
+<article class="card" data-tags="library react vue headless ui listbox"><div class="demo"><span class="lib-badge">Headless UI · React/Vue</span><div class="select-wrap"><button class="select-trigger headless-lib"><span class="selected-label">Wade Cooper</span><span>⌄</span></button><div class="select-menu headless-options"><button>Wade Cooper</button><button>Arlene Mccoy</button><button>Devon Webb</button></div></div><div class="demo-note">Headlessなので外観は自由</div></div><div class="info"><div class="names"><span class="jp">Listbox</span><span class="en">Headless UI</span></div><div class="desc">アクセシブルな選択挙動だけ提供する、スタイル自由なSelect基盤。</div><div class="say">アクセシブルな選択挙動にはHeadless UIのListboxを使用し、各状態の見た目はプロジェクトのデザイントークンで実装する。</div><button class="copy">指示文をコピー</button></div></article>
+
+<article class="card" data-tags="library vue primevue multiselect"><div class="demo"><span class="lib-badge">PrimeVue · Vue</span><div class="multi"><div class="chips"><span class="mchip">Vue</span><span class="mchip">TypeScript</span></div><button class="libbtn multiopen" style="margin-top:8px">Select skills ⌄</button><div class="multiopts"><div class="mopt">✓ Vue</div><div class="mopt">✓ TypeScript</div><div class="mopt">React</div><div class="mopt">Node.js</div></div></div><div class="demo-note">複数選択UI</div></div><div class="info"><div class="names"><span class="jp">MultiSelect</span><span class="en">PrimeVue</span></div><div class="desc">複数値選択＋Chip表示の高機能Select。</div><div class="say">PrimeVueのMultiSelectを使用し、チップ表示・フィルター・複数選択に対応する。</div><button class="copy">指示文をコピー</button></div></article>
+
+<article class="card" data-tags="library vue primevue picklist"><div class="demo"><span class="lib-badge">PrimeVue · Vue</span><div class="dual picklib"><div class="dualbox source"><div class="libhead">Available</div><div class="dualitem selected">Design</div><div class="dualitem">Frontend</div><div class="dualitem">Backend</div></div><div class="dualbuttons"><button class="right">→</button><button class="left">←</button></div><div class="dualbox target"><div class="libhead">Assigned</div><div class="dualitem">QA</div></div></div></div><div class="info"><div class="names"><span class="jp">PickList</span><span class="en">PrimeVue</span></div><div class="desc">2つのコレクション間で項目を移動。</div><div class="say">ソースとターゲットの間で項目を割り当てるにはPrimeVueのPickListを使用する。</div><button class="copy">指示文をコピー</button></div></article>
+
+<article class="card" data-tags="library vue primevue organization chart"><div class="demo"><span class="lib-badge">PrimeVue · Vue</span><div class="org"><div class="orgnode">CEO<br><b>Aki</b></div><div class="orgline"></div><div class="orgkids"><div class="orgnode">Design<br><b>Mori</b></div><div class="orgnode">Engineering<br><b>Sato</b></div></div></div></div><div class="info"><div class="names"><span class="jp">OrganizationChart</span><span class="en">PrimeVue</span></div><div class="desc">組織図や階層関係をノードで可視化。</div><div class="say">人物や組織の階層関係を表示するにはPrimeVueのOrganizationChartを使用する。</div><button class="copy">指示文をコピー</button></div></article>
+
+<article class="card" data-tags="library vue element plus tree select"><div class="demo"><span class="lib-badge">Element Plus · Vue</span><div class="treeselect"><button class="castrigger tsopen"><span class="tslabel">Choose component</span><span>⌄</span></button><div class="tsmenu"><div class="tsitem">⌄ src</div><div class="tsitem child active">Button.vue</div><div class="tsitem child">Dialog.vue</div><div class="tsitem">› pages</div></div></div><div class="demo-note">ツリーから選択</div></div><div class="info"><div class="names"><span class="jp">TreeSelect</span><span class="en">Element Plus</span></div><div class="desc">Dropdown内にTreeを持つ階層Select。</div><div class="say">選択肢が平坦ではなく階層構造の場合は、Element PlusのTreeSelectを使用する。</div><button class="copy">指示文をコピー</button></div></article>
+
+<article class="card" data-tags="library vue element plus result"><div class="demo"><span class="lib-badge">Element Plus · Vue</span><div class="resultlib"><div class="resulticon">✓</div><div class="resulttitle">Success</div><div class="resultsub">Deployment completed successfully.</div><button class="libbtn primary">Back</button></div></div><div class="info"><div class="names"><span class="jp">Result</span><span class="en">Element Plus</span></div><div class="desc">成功・失敗・警告などの処理完了状態を1画面で表示。</div><div class="say">成功・エラー・警告などの結果画面にはElement PlusのResultを使用し、アイコン・タイトル・補足・次の操作を表示する。</div><button class="copy">指示文をコピー</button></div></article>
+
+<article class="card" data-tags="library vue vuetify carousel"><div class="demo"><span class="lib-badge">Vuetify · Vue</span><div class="carousel-lib"><button class="cararrow carprev">‹</button><span class="cartext">Slide 1</span><button class="cararrow carnext">›</button><div class="cardots">● ○ ○</div></div><div class="demo-note">矢印で切替</div></div><div class="info"><div class="names"><span class="jp">Carousel</span><span class="en">Vuetify</span></div><div class="desc">Material系のスライドコンテンツ。</div><div class="say">VuetifyのCarouselを使用し、前へ・次へ操作と現在位置が分かるスライドインジケーターを表示する。</div><button class="copy">指示文をコピー</button></div></article>
+
+<article class="card" data-tags="library react mantine rating"><div class="demo"><span class="lib-badge">Mantine · React</span><div class="ratinglib"><button class="on">★</button><button class="on">★</button><button class="on">★</button><button>★</button><button>★</button></div><div class="demo-note">星をクリック</div></div><div class="info"><div class="names"><span class="jp">Rating</span><span class="en">Mantine / MUI / Chakra</span></div><div class="desc">評価値を星で入力・表示。</div><div class="say">1〜5段階の評価にはライブラリのRatingコンポーネントを使用し、ホバープレビューとキーボード選択に対応する。</div><button class="copy">指示文をコピー</button></div></article>
+
+
+<div class="section-title">More React / Vue Library Primitives</div>
+
+<article class="card" data-tags="library tooltip shadcn radix chakra mui vue">
+<div class="demo"><div class="lib-tooltip-host"><div class="lib-tooltip-box">Copy link</div><button class="mini-btn">🔗</button></div><div class="demo-note">ホバー / フォーカス</div>
+</div>
+<div class="info"><div class="names"><span class="jp">Tooltip</span><span class="en">Tooltip</span></div><div class="desc">アイコンや短い操作の補足説明。短文向け。</div><div class="say">短い補足説明にはライブラリのTooltipを使用し、ホバーとキーボードフォーカスに対応させ、操作要素は中に入れない。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="library context menu radix shadcn contextmenu">
+<div class="demo"><div class="ctx-area">Right-click here<div class="ctx-menu"><button>Rename</button><button>Duplicate</button><div class="drop-sep"></div><button>Delete</button></div></div><div class="demo-note">右クリック</div>
+</div>
+<div class="info"><div class="names"><span class="jp">Context Menu</span><span class="en">ContextMenu</span></div><div class="desc">右クリックや長押しで開く文脈依存メニュー。</div><div class="say">選択した項目に固有の右クリックまたは長押し操作にはContextMenuを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="library dropdown menu radix shadcn dropdown">
+<div class="demo"><div class="drop-root"><button class="drop-trigger">Account ▾</button><div class="drop-menu"><div class="drop-item">Profile</div><div class="drop-item">Billing</div><div class="drop-sep"></div><div class="drop-item">Log out</div></div></div><div class="demo-note">クリックで開閉</div>
+</div>
+<div class="info"><div class="names"><span class="jp">Dropdown Menu</span><span class="en">DropdownMenu</span></div><div class="desc">ボタンから一時的なアクション一覧を開く。</div><div class="say">トリガーボタンに紐づくコンパクトな副操作一覧にはDropdownMenuを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="library sonner toast shadcn notification">
+<div class="demo"><button class="mini-btn sonner-trigger">Show toast</button><div class="sonner-stack"></div><div class="demo-note">連続クリック可</div>
+</div>
+<div class="info"><div class="names"><span class="jp">Sonner / Toast Stack</span><span class="en">Sonner</span></div><div class="desc">複数Toastをスタック管理する通知UI。</div><div class="say">成功・エラー・読み込み中・操作付きなどの一時通知を重ねて表示するにはSonnerを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="library scroll area radix shadcn">
+<div class="demo"><div class="scroll-area"><div class="scroll-row">Item 01</div><div class="scroll-row">Item 02</div><div class="scroll-row">Item 03</div><div class="scroll-row">Item 04</div><div class="scroll-row">Item 05</div><div class="scroll-row">Item 06</div><div class="scroll-row">Item 07</div><div class="scroll-row">Item 08</div></div><div class="demo-note">内部スクロール</div>
+</div>
+<div class="info"><div class="names"><span class="jp">Scroll Area</span><span class="en">ScrollArea</span></div><div class="desc">一定領域内だけをスクロール可能にする。</div><div class="say">一定サイズの領域内だけをスクロールさせる場合はScrollAreaを使用し、スクロールバーの見た目を統一する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="library aspect ratio radix shadcn media">
+<div class="demo"><div class="aspect-wrap"><div class="aspect-box">16 : 9</div></div>
+</div>
+<div class="info"><div class="names"><span class="jp">Aspect Ratio</span><span class="en">AspectRatio</span></div><div class="desc">画像・動画領域の比率を一定に保つ。</div><div class="say">コンテナ幅に関係なく16:9のメディア比率を維持するにはAspectRatioを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="library collapsible radix shadcn">
+<div class="demo"><div class="collapsible"><button class="coll-head">Advanced options <span>⌄</span></button><div class="coll-body">Additional configuration is hidden until explicitly expanded.</div></div><div class="demo-note">クリックで展開</div>
+</div>
+<div class="info"><div class="names"><span class="jp">Collapsible</span><span class="en">Collapsible</span></div><div class="desc">単一領域を開閉する低レベルプリミティブ。</div><div class="say">Accordion全体ではなく、独立した補助コンテンツを開閉する場合はCollapsibleを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="library navigation menu radix shadcn mega menu">
+<div class="demo"><div class="navmenu"><div class="navmenu-root"><button>Products ▾</button><div class="navmenu-panel"><div class="navmenu-link"><b>Analytics</b><div class="lib-sub">Metrics and reports</div></div><div class="navmenu-link"><b>Automation</b><div class="lib-sub">Workflows and jobs</div></div><div class="navmenu-link"><b>Teams</b><div class="lib-sub">Members and roles</div></div><div class="navmenu-link"><b>Security</b><div class="lib-sub">SSO and audit logs</div></div></div></div><div class="navmenu-root"><button>Docs</button></div></div><div class="demo-note">Productsをクリック</div>
+</div>
+<div class="info"><div class="names"><span class="jp">Navigation Menu</span><span class="en">NavigationMenu</span></div><div class="desc">Webサイト上部の大型ナビ・メガメニュー向け。</div><div class="say">リッチなドロップダウンとキーボード操作を備えたWebサイト上部ナビゲーションにはNavigationMenuを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="library avatar group mui chakra mantine vue">
+<div class="demo"><div class="avatar-group"><div class="avatar-g">AK</div><div class="avatar-g" style="background:#d8cfe8">MK</div><div class="avatar-g" style="background:#cde0d1">SY</div><div class="avatar-g avatar-more">+5</div></div>
+</div>
+<div class="info"><div class="names"><span class="jp">Avatar Group</span><span class="en">AvatarGroup</span></div><div class="desc">複数ユーザーを重ねたアバターでコンパクトに表示。</div><div class="say">複数参加者をコンパクトに表示するにはAvatarGroupを使用し、入りきらない人数は「+N」でまとめる。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="library breadcrumb mui chakra antd vue">
+<div class="demo"><div class="breadcrumb-lib"><a href="#">Home</a> / <a href="#">Projects</a> / <b>Alpha</b></div>
+</div>
+<div class="info"><div class="names"><span class="jp">Breadcrumb</span><span class="en">Breadcrumbs</span></div><div class="desc">階層型ページの現在位置を示す。</div><div class="say">階層ナビゲーションには、ページタイトルの上にライブラリのBreadcrumbコンポーネントを配置する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="library pagination mui chakra antd primevue">
+<div class="demo"><div class="pagination-lib"><button>‹</button><button class="active">1</button><button>2</button><button>3</button><button>›</button></div><div class="demo-note">ページ番号をクリック</div>
+</div>
+<div class="info"><div class="names"><span class="jp">Pagination</span><span class="en">Pagination</span></div><div class="desc">大量データをページ単位で分割表示。</div><div class="say">現在ページ・前へ・次へ・端での無効状態を備えたライブラリのPaginationコンポーネントを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="library input otp shadcn chakra pin vue">
+<div class="demo"><div class="otp-wrap"><input class="otp-box" maxlength="1"><input class="otp-box" maxlength="1"><input class="otp-box" maxlength="1"><input class="otp-box" maxlength="1"><input class="otp-box" maxlength="1"><input class="otp-box" maxlength="1"></div><div class="demo-note">入力で自動フォーカス移動</div>
+</div>
+<div class="info"><div class="names"><span class="jp">Input OTP</span><span class="en">InputOTP / PinInput</span></div><div class="desc">ワンタイムコードや確認番号を分割入力。</div><div class="say">認証コードにはInputOTPまたはPinInputを使用し、自動フォーカス移動・貼り付け・明確なフォーカス状態に対応する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="library progress mui chakra antd vue">
+<div class="demo"><div><div class="progress-lib"><div></div></div><button class="mini-btn progress-plus" style="margin-top:10px">+10%</button></div><div class="demo-note">クリックで進捗増加</div>
+</div>
+<div class="info"><div class="names"><span class="jp">Progress</span><span class="en">Progress / LinearProgress</span></div><div class="desc">決定的・不定的な処理進捗を表示。</div><div class="say">進捗率が分かる場合は確定値、分からない場合は不定状態でライブラリのProgressコンポーネントを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="library skeleton mui chakra antd vue">
+<div class="demo"><div class="skeleton-lib"><div></div><div></div><div></div></div>
+</div>
+<div class="info"><div class="names"><span class="jp">Skeleton</span><span class="en">Skeleton</span></div><div class="desc">ロード中に最終レイアウトの形を仮表示。</div><div class="say">読み込み中のレイアウトずれを抑えるため、最終コンテンツの大きさに近いSkeletonを表示する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="library badge mui chakra antd vue">
+<div class="demo"><div class="badge-row"><span class="badge-lib">Default</span><span class="badge-lib outline">Outline</span><span class="badge-lib destructive">Error</span></div>
+</div>
+<div class="info"><div class="names"><span class="jp">Badge</span><span class="en">Badge / Tag</span></div><div class="desc">状態やカテゴリ、短い属性ラベルを表示。</div><div class="say">状態・カテゴリ・重要度などの短い意味ラベルにはBadgeまたはTagのバリエーションを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="library resizable panels shadcn radix">
+<div class="demo"><div class="resizable-lib"><div class="resizable-pane"><b>Editor</b><div class="lib-sub">Left panel</div></div><div class="resizable-handle"></div><div class="resizable-pane"><b>Preview</b><div class="lib-sub">Right panel</div></div></div>
+</div>
+<div class="info"><div class="names"><span class="jp">Resizable Panels</span><span class="en">ResizablePanelGroup</span></div><div class="desc">ドラッグ可能な区切りで複数ペイン幅を変更。</div><div class="say">エディタとプレビューの間にドラッグ可能なハンドルを置いたResizablePanelGroupを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="library calendar shadcn mui antd vue date">
+<div class="demo"><div class="calendar-lib"><div class="cal-head"><span>August 2026</span><span>‹ ›</span></div><div class="cal-grid2"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span><button>10</button><button>11</button><button class="selected">12</button><button>13</button><button>14</button><button>15</button><button>16</button></div></div><div class="demo-note">日付をクリック</div>
+</div>
+<div class="info"><div class="names"><span class="jp">Calendar</span><span class="en">Calendar / DateCalendar</span></div><div class="desc">日付選択の基礎コンポーネント。DatePickerの内部としても使う。</div><div class="say">直接日付を選ぶ場合はライブラリのCalendarコンポーネントを使用し、選択中・無効・今日の状態を明確にする。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="library hover card radix shadcn chakra">
+<div class="demo"><div class="hovercard-lib"><button class="hovercard-trigger">@mori</button><div class="hovercard-panel"><b style="font-size:10px">Mori K.</b><div class="lib-sub">Frontend engineer · Tokyo</div><div class="lib-sub">Joined 2024</div></div></div><div class="demo-note">ホバーで詳細カード</div>
+</div>
+<div class="info"><div class="names"><span class="jp">Hover Card</span><span class="en">HoverCard</span></div><div class="desc">Tooltipよりリッチな補足情報をホバーで表示。</div><div class="say">複数行や構造化された情報を含むリッチなホバープレビューにはHoverCardを使用し、単純なラベルには使用しない。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+    </div>
+  </main>
+</div>
+
+<script>
+const cards=[...document.querySelectorAll('.card')];
+const search=document.getElementById('search');
+let active='all';
+
+const categoryLabels={all:'すべて',input:'入力・フォーム',navigation:'ナビゲーション',feedback:'状態・通知',overlay:'オーバーレイ',content:'表示・コンテンツ',dashboard:'ダッシュボード',library:'ライブラリUI'};
+
+function updateSidebarCounts(){
+ Object.keys(categoryLabels).forEach(key=>{
+  const el=document.querySelector(`[data-count="${key}"]`);
+  if(!el) return;
+  const count=key==='all'?cards.length:cards.filter(c=>(c.dataset.tags||'').includes(key)).length;
+  el.textContent=count;
+ });
+}
+
+function applyFilter(){
+ const q=search.value.trim().toLowerCase();
+ let visible=0;
+ cards.forEach(c=>{
+  const text=(c.innerText+' '+(c.dataset.tags||'')).toLowerCase();
+  const okText=!q||text.includes(q);
+  const okCat=active==='all'||(c.dataset.tags||'').includes(active);
+  const show=okText&&okCat;
+  c.style.display=show?'':'none';
+  if(show) visible++;
+ });
+ document.querySelectorAll('.section-title').forEach(title=>{
+  let node=title.nextElementSibling, hasVisible=false;
+  while(node && !node.classList.contains('section-title')){
+   if(node.classList.contains('card') && node.style.display!=='none'){hasVisible=true;break;}
+   node=node.nextElementSibling;
+  }
+  title.style.display=hasVisible?'':'none';
+ });
+ const current=document.getElementById('catalogCurrent');
+ const count=document.getElementById('visibleCount');
+ if(current) current.textContent=categoryLabels[active]||'すべて';
+ if(count) count.textContent=visible;
+}
+search.addEventListener('input',applyFilter);
+document.querySelectorAll('.filter').forEach(b=>b.addEventListener('click',()=>{
+ document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));
+ b.classList.add('active'); active=b.dataset.filter; applyFilter();
+}));
+updateSidebarCounts();
+applyFilter();
+
+document.querySelectorAll('.copy').forEach(btn=>btn.addEventListener('click',async()=>{
+ const text=btn.previousElementSibling?.innerText || '';
+ let copied=false;
+ try{
+  if(navigator.clipboard && window.isSecureContext){
+   await navigator.clipboard.writeText(text);
+   copied=true;
+  }
+ }catch(e){}
+ if(!copied){
+  const ta=document.createElement('textarea');
+  ta.value=text;
+  ta.setAttribute('readonly','');
+  ta.style.position='fixed';
+  ta.style.opacity='0';
+  document.body.appendChild(ta);
+  ta.select();
+  try{copied=document.execCommand('copy')}catch(e){}
+  ta.remove();
+ }
+ const old=btn.innerText;
+ btn.innerText=copied?'コピーしました':'コピーできませんでした';
+ setTimeout(()=>btn.innerText=old,1000);
+}));
+
+// toggle
+document.querySelectorAll('.toggle').forEach(btn=>{
+ btn.dataset.bound='1';
+ btn.addEventListener('click',()=>{
+  btn.classList.toggle('on');
+  btn.setAttribute('aria-pressed',btn.classList.contains('on'));
+ });
+});
+
+// hamburger
+document.querySelectorAll('.hamb').forEach(btn=>{
+ const phone=btn.closest('.phone'), drawer=phone.querySelector('.mobile-drawer');
+ btn.addEventListener('click',()=>drawer.classList.add('open'));
+ drawer.querySelector('.close').addEventListener('click',()=>drawer.classList.remove('open'));
+});
+
+// checkbox
+document.querySelectorAll('.checkbox').forEach(btn=>btn.addEventListener('click',()=>{
+ btn.classList.toggle('checked');
+ btn.textContent=btn.classList.contains('checked')?'✓':'';
+}));
+
+// radio
+document.querySelectorAll('.radio-group').forEach(group=>{
+ const radios=[...group.querySelectorAll('.radio')];
+ radios.forEach(r=>r.addEventListener('click',()=>{
+  radios.forEach(x=>x.classList.remove('selected')); r.classList.add('selected');
+ }));
+});
+
+// dropdown
+document.querySelectorAll('.select-wrap').forEach(w=>{
+ const trigger=w.querySelector('.select-trigger'), menu=w.querySelector('.select-menu'), label=w.querySelector('.selected-label');
+ if(!trigger || !menu || !label) return;
+ // Headless UI Listbox has its own keyboard/ARIA interaction handler.
+ if(trigger.classList.contains('headless-lib')) return;
+ trigger.addEventListener('click',()=>menu.classList.toggle('open'));
+ menu.querySelectorAll('button').forEach(o=>o.addEventListener('click',()=>{
+  label.textContent=o.textContent; menu.classList.remove('open');
+ }));
+});
+
+// segmented
+document.querySelectorAll('.segment').forEach(seg=>{
+ if(seg.classList.contains('seg-switch')) return;
+ seg.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+  seg.querySelectorAll('button').forEach(x=>x.classList.remove('active')); b.classList.add('active');
+ }));
+});
+
+// range
+document.querySelectorAll('.range-wrap').forEach(w=>{
+ const r=w.querySelector('.range'), v=w.querySelector('.range-value');
+ if(!r || !v) return;
+ r.addEventListener('input',()=>v.textContent=r.value);
+});
+
+// date
+document.querySelectorAll('.datebox').forEach(box=>{
+ const t=box.querySelector('.date-trigger'), cal=box.querySelector('.calendar');
+ if(!t || !cal) return;
+ t.addEventListener('click',()=>cal.classList.toggle('open'));
+ cal.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+  cal.querySelectorAll('button').forEach(x=>x.classList.remove('sel'));
+  b.classList.add('sel'); t.textContent='2026-08-'+String(b.textContent).padStart(2,'0'); cal.classList.remove('open');
+ }));
+});
+
+// tabs
+document.querySelectorAll('.tabs').forEach(tabs=>{
+ const panel=tabs.querySelector('.tab-panel');
+ tabs.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>{
+  tabs.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active')); b.classList.add('active');
+  panel.textContent=b.textContent+' content';
+ }));
+});
+
+// pagination
+document.querySelectorAll('.pagination').forEach(p=>{
+ let current=1;
+ const nums=[...p.querySelectorAll('.num')], text=p.parentElement.querySelector('.page-text');
+ function set(n){current=Math.max(1,Math.min(3,n)); nums.forEach((b,i)=>b.classList.toggle('active',i+1===current)); text.textContent='Page '+current}
+ nums.forEach((b,i)=>b.addEventListener('click',()=>set(i+1)));
+ p.querySelector('.prev').addEventListener('click',()=>set(current-1));
+ p.querySelector('.next').addEventListener('click',()=>set(current+1));
+});
+
+// live search
+const projects=['Alpha','Beta','Gamma','Delta','Omega'];
+document.querySelectorAll('.live-search').forEach(inp=>{
+ const out=inp.parentElement.querySelector('.search-results');
+ inp.addEventListener('input',()=>{
+  const q=inp.value.toLowerCase();
+  out.innerHTML=q?projects.filter(x=>x.toLowerCase().includes(q)).map(x=>`<div class="result-item">${x}</div>`).join(''):'';
+ });
+});
+
+// command palette
+document.querySelectorAll('.command-btn').forEach(btn=>{
+ const demo=btn.closest('.demo'), overlay=demo.querySelector('.command-overlay');
+ btn.addEventListener('click',()=>overlay.classList.add('open'));
+ overlay.addEventListener('click',e=>{if(e.target===overlay) overlay.classList.remove('open')});
+});
+document.addEventListener('keydown',e=>{
+ if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){
+  e.preventDefault();
+  const overlay=document.querySelector('.command-overlay'); if(overlay) overlay.classList.add('open');
+ }
+ if(e.key==='Escape') document.querySelectorAll('.command-overlay.open,.modal-bg.open').forEach(x=>x.classList.remove('open'));
+});
+
+// toast
+document.querySelectorAll('.toast-btn').forEach(btn=>{
+ const toast=btn.parentElement.querySelector('.toast');
+ btn.addEventListener('click',()=>{toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'),1800)});
+});
+
+// progress
+document.querySelectorAll('.progress-wrap').forEach(w=>{
+ let val=20; const fill=w.querySelector('.fill'), text=w.querySelector('.range-value');
+ function set(v){val=Math.max(0,Math.min(100,v));fill.style.width=val+'%';text.textContent=val+'%'}
+ w.querySelector('.plus').addEventListener('click',()=>set(val+10));
+ w.querySelector('.minus').addEventListener('click',()=>set(val-10));
+});
+
+// stepper
+document.querySelectorAll('.stepper-wrap').forEach(w=>{
+ let current=0; const steps=[...w.querySelectorAll('.step')];
+ function render(){steps.forEach((s,i)=>{s.classList.toggle('active',i===current);s.classList.toggle('done',i<current)})}
+ w.querySelector('.next-step').addEventListener('click',()=>{current=Math.min(steps.length-1,current+1);render()});
+ w.querySelector('.back').addEventListener('click',()=>{current=Math.max(0,current-1);render()});
+});
+
+// popover
+document.querySelectorAll('.pop-anchor').forEach(a=>{
+ const trigger=a.querySelector('.popover-trigger'), pop=a.querySelector('.popover');
+ if(!trigger || !pop) return;
+ trigger.addEventListener('click',()=>pop.classList.toggle('open'));
+});
+
+// modal
+document.querySelectorAll('.modal-btn').forEach(btn=>{
+ const demo=btn.closest('.demo'), bg=demo.querySelector('.modal-bg');
+ btn.addEventListener('click',()=>bg.classList.add('open'));
+ bg.querySelector('.cancel').addEventListener('click',()=>bg.classList.remove('open'));
+ bg.querySelector('.confirm').addEventListener('click',()=>bg.classList.remove('open'));
+ bg.addEventListener('click',e=>{if(e.target===bg) bg.classList.remove('open')});
+});
+
+// drawer
+document.querySelectorAll('.drawer-btn').forEach(btn=>{
+ const demo=btn.closest('.demo'), drawer=demo.querySelector('.drawer'), bg=demo.querySelector('.drawer-bg');
+ function close(){drawer.classList.remove('open'); bg.classList.remove('open')}
+ btn.addEventListener('click',()=>{drawer.classList.add('open');bg.classList.add('open')});
+ drawer.querySelector('.close').addEventListener('click',close); bg.addEventListener('click',close);
+});
+
+// accordion
+document.querySelectorAll('.accord-item').forEach(item=>{
+ item.querySelector('.accord-head').addEventListener('click',()=>{
+  item.classList.toggle('open');
+  item.querySelector('.accord-head span').textContent=item.classList.contains('open')?'⌃':'⌄';
+ });
+});
+
+// chips
+document.querySelectorAll('.chiprow').forEach(row=>row.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>c.classList.toggle('active'))));
+
+</script>
+<script>
+// sortable data table
+document.querySelectorAll('.table').forEach(table=>{
+ let asc=true;
+ const sort=table.querySelector('.sort');
+ if(!sort) return;
+ sort.addEventListener('click',()=>{
+  const rows=[...table.querySelectorAll('.data-row')];
+  rows.sort((a,b)=>{
+   const av=a.children[0].textContent, bv=b.children[0].textContent;
+   return asc?av.localeCompare(bv):bv.localeCompare(av);
+  });
+  rows.forEach(r=>table.appendChild(r));
+  asc=!asc;
+  sort.textContent='Name '+(asc?'↕':'↕');
+ });
+});
+
+// fab
+document.querySelectorAll('.fab').forEach(btn=>{
+ const msg=btn.parentElement.querySelector('.fab-msg');
+ btn.addEventListener('click',()=>{msg.textContent='Create action triggered';setTimeout(()=>msg.textContent='',1400)});
+});
+
+// empty state
+document.querySelectorAll('.create-project').forEach(btn=>{
+ btn.addEventListener('click',()=>{
+  const root=btn.closest('.empty');
+  root.querySelector('.circle').style.background='#cde7d6';
+  root.querySelector('.empty-title').textContent='Project created';
+  root.querySelector('.empty-copy').textContent='Your first project is ready.';
+  btn.textContent='Open project';
+ });
+});
+</script>
+<script>
+// ===== Added list-pattern interactions =====
+
+// selectable list
+document.querySelectorAll('.select-list').forEach(list=>{
+ list.querySelectorAll('.list-row').forEach(row=>row.addEventListener('click',()=>{
+  list.querySelectorAll('.list-row').forEach(r=>r.classList.remove('selected'));
+  row.classList.add('selected');
+ }));
+});
+
+// tree view
+document.querySelectorAll('.tree-row.parent').forEach(row=>{
+ row.addEventListener('click',()=>{
+  const next=row.nextElementSibling;
+  if(next && next.classList.contains('tree-children')){
+   next.classList.toggle('hidden');
+   const caret=row.querySelector('.tree-caret');
+   caret.textContent=next.classList.contains('hidden')?'›':'⌄';
+  }
+ });
+});
+
+// notification read/unread
+document.querySelectorAll('.notification-row').forEach(row=>{
+ row.addEventListener('click',()=>{
+  row.classList.toggle('unread');
+  row.classList.toggle('read');
+ });
+});
+
+// swipe action simulation
+document.querySelectorAll('.swipe-shell').forEach(shell=>{
+ shell.querySelector('.swipe-content').addEventListener('click',()=>shell.classList.toggle('open'));
+ shell.querySelectorAll('.swipe-actions button').forEach(btn=>btn.addEventListener('click',()=>{
+  if(btn.classList.contains('delete')) shell.remove();
+  else shell.classList.remove('open');
+ }));
+});
+
+// master detail
+document.querySelectorAll('.master-detail').forEach(md=>{
+ const detail=md.querySelector('.detail');
+ md.querySelectorAll('.master button').forEach(btn=>btn.addEventListener('click',()=>{
+  md.querySelectorAll('.master button').forEach(x=>x.classList.remove('active'));
+  btn.classList.add('active');
+  const title=btn.dataset.title;
+  detail.innerHTML='<h4>'+title+'</h4><div>Details for '+title+'. The list remains visible for fast switching.</div>';
+ }));
+});
+
+// Populate large scroll list
+document.querySelectorAll('.virtual-list').forEach(list=>{
+ if(list.children.length===0){
+  for(let i=1;i<=120;i++){
+   const row=document.createElement('div');
+   row.className='virtual-row';
+   row.textContent='Row '+String(i).padStart(3,'0')+' — Example record';
+   list.appendChild(row);
+  }
+ }
+});
+
+// reorder list
+document.querySelectorAll('.reorder-list').forEach(list=>{
+ list.addEventListener('click',e=>{
+  const btn=e.target.closest('button'); if(!btn) return;
+  const row=btn.closest('.reorder-row');
+  if(btn.classList.contains('up') && row.previousElementSibling) list.insertBefore(row,row.previousElementSibling);
+  if(btn.classList.contains('down') && row.nextElementSibling) list.insertBefore(row.nextElementSibling,row);
+ });
+});
+
+// inline edit feedback
+document.querySelectorAll('.inline-edit').forEach(list=>{
+ list.querySelectorAll('.edit-save').forEach(btn=>btn.addEventListener('click',()=>{
+  const old=btn.textContent; btn.textContent='Saved'; setTimeout(()=>btn.textContent=old,900);
+ }));
+});
+
+// kanban selection demo
+document.querySelectorAll('.kan-card').forEach(card=>card.addEventListener('click',()=>card.classList.toggle('selected')));
+</script>
+<script>
+// ===== Interactions for additional list patterns =====
+document.querySelectorAll('.inbox-row').forEach(row=>{
+ row.addEventListener('click',e=>{
+  if(e.target.closest('.star-btn')) return;
+  row.classList.remove('unread');
+ });
+ const star=row.querySelector('.star-btn');
+ star.addEventListener('click',e=>{e.stopPropagation(); star.classList.toggle('on'); star.textContent=star.classList.contains('on')?'★':'☆';});
+});
+
+document.querySelectorAll('.file-row').forEach(row=>row.addEventListener('click',()=>{
+ const list=row.closest('.file-list'); list.querySelectorAll('.file-row').forEach(x=>x.classList.remove('selected')); row.classList.add('selected');
+}));
+
+document.querySelectorAll('.command-list').forEach(list=>{
+ list.querySelectorAll('.cmd-row').forEach(row=>row.addEventListener('click',()=>{
+  list.querySelectorAll('.cmd-row').forEach(x=>x.classList.remove('active')); row.classList.add('active');
+ }));
+});
+
+document.querySelectorAll('.task-check').forEach(btn=>btn.addEventListener('click',()=>{
+ const row=btn.closest('.check-row2'); row.classList.toggle('done'); btn.classList.toggle('done'); btn.textContent=btn.classList.contains('done')?'✓':'';
+}));
+
+document.querySelectorAll('.filter-row').forEach(row=>row.addEventListener('click',()=>row.classList.toggle('active')));
+
+document.querySelectorAll('.queue-cycle').forEach(btn=>btn.addEventListener('click',()=>{
+ const rows=btn.closest('.demo').querySelectorAll('.queue-state');
+ rows.forEach(s=>{
+  const txt=s.textContent.trim();
+  s.classList.remove('run','fail');
+  if(txt==='Queued'){s.textContent='Running';s.classList.add('run')}
+  else if(txt==='Running'){s.textContent='Failed';s.classList.add('fail')}
+  else{s.textContent='Queued'}
+ });
+}));
+
+document.querySelectorAll('.person-row').forEach(row=>row.addEventListener('click',()=>row.classList.toggle('selected')));
+
+document.querySelectorAll('.disclosure-row').forEach(row=>{
+ row.querySelector('.disclosure-head').addEventListener('click',()=>{
+  row.classList.toggle('open');
+  row.querySelector('.disclosure-head span').textContent=row.classList.contains('open')?'⌃':'⌄';
+ });
+});
+
+document.querySelectorAll('.batch-list').forEach(list=>{
+ const rows=[...list.querySelectorAll('.batch-row')], bar=list.querySelector('.batch-toolbar'), count=list.querySelector('.batch-count');
+ function render(){const n=rows.filter(r=>r.classList.contains('selected')).length;count.textContent=n+' selected';bar.classList.toggle('show',n>0)}
+ rows.forEach(row=>row.addEventListener('click',()=>{row.classList.toggle('selected');render()}));
+});
+
+document.querySelectorAll('.pinned-list').forEach(list=>{
+ list.querySelectorAll('.pin-action').forEach(btn=>btn.addEventListener('click',()=>{
+  const row=btn.closest('.pin-row');
+  if(btn.textContent.trim()==='×'){btn.textContent='＋';row.querySelector('.pin-ico').textContent='•'}
+  else{btn.textContent='×';row.querySelector('.pin-ico').textContent='📌'}
+ }));
+});
+
+document.querySelectorAll('.nav-list').forEach(list=>{
+ list.querySelectorAll('.nav-row').forEach(row=>row.addEventListener('click',()=>{
+  list.querySelectorAll('.nav-row').forEach(x=>x.classList.remove('active')); row.classList.add('active');
+ }));
+});
+</script>
+<script>
+// Forms
+document.querySelectorAll('.demo-form').forEach(form=>form.addEventListener('submit',e=>{
+ e.preventDefault();
+ const btn=form.querySelector('.primary'); const old=btn.textContent; btn.textContent='Saved'; setTimeout(()=>btn.textContent=old,1000);
+}));
+document.querySelectorAll('.inline-submit').forEach(btn=>btn.addEventListener('click',()=>{
+ const old=btn.textContent; btn.textContent='Added'; setTimeout(()=>btn.textContent=old,900);
+}));
+
+// Wizard
+document.querySelectorAll('.wizard-form').forEach(w=>{
+ let i=0; const steps=[...w.querySelectorAll('.wiz-step')];
+ const render=()=>steps.forEach((s,idx)=>{s.classList.toggle('active',idx===i);s.classList.toggle('done',idx<i)});
+ w.querySelector('.wizard-next').addEventListener('click',()=>{i=Math.min(steps.length-1,i+1);render()});
+ w.querySelector('.wizard-back').addEventListener('click',()=>{i=Math.max(0,i-1);render()});
+});
+
+// Combobox
+document.querySelectorAll('.combo').forEach(c=>{
+ const inp=c.querySelector('.combo-input'), menu=c.querySelector('.combo-menu');
+ inp.addEventListener('input',()=>menu.classList.add('open'));
+ inp.addEventListener('focus',()=>menu.classList.add('open'));
+ c.querySelectorAll('.combo-item').forEach(item=>item.addEventListener('click',()=>{inp.value=item.textContent;menu.classList.remove('open')}));
+});
+
+// Filter bar
+document.querySelectorAll('.filter-bar').forEach(bar=>bar.querySelectorAll('.filter-pill').forEach(btn=>btn.addEventListener('click',()=>{
+ bar.querySelectorAll('.filter-pill').forEach(x=>x.classList.remove('active'));btn.classList.add('active');
+})));
+document.querySelectorAll('.token-filter .filter-token button').forEach(btn=>btn.addEventListener('click',()=>btn.parentElement.remove()));
+
+// Advanced filter
+document.querySelectorAll('.advanced-filter').forEach(box=>{
+ box.addEventListener('click',e=>{
+  if(e.target.classList.contains('rule-remove')) e.target.closest('.rule').remove();
+  if(e.target.classList.contains('add-rule')){
+   const r=document.createElement('div');r.className='rule';r.innerHTML='<select><option>Label</option><option>Owner</option></select><input value=""><button class="rule-remove">×</button>';
+   box.insertBefore(r,e.target);
+  }
+ })
+});
+
+// Table selection
+document.querySelectorAll('.selectable-table .trow:not(.head)').forEach(row=>{
+ row.querySelector('.rowcheck').addEventListener('click',()=>row.classList.toggle('selected'));
+});
+
+// Sort table
+document.querySelectorAll('.sortable-table2').forEach(table=>{
+ let asc=true; const btn=table.querySelector('.col-sort');
+ btn.addEventListener('click',()=>{
+  const rows=[...table.querySelectorAll('.trow.data')].sort((a,b)=>{
+   const av=a.children[1].textContent,bv=b.children[1].textContent;
+   return asc?av.localeCompare(bv):bv.localeCompare(av);
+  });
+  rows.forEach(r=>table.appendChild(r)); asc=!asc;
+ });
+});
+
+// Tree table
+document.querySelectorAll('.tree-table').forEach(table=>{
+ const btn=table.querySelector('.tree-toggle');
+ btn.addEventListener('click',()=>{
+  const rows=[...table.querySelectorAll('.tree-child')]; const hide=rows[0].style.display!=='none';
+  rows.forEach(r=>r.style.display=hide?'none':'grid'); btn.textContent=hide?'›':'⌄';
+ });
+});
+
+// Sticky demo rows
+document.querySelectorAll('#stickyDemo').forEach(table=>{
+ table.innerHTML='<div class="trow head"><div></div><div>Name</div><div>Status</div><div>Owner</div><div>ARR</div></div>';
+ for(let i=1;i<=15;i++) table.innerHTML+=`<div class="trow"><div></div><div>Account ${i}</div><div>Active</div><div>User ${i}</div><div>${(2+i/3).toFixed(1)}m</div></div>`;
+});
+
+// Bottom sheet
+document.querySelectorAll('.bottom-sheet-phone').forEach(p=>{
+ const b=p.querySelector('.open-sheet'), bg=p.querySelector('.sheet-bg'), panel=p.querySelector('.bottom-sheet-panel');
+ const close=()=>{bg.classList.remove('open');panel.classList.remove('open')};
+ b.addEventListener('click',()=>{bg.classList.add('open');panel.classList.add('open')});bg.addEventListener('click',close);
+});
+
+// Action sheet
+document.querySelectorAll('.action-sheet-phone').forEach(p=>{
+ const b=p.querySelector('.open-action'), bg=p.querySelector('.sheet-bg'), sheet=p.querySelector('.action-sheet');
+ const close=()=>{bg.classList.remove('open');sheet.classList.remove('open')};
+ b.addEventListener('click',()=>{bg.classList.add('open');sheet.classList.add('open')});bg.addEventListener('click',close);p.querySelector('.cancel-action').addEventListener('click',close);
+});
+
+// Pull refresh simulation
+document.querySelectorAll('.pull-phone').forEach(p=>{
+ const btn=p.querySelector('.refresh-btn'), ind=p.querySelector('.pull-indicator');
+ btn.addEventListener('click',()=>{ind.textContent='Refreshing…';setTimeout(()=>ind.textContent='Updated just now',900)});
+});
+
+// Swipe tabs
+document.querySelectorAll('.swipe-phone').forEach(p=>{
+ const page=p.querySelector('.swipe-page');
+ p.querySelectorAll('.swipe-tabbar button').forEach(b=>b.addEventListener('click',()=>{
+  p.querySelectorAll('.swipe-tabbar button').forEach(x=>x.classList.remove('active'));b.classList.add('active');page.textContent=b.textContent+' content';
+ }))
+});
+
+// FAB menu
+document.querySelectorAll('.fab-phone').forEach(p=>p.querySelector('.fab-menu-main').addEventListener('click',()=>p.classList.toggle('open')));
+
+// Segmented dashboard
+document.querySelectorAll('.seg-dashboard').forEach(d=>{
+ const metric=d.querySelector('.seg-metric'), copy=d.querySelector('.seg-content div:last-child');
+ const vals={Revenue:['¥8.4m','Revenue this month'],Users:['18.4k','Monthly active users'],Errors:['0.2%','Error rate']};
+ d.querySelectorAll('.seg-switch button').forEach(b=>b.addEventListener('click',()=>{
+  d.querySelectorAll('.seg-switch button').forEach(x=>x.classList.remove('active'));b.classList.add('active');metric.textContent=vals[b.textContent][0];copy.textContent=vals[b.textContent][1];
+ }));
+});
+</script>
+<script>
+// library interactions
+document.querySelectorAll('.sheetframe').forEach(x=>{x.querySelector('.sheetlaunch').onclick=()=>x.classList.add('open');x.querySelector('.sheetshade').onclick=()=>x.classList.remove('open')});
+document.querySelectorAll('.speedlib').forEach(x=>x.querySelector('.speedmain').onclick=()=>x.classList.toggle('open'));
+document.querySelectorAll('.cascade').forEach(x=>{x.querySelector('.castrigger').onclick=()=>x.classList.toggle('open');x.querySelectorAll('.final').forEach(i=>i.onclick=()=>{x.querySelector('.caslabel').textContent='Japan / '+i.textContent;x.classList.remove('open')})});
+function dualBind(sel){document.querySelectorAll(sel).forEach(x=>{let s=x.querySelector('.source'),t=x.querySelector('.target');x.querySelectorAll('.dualitem').forEach(i=>i.onclick=()=>i.classList.toggle('selected'));let mv=(a,b)=>[...a.querySelectorAll('.dualitem.selected')].forEach(i=>{i.classList.remove('selected');b.appendChild(i)});x.querySelector('.right').onclick=()=>mv(s,t);x.querySelector('.left').onclick=()=>mv(t,s)})}dualBind('.transferlib');dualBind('.picklib');
+document.querySelectorAll('.chakra-select').forEach(x=>{let d=x.closest('.demo'),bar=d.querySelector('.chakra-bar');x.querySelectorAll('.librow').forEach(r=>r.onclick=()=>{r.classList.toggle('active');let n=x.querySelectorAll('.librow.active').length;bar.textContent=n+' selected · Archive · Delete';bar.classList.toggle('show',n>0)})});
+document.querySelectorAll('.pinlib').forEach(x=>{let a=[...x.querySelectorAll('input')];a.forEach((i,n)=>i.oninput=()=>{if(i.value&&a[n+1])a[n+1].focus()})});
+document.querySelectorAll('.headless-lib').forEach((trigger, instanceIndex) => {
+ const wrap = trigger.closest('.select-wrap');
+ const menu = wrap.querySelector('.headless-options');
+ const label = trigger.querySelector('.selected-label');
+ const options = [...menu.querySelectorAll('button')];
+ let activeIndex = Math.max(0, options.findIndex(o => o.textContent.trim() === label.textContent.trim()));
+
+ trigger.setAttribute('aria-haspopup', 'listbox');
+ trigger.setAttribute('aria-expanded', 'false');
+ menu.setAttribute('role', 'listbox');
+ menu.id = menu.id || `headless-listbox-${instanceIndex}`;
+ trigger.setAttribute('aria-controls', menu.id);
+
+ options.forEach((opt, i) => {
+  opt.setAttribute('role', 'option');
+  opt.setAttribute('tabindex', '-1');
+  opt.setAttribute('aria-selected', i === activeIndex ? 'true' : 'false');
+ });
+
+ const paintActive = () => {
+  options.forEach((opt, i) => {
+   opt.classList.toggle('active', i === activeIndex);
+   opt.setAttribute('aria-selected', i === activeIndex ? 'true' : 'false');
+  });
+ };
+
+ const open = () => {
+  menu.classList.add('open');
+  trigger.setAttribute('aria-expanded', 'true');
+  activeIndex = Math.max(0, options.findIndex(o => o.textContent.trim() === label.textContent.trim()));
+  paintActive();
+ };
+
+ const close = (restoreFocus = false) => {
+  menu.classList.remove('open');
+  trigger.setAttribute('aria-expanded', 'false');
+  if (restoreFocus) trigger.focus();
+ };
+
+ const choose = (index) => {
+  activeIndex = index;
+  label.textContent = options[index].textContent.trim();
+  paintActive();
+  close(true);
+ };
+
+ trigger.addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (menu.classList.contains('open')) close(); else open();
+ });
+
+ trigger.addEventListener('keydown', (e) => {
+  if (['ArrowDown','ArrowUp','Enter',' '].includes(e.key)) {
+   e.preventDefault();
+   if (!menu.classList.contains('open')) open();
+   if (e.key === 'ArrowDown') activeIndex = (activeIndex + 1) % options.length;
+   if (e.key === 'ArrowUp') activeIndex = (activeIndex - 1 + options.length) % options.length;
+   paintActive();
+  } else if (e.key === 'Escape') {
+   e.preventDefault();
+   close();
+  }
+ });
+
+ options.forEach((opt, i) => {
+  opt.addEventListener('mouseenter', () => { activeIndex = i; paintActive(); });
+  opt.addEventListener('click', (e) => { e.stopPropagation(); choose(i); });
+  opt.addEventListener('keydown', (e) => {
+   if (e.key === 'ArrowDown') { e.preventDefault(); activeIndex=(i+1)%options.length; paintActive(); options[activeIndex].focus(); }
+   if (e.key === 'ArrowUp') { e.preventDefault(); activeIndex=(i-1+options.length)%options.length; paintActive(); options[activeIndex].focus(); }
+   if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); choose(i); }
+   if (e.key === 'Escape') { e.preventDefault(); close(true); }
+  });
+ });
+
+ document.addEventListener('click', (e) => {
+  if (!wrap.contains(e.target)) close();
+ });
+
+ document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && menu.classList.contains('open')) close(true);
+ });
+});
+document.querySelectorAll('.multi').forEach(x=>x.querySelector('.multiopen').onclick=()=>x.classList.toggle('open'));
+document.querySelectorAll('.treeselect').forEach(x=>{x.querySelector('.tsopen').onclick=()=>x.classList.toggle('open');x.querySelectorAll('.tsitem.child').forEach(i=>i.onclick=()=>{x.querySelectorAll('.tsitem').forEach(y=>y.classList.remove('active'));i.classList.add('active');x.querySelector('.tslabel').textContent=i.textContent.trim();x.classList.remove('open')})});
+document.querySelectorAll('.carousel-lib').forEach(x=>{let i=0,a=['Slide 1','Slide 2','Slide 3'];let r=()=>{x.querySelector('.cartext').textContent=a[i];x.querySelector('.cardots').textContent=a.map((_,n)=>n===i?'●':'○').join(' ')};x.querySelector('.carnext').onclick=()=>{i=(i+1)%3;r()};x.querySelector('.carprev').onclick=()=>{i=(i+2)%3;r()}});
+document.querySelectorAll('.ratinglib').forEach(x=>{let s=[...x.querySelectorAll('button')];s.forEach((b,i)=>b.onclick=()=>s.forEach((y,n)=>y.classList.toggle('on',n<=i))) });
+</script>
+<script>
+// Additional library primitives interactions
+document.querySelectorAll('.ctx-area').forEach(area=>{
+ const menu=area.querySelector('.ctx-menu');
+ area.addEventListener('contextmenu',e=>{
+  e.preventDefault();
+  const r=area.getBoundingClientRect();
+  menu.style.left=Math.min(e.clientX-r.left, area.clientWidth-145)+'px';
+  menu.style.top=Math.min(e.clientY-r.top, area.clientHeight-95)+'px';
+  menu.classList.add('open');
+ });
+ document.addEventListener('click',e=>{if(!area.contains(e.target))menu.classList.remove('open')});
+});
+
+document.querySelectorAll('.drop-root').forEach(root=>{
+ const trig=root.querySelector('.drop-trigger');
+ trig.addEventListener('click',()=>root.classList.toggle('open'));
+ root.querySelectorAll('.drop-item').forEach(i=>i.addEventListener('click',()=>root.classList.remove('open')));
+});
+
+document.querySelectorAll('.sonner-trigger').forEach(btn=>{
+ const stack=btn.closest('.demo').querySelector('.sonner-stack');
+ let n=0;
+ btn.addEventListener('click',()=>{
+  n++;
+  const t=document.createElement('div');
+  t.className='sonner-toast '+(n%3===0?'error':n%2===0?'success':'');
+  t.textContent=n%3===0?'Something went wrong':n%2===0?'Saved successfully':'Background task started';
+  stack.appendChild(t);
+  setTimeout(()=>t.remove(),2200);
+ });
+});
+
+document.querySelectorAll('.collapsible').forEach(c=>{
+ c.querySelector('.coll-head').addEventListener('click',()=>{
+  c.classList.toggle('open');
+  c.querySelector('.coll-head span').textContent=c.classList.contains('open')?'⌃':'⌄';
+ });
+});
+
+document.querySelectorAll('.navmenu-root').forEach(root=>{
+ const b=root.querySelector(':scope > button');
+ if(b) b.addEventListener('click',()=>{
+  document.querySelectorAll('.navmenu-root').forEach(x=>{if(x!==root)x.classList.remove('open')});
+  root.classList.toggle('open');
+ });
+});
+
+document.querySelectorAll('.pagination-lib').forEach(p=>{
+ const nums=[...p.querySelectorAll('button')].filter(b=>/^\d+$/.test(b.textContent));
+ nums.forEach(b=>b.addEventListener('click',()=>{nums.forEach(x=>x.classList.remove('active'));b.classList.add('active')}));
+});
+
+document.querySelectorAll('.otp-wrap').forEach(w=>{
+ const inputs=[...w.querySelectorAll('.otp-box')];
+ inputs.forEach((inp,i)=>{
+  inp.addEventListener('input',()=>{if(inp.value && inputs[i+1])inputs[i+1].focus()});
+  inp.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!inp.value&&inputs[i-1])inputs[i-1].focus()});
+ });
+});
+
+document.querySelectorAll('.progress-plus').forEach(btn=>{
+ const fill=btn.parentElement.querySelector('.progress-lib > div');
+ let v=46;
+ btn.addEventListener('click',()=>{v=(v+10)%110;fill.style.width=Math.min(v,100)+'%'});
+});
+
+document.querySelectorAll('.calendar-lib').forEach(c=>{
+ c.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+  c.querySelectorAll('button').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');
+ }));
+});
+</script>
+</body>
+</html>
