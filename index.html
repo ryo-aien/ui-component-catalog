@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Interactive UI Component Catalog for </title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -37,6 +38,8 @@
         <div class="catalog-current" id="catalogCurrent">すべて</div>
       </div>
       <div class="catalog-visible-count"><span id="visibleCount">0</span> 件</div>
+
+
     </div>
     <div class="grid" id="grid">
 
@@ -1025,6 +1028,35 @@
 </article>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div class="section-title">React / Vue UI Libraries — Library-specific Components</div>
 
 <article class="card" data-tags="library react shadcn command palette"><div class="demo"><span class="lib-badge">shadcn/ui · React</span><div class="commandlib"><input placeholder="Type a command..."><div class="libhead">Suggestions</div><div class="cmdlibrow active"><span>Calendar</span><span class="libcode">⌘C</span></div><div class="cmdlibrow"><span>Search Emoji</span><span class="libcode">⌘E</span></div><div class="cmdlibrow"><span>Settings</span><span class="libcode">⌘S</span></div></div></div><div class="info"><div class="names"><span class="jp">Command</span><span class="en">shadcn/ui</span></div><div class="desc">検索型のコマンドメニュー。Command Paletteや検索セレクタ向け。</div><div class="say">shadcn/uiのCommandを使用し、CommandInput、CommandGroup、キーボード操作可能なCommandItemで構成する。</div><button class="copy">指示文をコピー</button></div></article>
@@ -1172,6 +1204,197 @@
 <div class="info"><div class="names"><span class="jp">Hover Card</span><span class="en">HoverCard</span></div><div class="desc">Tooltipよりリッチな補足情報をホバーで表示。</div><div class="say">複数行や構造化された情報を含むリッチなホバープレビューにはHoverCardを使用し、単純なラベルには使用しない。</div><button class="copy">指示文をコピー</button></div>
 </article>
 
+<div class="section-title">Essential UI Patterns</div>
+
+<article class="card" data-tags="input authentication sign in login ログイン 認証">
+<div class="demo">
+ <form class="sign-in-demo">
+  <label>Work email<input type="email" value="aki@example.com" aria-label="Work email"></label>
+  <label>Password<input type="password" value="catalog" aria-label="Password"></label>
+  <button type="submit" class="mini-btn primary">Sign in</button>
+  <span class="sign-in-status" aria-live="polite"></span>
+ </form>
+ <div class="demo-note">送信して状態を確認</div>
+</div>
+<div class="info"><div class="names"><span class="jp">サインインフォーム</span><span class="en">Sign-in Form</span></div><div class="desc">メールアドレスとパスワードで認証する基本フォーム。</div><div class="say">サインイン画面では、用途が分かるラベル、適切な入力種別、送信中・完了・失敗の状態表示を備えたフォームを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input password reveal visibility パスワード 表示">
+<div class="demo">
+ <div class="password-demo"><label for="catalog-password">Password</label><div><input id="catalog-password" type="password" value="catalog"><button type="button" class="password-toggle" aria-pressed="false">表示</button></div></div>
+ <div class="demo-note">表示ボタンで切替</div>
+</div>
+<div class="info"><div class="names"><span class="jp">パスワード表示切替</span><span class="en">Password Visibility Toggle</span></div><div class="desc">入力値を一時的に表示して誤入力を防ぐ。</div><div class="say">パスワード欄には表示・非表示の切り替えを設け、現在の状態がボタンの文言とaria-pressedで分かるようにする。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="feedback alert banner warning success notification アラート バナー">
+<div class="demo">
+ <div class="alert-demo" role="alert"><span class="alert-icon">!</span><div><b>更新があります</b><p>新しいバージョンを利用できます。</p></div><button type="button" class="alert-dismiss" aria-label="通知を閉じる">×</button></div>
+ <button type="button" class="alert-reset mini-btn">通知を再表示</button>
+ <div class="demo-note">×で閉じて再表示</div>
+</div>
+<div class="info"><div class="names"><span class="jp">インラインアラート</span><span class="en">Alert Banner</span></div><div class="desc">画面内の重要な状態や次の行動を目立たせて伝える。</div><div class="say">ユーザーが見落とせない状態変化には、意味を補うアイコン、短い説明、必要なら閉じる操作を持つインラインアラートを表示する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input color picker palette theme カラーピッカー カラー">
+<div class="demo">
+ <div class="color-picker-demo"><input class="color-input" type="color" value="#8eb6ff" aria-label="アクセントカラーを選択"><div class="color-swatch"></div><output class="color-value">#8EB6FF</output></div>
+ <div class="demo-note">色を選んで値を確認</div>
+</div>
+<div class="info"><div class="names"><span class="jp">カラーピッカー</span><span class="en">Color Picker</span></div><div class="desc">テーマやコンテンツの色を視覚的に選択する。</div><div class="say">色の選択にはカラーピッカーと現在値のテキスト表記を併用し、選択結果をプレビューで確認できるようにする。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<div class="section-title">Extended UI Patterns</div>
+
+<article class="card" data-tags="input button variants primary secondary destructive ボタン">
+<div class="demo"><div class="extra-ui action-row"><button class="x-btn x-primary">Save</button><button class="x-btn">Preview</button><button class="x-btn x-danger">Delete</button></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">ボタンバリエーション</span><span class="en">Button Variants</span></div><div class="desc">優先度の異なる操作を視覚的に区別する。</div><div class="say">操作の重要度に応じてPrimary・Secondary・Destructiveを使い分け、同じ画面でPrimaryは原則1つにする。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input icon button アイコンボタン">
+<div class="demo"><div class="extra-ui action-row"><button class="x-icon" aria-label="検索">⌕</button><button class="x-icon" aria-label="設定">⚙</button><button class="x-icon" aria-label="通知">♧</button></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">アイコンボタン</span><span class="en">Icon Button</span></div><div class="desc">省スペースで単一の明確な操作を提示する。</div><div class="say">アイコンだけのボタンにはaria-labelとTooltipを用意し、アイコンだけでは意味が曖昧な操作には使わない。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input button group group toggle ボタングループ">
+<div class="demo"><div class="extra-ui x-group x-choice"><button class="active">List</button><button>Board</button><button>Calendar</button></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">ボタングループ</span><span class="en">Button Group</span></div><div class="desc">関連する操作をひとまとまりにして選択する。</div><div class="say">相互排他的な少数の選択肢は、現在の選択状態を明示したButton Groupで提示する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input split button menu スプリットボタン">
+<div class="demo"><div class="extra-ui x-split"><button class="x-primary">Publish</button><button class="x-split-toggle" aria-label="公開オプション">⌄</button><div class="x-mini-menu"><button>Schedule</button><button>Save draft</button></div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">スプリットボタン</span><span class="en">Split Button</span></div><div class="desc">既定の主要操作と補助操作を1つにまとめる。</div><div class="say">最も頻繁な操作を主ボタンに置き、代替操作はSplit Buttonのメニューへまとめる。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input textarea character count テキストエリア 文字数">
+<div class="demo"><div class="extra-ui x-stack"><textarea class="x-textarea" maxlength="120" placeholder="Write a short update…"></textarea><span class="x-count">0 / 120</span></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">文字数カウンター</span><span class="en">Textarea with Counter</span></div><div class="desc">長文入力の残り文字数をその場で伝える。</div><div class="say">制限があるテキスト入力には、入力中に更新される文字数と明確な最大文字数を表示する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input number stepper quantity 数値 ステッパー">
+<div class="demo"><div class="extra-ui x-stepper"><button class="x-minus">−</button><output>1</output><button class="x-plus">＋</button></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">数値ステッパー</span><span class="en">Number Stepper</span></div><div class="desc">数量をボタンまたは直接入力で調整する。</div><div class="say">小さな整数範囲には、直接入力と増減ボタンを備えたNumber Stepperを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input time picker 時刻 時間">
+<div class="demo"><div class="extra-ui"><label class="x-label">Start time<input class="x-field" type="time" value="09:30"></label></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">タイムピッカー</span><span class="en">Time Picker</span></div><div class="desc">時刻を標準形式で入力する。</div><div class="say">時刻入力にはブラウザ標準のtime入力または同等にアクセス可能なTime Pickerを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input date range daterange 日付範囲">
+<div class="demo"><div class="extra-ui x-range"><input class="x-field" type="date" value="2026-08-01"><span>→</span><input class="x-field" type="date" value="2026-08-31"></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">日付範囲選択</span><span class="en">Date Range</span></div><div class="desc">開始日と終了日を対にして指定する。</div><div class="say">期間指定は開始日と終了日を近接配置し、終了日が開始日より前にならないよう検証する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input file upload dropzone ファイル アップロード">
+<div class="demo"><label class="extra-ui x-dropzone">↑<span>Drop a file or browse</span><input class="x-file" type="file"></label><div class="x-file-name"></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">ファイルアップロード</span><span class="en">File Upload Dropzone</span></div><div class="desc">クリックまたはドラッグ操作でファイルを追加する。</div><div class="say">ファイル追加には受け付ける形式・容量を示したDropzoneを使用し、選択後はファイル名を表示する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input password strength パスワード 強度">
+<div class="demo"><div class="extra-ui x-stack"><input class="x-field x-strength-input" type="password" placeholder="Create password"><div class="x-strength"><i></i></div><span class="x-strength-label">Enter a password</span></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">パスワード強度</span><span class="en">Password Strength</span></div><div class="desc">安全なパスワードの作成をその場で支援する。</div><div class="say">新規パスワードでは要件と強度をリアルタイムに表示し、評価だけでなく改善方法も伝える。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input tag input token chips タグ 入力">
+<div class="demo"><div class="extra-ui x-tag-input"><div class="x-tag-list"><span>Design</span></div><input placeholder="Add tag"></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">タグ入力</span><span class="en">Tag Input</span></div><div class="desc">キーワードを複数のトークンとして追加する。</div><div class="say">複数の短い値を入力する場合は、Enterで確定できるTag Inputを使用し、各トークンを削除可能にする。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input currency amount 金額 通貨">
+<div class="demo"><div class="extra-ui x-currency"><span>¥</span><input value="12,000" inputmode="decimal"><span>JPY</span></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">通貨入力</span><span class="en">Currency Input</span></div><div class="desc">金額と通貨記号を一体で入力する。</div><div class="say">金額入力には通貨と小数精度を明示し、表示形式と保存値のルールを一貫させる。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="navigation bottom navigation mobile ナビゲーション">
+<div class="demo"><div class="extra-ui x-bottom-nav x-choice"><button class="active">⌂<small>Home</small></button><button>◷<small>Activity</small></button><button>◉<small>Profile</small></button></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">ボトムナビゲーション</span><span class="en">Bottom Navigation</span></div><div class="desc">モバイルの主要な移動先を画面下に固定する。</div><div class="say">モバイルの主要目的地は3〜5個に絞り、現在地が分かるBottom Navigationを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="navigation app toolbar header actions ツールバー">
+<div class="demo"><div class="extra-ui x-toolbar"><b>Projects</b><span></span><button class="x-icon" aria-label="検索">⌕</button><button class="x-icon" aria-label="新規作成">＋</button></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">アプリツールバー</span><span class="en">App Toolbar</span></div><div class="desc">ページタイトルとグローバル操作を横並びにする。</div><div class="say">アプリ上部には現在地、検索、作成などの高頻度操作をまとめたToolbarを置く。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="feedback error summary validation エラーサマリー">
+<div class="demo"><div class="extra-ui x-error"><b>2 fields need attention</b><a href="#email">Email is required</a><a href="#password">Password is too short</a></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">エラーサマリー</span><span class="en">Error Summary</span></div><div class="desc">フォーム送信時の複数エラーをまとめて示す。</div><div class="say">フォーム上部にError Summaryを置き、各エラーを該当フィールドへ移動できるリンクとして表示する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="feedback offline banner connectivity オフライン バナー">
+<div class="demo"><div class="extra-ui x-offline"><span>◉</span> You are offline <button class="x-offline-close">×</button></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">オフラインバナー</span><span class="en">Offline Banner</span></div><div class="desc">接続状態の変化を控えめに通知する。</div><div class="say">オフライン時はデータが同期されないことと、復帰後の扱いを示す永続的なBannerを表示する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="overlay confirmation popover confirm 確認 ポップオーバー">
+<div class="demo"><div class="extra-ui x-confirm"><button class="x-btn x-danger x-confirm-trigger">Archive</button><div class="x-confirm-panel"><b>Archive this project?</b><div><button class="x-confirm-cancel">Cancel</button><button class="x-confirm-ok">Archive</button></div></div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">確認ポップオーバー</span><span class="en">Confirmation Popover</span></div><div class="desc">破壊的または戻せない操作の直前に確認する。</div><div class="say">軽量な確認には操作の近くにConfirmation Popoverを表示し、主操作とキャンセルを区別する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content status badge presence 状態 バッジ">
+<div class="demo"><div class="extra-ui action-row"><span class="x-status success">● Active</span><span class="x-status warning">● Review</span><span class="x-status danger">● Blocked</span></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">ステータスバッジ</span><span class="en">Status Badge</span></div><div class="desc">状態を色と短いテキストで伝える。</div><div class="say">色だけに依存せず、状態名を含むBadgeで成功・警告・エラーなどを表現する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content profile avatar user ユーザー プロフィール">
+<div class="demo"><div class="extra-ui x-profile"><div class="x-avatar">AK</div><div><b>Aki Kato</b><span>Product designer · Online</span></div><button class="x-btn">View</button></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">プロフィールサマリー</span><span class="en">Profile Summary</span></div><div class="desc">ユーザーの識別情報と状態をコンパクトに示す。</div><div class="say">人物の概要にはAvatar、氏名、役割、オンライン状態を近接配置し、代替テキストを用意する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content notification center inbox 通知 センター">
+<div class="demo"><div class="extra-ui x-notifications"><button class="unread">Mori mentioned you <time>Now</time></button><button>Build completed <time>12m</time></button></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">通知センター</span><span class="en">Notification Center</span></div><div class="desc">未読・既読を含む通知を一覧で管理する。</div><div class="say">通知一覧では未読状態、発生時刻、関連する次の操作を区別して表示する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content divider separator section 区切り線">
+<div class="demo"><div class="extra-ui x-divider"><span>OR CONTINUE WITH</span></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">区切り線と見出し</span><span class="en">Divider with Label</span></div><div class="desc">情報のまとまりを過度に強調せず分ける。</div><div class="say">同じ文脈内の情報を区切るには、余白を基本にして必要な場合だけDividerを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content code snippet developer copy コード スニペット">
+<div class="demo"><div class="extra-ui x-code"><span>const theme = "dark";</span><button class="x-code-copy">Copy</button></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">コードスニペット</span><span class="en">Code Snippet</span></div><div class="desc">短いコード例を等幅フォントで示す。</div><div class="say">短い実装例は言語名とコピー操作を備えたCode Snippetとして表示し、折り返しを避ける。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content rich text editor toolbar リッチテキスト エディタ">
+<div class="demo"><div class="extra-ui x-rich"><div class="x-rich-tools"><button>B</button><button><i>I</i></button><button>☷</button><button>↗</button></div><div class="x-rich-body" contenteditable="true">Start writing your update…</div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">リッチテキストツールバー</span><span class="en">Rich Text Toolbar</span></div><div class="desc">書式設定操作を編集領域の近くにまとめる。</div><div class="say">リッチテキスト編集では、選択時に意味が明確な書式ボタンとキーボードショートカットを提供する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content comment composer discussion コメント 作成">
+<div class="demo"><form class="extra-ui x-comment"><div class="x-avatar small">AK</div><input placeholder="Write a comment…"><button class="x-btn x-primary">Send</button><span class="x-comment-status"></span></form><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">コメント入力</span><span class="en">Comment Composer</span></div><div class="desc">会話スレッドへ短い返信を投稿する。</div><div class="say">コメント欄には入力者、本文入力、投稿操作をまとめ、空の送信を防ぐ。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content image gallery media gallery ギャラリー">
+<div class="demo"><div class="extra-ui x-gallery"><button class="active" aria-pressed="true">A</button><button aria-pressed="false">B</button><button aria-pressed="false">C</button><button aria-pressed="false">D</button></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">画像ギャラリー</span><span class="en">Selectable Gallery</span></div><div class="desc">複数のメディアから1件を視覚的に選択する。</div><div class="say">画像の選択では、選択中状態を枠線とaria-pressedで明示し、色だけに依存しない。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="dashboard gauge metric goal ゲージ 目標">
+<div class="demo"><div class="extra-ui x-gauge"><div><b>72%</b><span>Goal</span></div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">目標ゲージ</span><span class="en">Goal Gauge</span></div><div class="desc">目標に対する現在値を円弧で伝える。</div><div class="say">目標進捗は数値を併記したGaugeで示し、色だけでは到達状況を判断させない。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="dashboard funnel conversion コンバージョン ファネル">
+<div class="demo"><div class="extra-ui x-funnel"><div>Visitors <b>12k</b></div><div>Trials <b>2.4k</b></div><div>Paid <b>840</b></div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">ファネルチャート</span><span class="en">Conversion Funnel</span></div><div class="desc">段階ごとの到達量と離脱を比較する。</div><div class="say">連続する変換段階には各段階の件数と比率を併記したFunnelを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="dashboard heatmap activity calendar ヒートマップ">
+<div class="demo"><div class="extra-ui x-heatmap"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">アクティビティヒートマップ</span><span class="en">Activity Heatmap</span></div><div class="desc">日ごとの量や継続状況を色の濃淡で比較する。</div><div class="say">時間や日付の量比較には、凡例と数値の代替情報を持つHeatmapを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content agenda schedule calendar アジェンダ 予定">
+<div class="demo"><div class="extra-ui x-agenda"><div><time>09:30</time><span><b>Design review</b>Room A</span></div><div><time>13:00</time><span><b>Project sync</b>Online</span></div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">アジェンダ</span><span class="en">Agenda</span></div><div class="desc">時刻順の予定を読みやすいリストで表示する。</div><div class="say">日次予定は開始時刻、タイトル、補助情報を揃えたAgendaとして時刻順に表示する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content keyboard shortcut shortcut keys キーボード ショートカット">
+<div class="demo"><div class="extra-ui x-shortcuts"><span>Command palette <kbd>⌘</kbd><kbd>K</kbd></span><span>New project <kbd>⌘</kbd><kbd>N</kbd></span></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">キーボードショートカット</span><span class="en">Keyboard Shortcut</span></div><div class="desc">頻繁な操作のキー操作を明示する。</div><div class="say">キーボード操作を提供する場合は、メニューやボタンの近くに対応するShortcutを表示する。</div><button class="copy">指示文をコピー</button></div>
+</article>
     </div>
   </main>
 </div>

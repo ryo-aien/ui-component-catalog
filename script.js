@@ -708,3 +708,56 @@ document.querySelectorAll('.calendar-lib').forEach(c=>{
  }));
 });
 
+// Essential UI patterns
+document.querySelectorAll('.sign-in-demo').forEach(form=>{
+ form.addEventListener('submit',event=>{
+  event.preventDefault();
+  const status=form.querySelector('.sign-in-status');
+  status.textContent='Signed in successfully';
+ });
+});
+
+document.querySelectorAll('.password-demo').forEach(demo=>{
+ const input=demo.querySelector('input');
+ const toggle=demo.querySelector('.password-toggle');
+ toggle.addEventListener('click',()=>{
+  const isVisible=input.type==='text';
+  input.type=isVisible?'password':'text';
+  toggle.textContent=isVisible?'表示':'隠す';
+  toggle.setAttribute('aria-pressed',String(!isVisible));
+ });
+});
+
+document.querySelectorAll('.alert-demo').forEach(alert=>{
+ const demo=alert.closest('.demo');
+ alert.querySelector('.alert-dismiss').addEventListener('click',()=>demo.classList.add('alert-hidden'));
+ demo.querySelector('.alert-reset').addEventListener('click',()=>demo.classList.remove('alert-hidden'));
+});
+
+document.querySelectorAll('.color-picker-demo').forEach(demo=>{
+ const input=demo.querySelector('.color-input');
+ const swatch=demo.querySelector('.color-swatch');
+ const value=demo.querySelector('.color-value');
+ input.addEventListener('input',()=>{
+  const color=input.value.toUpperCase();
+  swatch.style.background=color;
+  value.textContent=color;
+ });
+});
++
+
+
+// Extended UI pattern interactions
+document.querySelectorAll('.x-choice').forEach(group=>group.querySelectorAll('button').forEach(button=>button.addEventListener('click',()=>{group.querySelectorAll('button').forEach(item=>item.classList.remove('active'));button.classList.add('active')})));
+document.querySelectorAll('.x-split').forEach(split=>split.querySelector('.x-split-toggle').addEventListener('click',()=>split.classList.toggle('open')));
+document.querySelectorAll('.x-textarea').forEach(field=>{const count=field.parentElement.querySelector('.x-count');field.addEventListener('input',()=>count.textContent=field.value.length+' / '+field.maxLength)});
+document.querySelectorAll('.x-stepper').forEach(stepper=>{let value=1;const output=stepper.querySelector('output');const render=()=>output.textContent=value;stepper.querySelector('.x-minus').addEventListener('click',()=>{value=Math.max(0,value-1);render()});stepper.querySelector('.x-plus').addEventListener('click',()=>{value++;render()})});
+document.querySelectorAll('.x-file').forEach(input=>input.addEventListener('change',()=>{const name=input.files[0]?.name;input.closest('.demo').querySelector('.x-file-name').textContent=name||''}));
+document.querySelectorAll('.x-strength-input').forEach(input=>input.addEventListener('input',()=>{const n=input.value.length;const width=Math.min(100,n*12);const fill=input.parentElement.querySelector('.x-strength i');const label=input.parentElement.querySelector('.x-strength-label');fill.style.width=width+'%';fill.style.background=n>9?'#3b8b5c':n>5?'#c58a2f':'#d45656';label.textContent=n>9?'Strong password':n>5?'Medium password':'Use 6 or more characters'}));
+document.querySelectorAll('.x-tag-input').forEach(box=>{const input=box.querySelector('input');const list=box.querySelector('.x-tag-list');input.addEventListener('keydown',event=>{if(event.key==='Enter'&&input.value.trim()){event.preventDefault();const tag=document.createElement('span');tag.textContent=input.value.trim();list.appendChild(tag);input.value=''}})});
+document.querySelectorAll('.x-offline').forEach(banner=>banner.querySelector('.x-offline-close').addEventListener('click',()=>banner.remove()));
+document.querySelectorAll('.x-confirm').forEach(box=>{box.querySelector('.x-confirm-trigger').addEventListener('click',()=>box.classList.add('open'));box.querySelector('.x-confirm-cancel').addEventListener('click',()=>box.classList.remove('open'));box.querySelector('.x-confirm-ok').addEventListener('click',()=>{box.classList.remove('open');box.querySelector('.x-confirm-trigger').textContent='Archived';box.querySelector('.x-confirm-trigger').disabled=true})});
+document.querySelectorAll('.x-notifications button').forEach(item=>item.addEventListener('click',()=>item.classList.remove('unread')));
+document.querySelectorAll('.x-code-copy').forEach(button=>button.addEventListener('click',()=>{button.textContent='Copied';setTimeout(()=>button.textContent='Copy',1000)}));
+document.querySelectorAll('.x-comment').forEach(form=>form.addEventListener('submit',event=>{event.preventDefault();const input=form.querySelector('input');if(!input.value.trim())return;form.querySelector('.x-comment-status').textContent='Comment posted';input.value=''}));
+document.querySelectorAll('.x-gallery').forEach(gallery=>gallery.querySelectorAll('button').forEach(tile=>tile.addEventListener('click',()=>{gallery.querySelectorAll('button').forEach(item=>{item.classList.remove('active');item.setAttribute('aria-pressed','false')});tile.classList.add('active');tile.setAttribute('aria-pressed','true')})));
