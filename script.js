@@ -1,14 +1,16 @@
 const cards=[...document.querySelectorAll('.card')];
 const search=document.getElementById('search');
 let active='all';
+let activeGranularity='component';
 
 const categoryLabels={all:'すべて',input:'入力・フォーム',navigation:'ナビゲーション',feedback:'状態・通知',overlay:'オーバーレイ',content:'表示・コンテンツ',dashboard:'ダッシュボード',library:'ライブラリUI'};
 
 function updateSidebarCounts(){
+ const scoped=activeGranularity==='all'?cards:cards.filter(c=>(c.dataset.tags||'').includes('granularity-'+activeGranularity));
  Object.keys(categoryLabels).forEach(key=>{
   const el=document.querySelector(`[data-count="${key}"]`);
   if(!el) return;
-  const count=key==='all'?cards.length:cards.filter(c=>(c.dataset.tags||'').includes(key)).length;
+  const count=key==='all'?scoped.length:scoped.filter(c=>(c.dataset.tags||'').includes(key)).length;
   el.textContent=count;
  });
 }
@@ -20,7 +22,8 @@ function applyFilter(){
   const text=(c.innerText+' '+(c.dataset.tags||'')).toLowerCase();
   const okText=!q||text.includes(q);
   const okCat=active==='all'||(c.dataset.tags||'').includes(active);
-  const show=okText&&okCat;
+  const okGranularity=activeGranularity==='all'||(c.dataset.tags||'').includes('granularity-'+activeGranularity);
+  const show=okText&&okCat&&okGranularity;
   c.style.display=show?'':'none';
   if(show) visible++;
  });
@@ -41,6 +44,10 @@ search.addEventListener('input',applyFilter);
 document.querySelectorAll('.filter').forEach(b=>b.addEventListener('click',()=>{
  document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));
  b.classList.add('active'); active=b.dataset.filter; applyFilter();
+}));
+document.querySelectorAll('.gran-tab').forEach(b=>b.addEventListener('click',()=>{
+ document.querySelectorAll('.gran-tab').forEach(x=>x.classList.remove('active'));
+ b.classList.add('active'); activeGranularity=b.dataset.granularity; updateSidebarCounts(); applyFilter();
 }));
 updateSidebarCounts();
 applyFilter();
@@ -873,3 +880,62 @@ document.querySelectorAll('.x-theme-toggle').forEach(button=>button.addEventList
 document.querySelectorAll('.x-live-counter').forEach(counter=>{const value=counter.querySelector('b');let count=Number(value.textContent.replace(/,/g,''));setInterval(()=>{count+=Math.floor(Math.random()*11)-5;count=Math.max(0,count);value.textContent=count.toLocaleString('en-US')},2500)});
 document.querySelectorAll('.x-back-btn').forEach(button=>button.addEventListener('click',()=>{const original=button.textContent;button.textContent='戻っています…';setTimeout(()=>button.textContent=original,900)}));
 document.querySelectorAll('.x-audio-play').forEach(button=>{const wave=button.parentElement.querySelector('.x-audio-wave');button.addEventListener('click',()=>{const playing=wave.classList.toggle('playing');button.textContent=playing?'❚❚':'▶'})});
+
+// Motion pattern demos
+document.querySelectorAll('.motion-transition-trigger').forEach(trigger=>trigger.addEventListener('click',()=>{const stage=trigger.parentElement.querySelector('.motion-transition-stage');stage.classList.toggle('show-b')}));
+document.querySelectorAll('.motion-stagger-trigger').forEach(trigger=>trigger.addEventListener('click',()=>{const items=trigger.parentElement.querySelectorAll('.motion-stagger-list i');items.forEach(item=>item.classList.remove('show'));items.forEach((item,index)=>setTimeout(()=>item.classList.add('show'),index*120))}));
+document.querySelectorAll('.motion-shared-trigger').forEach(trigger=>trigger.addEventListener('click',()=>{const stage=trigger.parentElement.querySelector('.motion-shared-stage');stage.classList.toggle('open')}));
+document.querySelectorAll('.motion-press-btn').forEach(button=>button.addEventListener('click',()=>{button.classList.add('pressed');setTimeout(()=>button.classList.remove('pressed'),120)}));
+document.querySelectorAll('.motion-load-trigger').forEach(trigger=>trigger.addEventListener('click',()=>{const stage=trigger.parentElement.querySelector('.motion-load-stage');stage.classList.remove('loaded');setTimeout(()=>stage.classList.add('loaded'),500)}));
+
+// Design token demos
+document.querySelectorAll('.token-motion-fast,.token-motion-base,.token-motion-slow').forEach(button=>{const durations={'token-motion-fast':120,'token-motion-base':300,'token-motion-slow':600};button.addEventListener('click',()=>{const key=[...button.classList].find(c=>durations[c]);const ms=durations[key];const original=button.textContent;button.style.transition=`opacity ${ms}ms`;button.style.opacity='0.3';setTimeout(()=>button.style.opacity='1',ms);button.title=ms+'ms'})});
+
+// Expand demo to modal (moves the real .demo node so its listeners keep working)
+const expandBg=document.querySelector('.expand-bg');
+const expandModal=document.querySelector('.expand-modal');
+const expandModalTitle=document.querySelector('.expand-modal-title');
+const expandModalBody=document.querySelector('.expand-modal-body');
+const expandModalClose=document.querySelector('.expand-modal-close');
+let expandedDemo=null, expandedPlaceholder=null;
+
+function closeExpand(){
+ if(expandedDemo && expandedPlaceholder){
+  expandedPlaceholder.replaceWith(expandedDemo);
+ }
+ expandedDemo=null; expandedPlaceholder=null;
+ expandModal.classList.remove('open');
+ expandBg.classList.remove('open');
+}
+
+document.querySelectorAll('.demo-expand').forEach(button=>button.addEventListener('click',event=>{
+ event.stopPropagation();
+ const demo=button.closest('.demo');
+ if(!demo) return;
+ if(expandedDemo) closeExpand();
+ const title=demo.closest('.card')?.querySelector('.jp')?.textContent||'';
+ const placeholder=document.createElement('div');
+ placeholder.style.display='none';
+ demo.replaceWith(placeholder);
+ expandedDemo=demo; expandedPlaceholder=placeholder;
+ expandModalTitle.textContent=title;
+ expandModalBody.appendChild(demo);
+ expandModal.classList.add('open');
+ expandBg.classList.add('open');
+}));
+expandModalClose.addEventListener('click',closeExpand);
+expandBg.addEventListener('click',closeExpand);
+document.addEventListener('keydown',event=>{if(event.key==='Escape'&&expandModal.classList.contains('open'))closeExpand()});
+
+// Motion pattern batch 2 demos
+document.querySelectorAll('.motion-modal-trigger').forEach(trigger=>trigger.addEventListener('click',()=>{const stage=trigger.parentElement.querySelector('.motion-modal-stage');stage.classList.toggle('open')}));
+document.querySelectorAll('.motion-drawer-trigger').forEach(trigger=>trigger.addEventListener('click',()=>{const stage=trigger.parentElement.querySelector('.motion-drawer-stage');stage.classList.toggle('open')}));
+document.querySelectorAll('.motion-accordion-head').forEach(head=>head.addEventListener('click',()=>head.closest('.motion-accordion').classList.toggle('open')));
+document.querySelectorAll('.motion-check-btn').forEach(button=>button.addEventListener('click',()=>button.classList.toggle('checked')));
+document.querySelectorAll('.motion-progress-trigger').forEach(trigger=>trigger.addEventListener('click',()=>{const track=trigger.parentElement.querySelector('.motion-progress-fill'),label=trigger.parentElement.querySelector('.motion-progress-label');let value=0;track.style.width='0%';label.textContent='0%';const timer=setInterval(()=>{value=Math.min(100,value+10);track.style.width=value+'%';label.textContent=value+'%';if(value>=100)clearInterval(timer)},150)}));
+document.querySelectorAll('.motion-tab-row').forEach(row=>{const indicator=row.querySelector('.motion-tab-indicator');const tabs=[...row.querySelectorAll('.motion-tab')];const moveTo=tab=>{indicator.style.transform=`translateX(${tab.offsetLeft-tabs[0].offsetLeft}px)`};tabs.forEach(tab=>tab.addEventListener('click',()=>{tabs.forEach(item=>item.classList.remove('active'));tab.classList.add('active');moveTo(tab)}))});
+document.querySelectorAll('.motion-notif-trigger').forEach(trigger=>trigger.addEventListener('click',()=>{const stage=trigger.parentElement.querySelector('.motion-notif-stage');stage.classList.add('show');setTimeout(()=>stage.classList.remove('show'),2500)}));
+document.querySelectorAll('.motion-pull-trigger').forEach(trigger=>trigger.addEventListener('click',()=>{const stage=trigger.parentElement.querySelector('.motion-pull-stage');stage.classList.add('pulling');setTimeout(()=>stage.classList.remove('pulling'),1200)}));
+
+// Design token batch 2 demos
+document.querySelectorAll('.token-ease-linear,.token-ease-out,.token-ease-spring').forEach(button=>{const easings={'token-ease-linear':'linear','token-ease-out':'cubic-bezier(0,0,.2,1)','token-ease-spring':'cubic-bezier(.5,1.8,.5,1)'};button.addEventListener('click',()=>{const key=[...button.classList].find(c=>easings[c]);const ease=easings[key];const original=button.textContent;button.style.transition=`transform 600ms ${ease}`;button.style.transform='translateX(40px)';setTimeout(()=>{button.style.transform='translateX(0)'},650)})});
