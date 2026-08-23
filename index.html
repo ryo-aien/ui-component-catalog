@@ -1213,12 +1213,6 @@
 <div class="info"><div class="names"><span class="jp">Calendar</span><span class="en">Calendar / DateCalendar</span></div><div class="desc">日付選択の基礎コンポーネント。DatePickerの内部としても使う。</div><div class="say">直接日付を選ぶ場合はライブラリのCalendarコンポーネントを使用し、選択中・無効・今日の状態を明確にする。</div><button class="copy">指示文をコピー</button></div>
 </article>
 
-<article class="card" data-tags="library hover card radix shadcn chakra">
-<div class="demo"><div class="hovercard-lib"><button class="hovercard-trigger">@mori</button><div class="hovercard-panel"><b style="font-size:10px">Mori K.</b><div class="lib-sub">Frontend engineer · Tokyo</div><div class="lib-sub">Joined 2024</div></div></div><div class="demo-note">ホバーで詳細カード</div>
-</div>
-<div class="info"><div class="names"><span class="jp">Hover Card</span><span class="en">HoverCard</span></div><div class="desc">Tooltipよりリッチな補足情報をホバーで表示。</div><div class="say">複数行や構造化された情報を含むリッチなホバープレビューにはHoverCardを使用し、単純なラベルには使用しない。</div><button class="copy">指示文をコピー</button></div>
-</article>
-
 <div class="section-title">Essential UI Patterns</div>
 
 <article class="card" data-tags="input authentication sign in login ログイン 認証">
@@ -1291,6 +1285,36 @@
 <div class="info"><div class="names"><span class="jp">数値ステッパー</span><span class="en">Number Stepper</span></div><div class="desc">数量をボタンまたは直接入力で調整する。</div><div class="say">小さな整数範囲には、直接入力と増減ボタンを備えたNumber Stepperを使用する。</div><button class="copy">指示文をコピー</button></div>
 </article>
 
+<article class="card" data-tags="input rating star review 評価 星 レーティング">
+<div class="demo"><div class="extra-ui x-rating" role="radiogroup" aria-label="評価"><button aria-pressed="false" aria-label="1つ星">★</button><button aria-pressed="false" aria-label="2つ星">★</button><button class="active" aria-pressed="true" aria-label="3つ星">★</button><button aria-pressed="false" aria-label="4つ星">★</button><button aria-pressed="false" aria-label="5つ星">★</button><span class="x-rating-value">3 / 5</span></div><div class="demo-note">星をクリックして評価</div></div>
+<div class="info"><div class="names"><span class="jp">レーティング</span><span class="en">Star Rating</span></div><div class="desc">星の数で満足度や評価を選択する。</div><div class="say">主観的な評価の入力には、選択中の値と対象がキーボードでも分かる星評価を使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input otp pin code verification 認証コード ワンタイム">
+<div class="demo"><div class="extra-ui x-otp" role="group" aria-label="認証コード"><input maxlength="1" inputmode="numeric" aria-label="1桁目"><input maxlength="1" inputmode="numeric" aria-label="2桁目"><input maxlength="1" inputmode="numeric" aria-label="3桁目"><input maxlength="1" inputmode="numeric" aria-label="4桁目"></div><div class="demo-note">入力すると次の桁へ移動</div></div>
+<div class="info"><div class="names"><span class="jp">OTP / PINコード入力</span><span class="en">OTP / PIN Code Input</span></div><div class="desc">1桁ずつ入力し自動でフォーカスが進む認証コード欄。</div><div class="say">確認コードの入力には、1桁ずつのマスと自動フォーカス移動、貼り付け対応を備えたOTP入力を使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input dual range slider range min max 範囲 デュアルレンジ">
+<div class="demo"><div class="extra-ui x-dual-range"><div class="x-dual-track"><div class="x-dual-fill"></div><input type="range" min="0" max="100" value="20" class="x-dual-min"><input type="range" min="0" max="100" value="70" class="x-dual-max"></div><div class="x-dual-value">¥20 – ¥70</div></div><div class="demo-note">両端のつまみを操作</div></div>
+<div class="info"><div class="names"><span class="jp">デュアルレンジスライダー</span><span class="en">Dual Range Slider</span></div><div class="desc">2つのハンドルで最小値と最大値の範囲を指定する。</div><div class="say">価格帯などの範囲指定には、最小・最大が交差しないデュアルレンジスライダーを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input multiselect multi select dropdown checkbox list マルチセレクト 複数選択">
+<div class="demo">
+ <div class="x-multiselect">
+  <button class="x-multiselect-trigger" aria-haspopup="listbox" aria-expanded="false"><span class="x-multiselect-label">2 selected</span><span>⌄</span></button>
+  <div class="x-multiselect-menu" role="listbox">
+   <label><input type="checkbox" checked value="design"> Design</label>
+   <label><input type="checkbox" checked value="frontend"> Frontend</label>
+   <label><input type="checkbox" value="backend"> Backend</label>
+   <label><input type="checkbox" value="qa"> QA</label>
+  </div>
+ </div><div class="demo-note">開いて複数選択</div>
+</div>
+<div class="info"><div class="names"><span class="jp">マルチセレクト</span><span class="en">Multi-select Dropdown</span></div><div class="desc">チェックボックス付きの候補から複数項目を選択する。</div><div class="say">複数選択できる候補一覧には、選択件数を要約表示するマルチセレクトドロップダウンを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
 <article class="card" data-tags="input time picker 時刻 時間">
 <div class="demo"><div class="extra-ui"><label class="x-label">Start time<input class="x-field" type="time" value="09:30"></label></div><div class="demo-note">操作して状態を確認</div></div>
 <div class="info"><div class="names"><span class="jp">タイムピッカー</span><span class="en">Time Picker</span></div><div class="desc">時刻を標準形式で入力する。</div><div class="say">時刻入力にはブラウザ標準のtime入力または同等にアクセス可能なTime Pickerを使用する。</div><button class="copy">指示文をコピー</button></div>
@@ -1331,6 +1355,16 @@
 <div class="info"><div class="names"><span class="jp">アプリツールバー</span><span class="en">App Toolbar</span></div><div class="desc">ページタイトルとグローバル操作を横並びにする。</div><div class="say">アプリ上部には現在地、検索、作成などの高頻度操作をまとめたToolbarを置く。</div><button class="copy">指示文をコピー</button></div>
 </article>
 
+<article class="card" data-tags="navigation breadcrumb breadcrumbs hierarchy パンくず パンくずリスト">
+<div class="demo"><nav class="extra-ui x-breadcrumb" aria-label="パンくずリスト"><a href="#">Projects</a><span>/</span><a href="#">Catalog</a><span>/</span><span aria-current="page">Settings</span></nav><div class="demo-note">現在地を末尾に表示</div></div>
+<div class="info"><div class="names"><span class="jp">パンくずリスト</span><span class="en">Breadcrumb</span></div><div class="desc">階層構造の現在位置と上位階層への経路を示す。</div><div class="say">深い階層のページには、各階層に戻れるリンクと現在地を明示したパンくずリストを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="navigation sidebar collapsible nav vertical menu サイドバー 折りたたみ">
+<div class="demo"><div class="extra-ui x-sidebar"><button class="x-sidebar-toggle" aria-expanded="true">☰</button><nav><a class="active" href="#"><i>⌂</i><span>Dashboard</span></a><a href="#"><i>◷</i><span>Activity</span></a><a href="#"><i>⚙</i><span>Settings</span></a></nav></div><div class="demo-note">アイコンで開閉</div></div>
+<div class="info"><div class="names"><span class="jp">折りたたみサイドバー</span><span class="en">Collapsible Sidebar</span></div><div class="desc">画面幅を活かすため、ラベルの表示・非表示を切り替えられるナビゲーション。</div><div class="say">デスクトップの主要ナビゲーションには、アイコンのみへ折りたためるCollapsible Sidebarを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
 <article class="card" data-tags="feedback error summary validation エラーサマリー">
 <div class="demo"><div class="extra-ui x-error"><b>2 fields need attention</b><a href="#email">Email is required</a><a href="#password">Password is too short</a></div><div class="demo-note">操作して状態を確認</div></div>
 <div class="info"><div class="names"><span class="jp">エラーサマリー</span><span class="en">Error Summary</span></div><div class="desc">フォーム送信時の複数エラーをまとめて示す。</div><div class="say">フォーム上部にError Summaryを置き、各エラーを該当フィールドへ移動できるリンクとして表示する。</div><button class="copy">指示文をコピー</button></div>
@@ -1341,9 +1375,29 @@
 <div class="info"><div class="names"><span class="jp">オフラインバナー</span><span class="en">Offline Banner</span></div><div class="desc">接続状態の変化を控えめに通知する。</div><div class="say">オフライン時はデータが同期されないことと、復帰後の扱いを示す永続的なBannerを表示する。</div><button class="copy">指示文をコピー</button></div>
 </article>
 
+<article class="card" data-tags="feedback progress ring circular progress 円形 プログレスリング">
+<div class="demo"><div class="extra-ui x-ring-wrap"><div class="x-ring" style="--pct:64"><b>64%</b></div><div class="action-row"><button class="mini-btn x-ring-minus">-10</button><button class="mini-btn x-ring-plus">+10</button></div></div><div class="demo-note">進捗を増減</div></div>
+<div class="info"><div class="names"><span class="jp">プログレスリング</span><span class="en">Progress Ring</span></div><div class="desc">円弧の塗りで進捗率を示す、省スペースな進捗表示。</div><div class="say">カード内など限られた面積の進捗表示には、数値を併記した円形のProgress Ringを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="feedback rate limit cooldown countdown レートリミット クールダウン">
+<div class="demo"><div class="extra-ui x-cooldown"><button class="x-cooldown-btn">Resend code</button><span class="x-cooldown-note"></span></div><div class="demo-note">クリックで再送クールダウン</div></div>
+<div class="info"><div class="names"><span class="jp">クールダウン表示</span><span class="en">Rate Limit / Cooldown</span></div><div class="desc">連続操作を一定時間だけ制限し、再試行までの残り時間を示す。</div><div class="say">再送信などの連打を防ぐ操作には、無効化理由と残り秒数が分かるクールダウン表示を使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
 <article class="card" data-tags="overlay confirmation popover confirm 確認 ポップオーバー">
 <div class="demo"><div class="extra-ui x-confirm"><button class="x-btn x-danger x-confirm-trigger">Archive</button><div class="x-confirm-panel"><b>Archive this project?</b><div><button class="x-confirm-cancel">Cancel</button><button class="x-confirm-ok">Archive</button></div></div></div><div class="demo-note">操作して状態を確認</div></div>
 <div class="info"><div class="names"><span class="jp">確認ポップオーバー</span><span class="en">Confirmation Popover</span></div><div class="desc">破壊的または戻せない操作の直前に確認する。</div><div class="say">軽量な確認には操作の近くにConfirmation Popoverを表示し、主操作とキャンセルを区別する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="overlay lightbox image viewer zoom ライトボックス 画像拡大">
+<div class="demo"><div class="extra-ui x-gallery" style="margin-bottom:8px"><button class="x-lightbox-open" aria-pressed="false">A</button><button class="x-lightbox-open">B</button><button class="x-lightbox-open">C</button></div><div class="x-lightbox-bg"></div><div class="x-lightbox"><button class="x-lightbox-close" aria-label="閉じる">×</button><div class="x-lightbox-frame"></div></div><div class="demo-note">サムネイルをクリックで拡大</div></div>
+<div class="info"><div class="names"><span class="jp">ライトボックス</span><span class="en">Lightbox</span></div><div class="desc">サムネイルから画像を全画面に近い形で拡大表示する。</div><div class="say">画像一覧の詳細確認には、背景を暗くして対象のみ拡大するLightboxを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="overlay coachmark onboarding tour spotlight コーチマーク オンボーディング">
+<div class="demo"><div class="extra-ui x-coachmark-demo"><button class="x-btn x-primary x-coachmark-target">New report</button><div class="x-coachmark"><b>新しいレポート作成</b><p>ここから週次レポートを作成できます。</p><div><span>1 / 3</span><button class="x-coachmark-next mini-btn primary">Next</button></div></div></div><div class="demo-note">ボタン付近に吹き出しで案内</div></div>
+<div class="info"><div class="names"><span class="jp">コーチマーク</span><span class="en">Coach Mark</span></div><div class="desc">対象要素の近くに吹き出しを添え、機能を段階的に案内する。</div><div class="say">新機能の紹介には対象要素を指し示すCoach Markを使用し、進行状況とスキップ手段を用意する。</div><button class="copy">指示文をコピー</button></div>
 </article>
 
 <article class="card" data-tags="content status badge presence 状態 バッジ">
@@ -1401,6 +1455,16 @@
 <div class="info"><div class="names"><span class="jp">アクティビティヒートマップ</span><span class="en">Activity Heatmap</span></div><div class="desc">日ごとの量や継続状況を色の濃淡で比較する。</div><div class="say">時間や日付の量比較には、凡例と数値の代替情報を持つHeatmapを使用する。</div><button class="copy">指示文をコピー</button></div>
 </article>
 
+<article class="card" data-tags="dashboard trend comparison kpi delta 比較 前期比 トレンド">
+<div class="demo"><div class="extra-ui x-trend-card"><span>Monthly revenue</span><b>¥8.4m</b><div class="x-trend up"><i>▲</i>12.3% vs last month</div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">比較トレンド指標カード</span><span class="en">Trend Comparison Card</span></div><div class="desc">現在値と前期間との差分を増減記号付きで示す。</div><div class="say">主要指標には数値だけでなく、前期間比の増減方向と割合を併記したTrend Cardを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="dashboard mini calendar streak activity ミニカレンダー 継続">
+<div class="demo"><div class="extra-ui x-streak"><b>18-day streak</b><div class="x-streak-row"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">継続ストリーク表示</span><span class="en">Streak Strip</span></div><div class="desc">直近日数の達成有無を横並びのマークで示す、コンパクトな継続指標。</div><div class="say">日次の継続達成を伝える場合は、直近1週間程度をマークで並べたStreak Stripを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
 <article class="card" data-tags="content agenda schedule calendar アジェンダ 予定">
 <div class="demo"><div class="extra-ui x-agenda"><div><time>09:30</time><span><b>Design review</b>Room A</span></div><div><time>13:00</time><span><b>Project sync</b>Online</span></div></div><div class="demo-note">操作して状態を確認</div></div>
 <div class="info"><div class="names"><span class="jp">アジェンダ</span><span class="en">Agenda</span></div><div class="desc">時刻順の予定を読みやすいリストで表示する。</div><div class="say">日次予定は開始時刻、タイトル、補助情報を揃えたAgendaとして時刻順に表示する。</div><button class="copy">指示文をコピー</button></div>
@@ -1409,6 +1473,452 @@
 <article class="card" data-tags="content keyboard shortcut shortcut keys キーボード ショートカット">
 <div class="demo"><div class="extra-ui x-shortcuts"><span>Command palette <kbd>⌘</kbd><kbd>K</kbd></span><span>New project <kbd>⌘</kbd><kbd>N</kbd></span></div><div class="demo-note">操作して状態を確認</div></div>
 <div class="info"><div class="names"><span class="jp">キーボードショートカット</span><span class="en">Keyboard Shortcut</span></div><div class="desc">頻繁な操作のキー操作を明示する。</div><div class="say">キーボード操作を提供する場合は、メニューやボタンの近くに対応するShortcutを表示する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<div class="section-title">More Essential UI Patterns</div>
+
+<article class="card" data-tags="input phone number input intl 電話番号 国番号">
+<div class="demo"><div class="extra-ui x-phone"><button class="x-phone-cc">🇯🇵 +81</button><input class="x-field" placeholder="90-1234-5678"></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">電話番号入力</span><span class="en">Phone Number Input</span></div><div class="desc">国番号と番号本体を分けて入力する。</div><div class="say">国際対応が必要な電話番号入力には、国コード選択と番号欄を分けたPhone Inputを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input toggle switch group settings row スイッチ一覧">
+<div class="demo"><div class="extra-ui x-switch-group"><div class="x-switch-row"><span>Email alerts</span><button class="toggle on"><span class="knob"></span></button></div><div class="x-switch-row"><span>SMS alerts</span><button class="toggle"><span class="knob"></span></button></div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">スイッチ設定リスト</span><span class="en">Switch Settings Row</span></div><div class="desc">項目名とトグルを対にして複数並べる。</div><div class="say">複数の真偽値設定を並べる場合は、ラベルとスイッチを1行にまとめたSwitch Settings Rowを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input star half rating 半星 レビュー評価">
+<div class="demo"><div class="extra-ui x-review"><div class="x-rating"><button class="active" aria-pressed="true">★</button><button class="active" aria-pressed="true">★</button><button class="active" aria-pressed="true">★</button><button class="active" aria-pressed="true">★</button><button aria-pressed="false">★</button></div><span>4.2 (128 件)</span></div><div class="demo-note">星の合計と件数を併記</div></div>
+<div class="info"><div class="names"><span class="jp">レビュー評価サマリー</span><span class="en">Review Rating Summary</span></div><div class="desc">平均評価と件数をまとめて示す集計表示。</div><div class="say">商品や記事の評価一覧には、平均星評価とレビュー件数を併記したRating Summaryを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input toggle password confirm match パスワード確認 一致">
+<div class="demo"><div class="extra-ui x-stack"><input class="x-field" type="password" placeholder="New password" value="catalog123"><input class="x-field x-confirm-input" type="password" placeholder="Confirm password"><span class="x-match-note"></span></div><div class="demo-note">入力して一致を確認</div></div>
+<div class="info"><div class="names"><span class="jp">パスワード確認入力</span><span class="en">Password Confirmation</span></div><div class="desc">2回入力させ、一致・不一致をその場で伝える。</div><div class="say">パスワード再設定では確認用の入力欄を設け、入力中に一致状態をリアルタイムに示す。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input pin lock keypad numeric ロック番号入力">
+<div class="demo"><div class="extra-ui x-keypad-demo"><div class="x-keypad-dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><div class="x-keypad"><button>1</button><button>2</button><button>3</button><button>4</button><button>5</button><button>6</button><button>7</button><button>8</button><button>9</button><button></button><button>0</button><button class="x-keypad-back">⌫</button></div></div><div class="demo-note">数字をクリックして入力</div></div>
+<div class="info"><div class="names"><span class="jp">数字キーパッド</span><span class="en">Numeric Keypad</span></div><div class="desc">タッチ操作に適した大きめのボタンでPINなどを入力する。</div><div class="say">モバイルのPINやロック解除には、進捗ドットと大きな数字ボタンを持つNumeric Keypadを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="navigation vertical stepper wizard nav 縦型ステップ ナビ">
+<div class="demo"><div class="extra-ui x-vstepper"><div class="x-vstep done"><i>✓</i><span>Account</span></div><div class="x-vstep active"><i>2</i><span>Company</span></div><div class="x-vstep"><i>3</i><span>Billing</span></div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">縦型ステッパー</span><span class="en">Vertical Stepper</span></div><div class="desc">複数工程を縦方向に並べ、各段階の説明も併記する。</div><div class="say">工程数が多い設定フローには、各段階の名称が読める縦型ステッパーを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="navigation scroll spy anchor toc スクロールスパイ 目次">
+<div class="demo"><div class="extra-ui x-scrollspy"><a class="active" href="#">概要</a><a href="#">料金</a><a href="#">FAQ</a><a href="#">お問い合わせ</a></div><div class="demo-note">スクロール位置に応じて強調</div></div>
+<div class="info"><div class="names"><span class="jp">スクロールスパイナビ</span><span class="en">Scroll Spy Navigation</span></div><div class="desc">現在の閲覧セクションに応じてナビ項目を強調する。</div><div class="say">長い1ページ構成には、閲覧中セクションを自動で強調するScroll Spyナビゲーションを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="navigation tag filter pill nav ピルナビ セグメント">
+<div class="demo"><div class="extra-ui x-pill-nav x-choice"><button class="active">全て</button><button>未読</button><button>フラグ付き</button><button>アーカイブ</button></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">ピルナビゲーション</span><span class="en">Pill Navigation</span></div><div class="desc">丸みの強いボタンで少数のビューを切り替える。</div><div class="say">同一データの表示条件を切り替える場合は、選択状態が分かるピル型のNavigationを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="navigation jump menu quick nav go to クイックナビ ジャンプ">
+<div class="demo"><div class="extra-ui x-jumpmenu"><label class="x-label">Jump to section<select class="x-field"><option>Overview</option><option>Team</option><option>Billing</option><option>Danger zone</option></select></label></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">ジャンプメニュー</span><span class="en">Jump Menu</span></div><div class="desc">セレクトから選ぶだけで該当セクションへ移動する。</div><div class="say">項目数が多い設定画面には、選択と同時に移動するJump Menuを補助的に用意する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="feedback countdown timer flash sale カウントダウン タイマー">
+<div class="demo"><div class="extra-ui x-countdown"><div><b>02</b><span>時間</span></div><div><b>14</b><span>分</span></div><div><b>08</b><span>秒</span></div></div><div class="demo-note">実際にカウントダウン</div></div>
+<div class="info"><div class="names"><span class="jp">カウントダウンタイマー</span><span class="en">Countdown Timer</span></div><div class="desc">期限までの残り時間を単位ごとに区切って表示する。</div><div class="say">期限のある案内には、時・分・秒を区切って見せるCountdown Timerを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="feedback undo snackbar action toast 取り消し アンドゥ">
+<div class="demo"><button class="x-btn extra-ui x-undo-trigger">Delete item</button><div class="extra-ui x-undo-toast"><span>Item deleted</span><button class="x-undo-btn">元に戻す</button></div><div class="demo-note">削除後に取り消せる</div></div>
+<div class="info"><div class="names"><span class="jp">取り消し可能トースト</span><span class="en">Undo Toast</span></div><div class="desc">破壊的操作の直後に、一定時間だけ取り消し操作を提供する。</div><div class="say">即時実行する削除操作には、数秒間だけUndoできるトーストを添える。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="feedback multi step progress checklist onboarding オンボーディング進捗">
+<div class="demo"><div class="extra-ui x-onboard"><div class="x-onboard-bar"><i style="width:50%"></i></div><div class="x-onboard-row done"><span>✓</span>プロフィールを設定</div><div class="x-onboard-row done"><span>✓</span>チームを招待</div><div class="x-onboard-row"><span></span>最初のプロジェクト作成</div><div class="x-onboard-row"><span></span>連携を設定</div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">オンボーディングチェックリスト</span><span class="en">Onboarding Checklist</span></div><div class="desc">初期設定の進捗を全体バーと個別項目で示す。</div><div class="say">初回セットアップには、全体進捗と各タスクの完了状態が分かるOnboarding Checklistを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="feedback toggle banner announcement whats new お知らせ バナー">
+<div class="demo"><div class="extra-ui x-announce"><b>New:</b> ダッシュボードに比較期間表示が追加されました<button class="x-announce-close">×</button></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">お知らせバナー</span><span class="en">Announcement Banner</span></div><div class="desc">新機能や告知を控えめに、閉じられる形で表示する。</div><div class="say">恒常的でない告知には、閉じるボタン付きのAnnouncement Bannerを画面上部に使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="feedback validation success inline check 保存済み インライン成功">
+<div class="demo"><div class="extra-ui x-autosave"><span class="x-autosave-dot"></span><span class="x-autosave-text">All changes saved</span></div><div class="demo-note">保存状態の表示例</div></div>
+<div class="info"><div class="names"><span class="jp">自動保存インジケーター</span><span class="en">Autosave Indicator</span></div><div class="desc">保存状態を控えめなドットとテキストで常時示す。</div><div class="say">自動保存される編集画面には、保存中・保存済みが分かるAutosave Indicatorを表示する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="overlay context menu right click コンテキストメニュー 右クリック">
+<div class="demo"><div class="extra-ui x-ctx-demo"><div class="x-ctx-target">右クリックしてください</div><div class="x-ctx-menu"><button>Rename</button><button>Duplicate</button><button class="danger">Delete</button></div></div><div class="demo-note">右クリックで表示</div></div>
+<div class="info"><div class="names"><span class="jp">コンテキストメニュー</span><span class="en">Context Menu</span></div><div class="desc">右クリックした位置に操作候補を表示する。</div><div class="say">対象固有の操作群には、右クリックの位置に出るContext Menuを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="overlay video lightbox player 動画再生 オーバーレイ">
+<div class="demo"><button class="extra-ui x-video-open x-btn">▶ Watch intro</button><div class="x-video-bg"></div><div class="x-video-modal"><button class="x-video-close" aria-label="閉じる">×</button><div class="x-video-frame">▶</div></div><div class="demo-note">クリックで動画を開く</div></div>
+<div class="info"><div class="names"><span class="jp">動画モーダル</span><span class="en">Video Modal</span></div><div class="desc">サムネイルやリンクから動画を全面表示で再生する。</div><div class="say">紹介動画の再生には背景を暗くしたVideo Modalを使用し、閉じる操作を明確にする。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="overlay share menu social copy link 共有 リンクコピー">
+<div class="demo"><div class="extra-ui x-share"><button class="x-share-trigger">Share</button><div class="x-share-menu"><button>Copy link</button><button>Email</button><button>Slack</button></div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">共有メニュー</span><span class="en">Share Menu</span></div><div class="desc">リンクや外部サービスへの共有手段をまとめる。</div><div class="say">コンテンツの共有にはリンクコピーを筆頭にしたShare Menuを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="overlay feedback widget bug report フィードバック ウィジェット">
+<div class="demo"><div class="extra-ui x-feedback-widget"><button class="x-feedback-fab">Feedback</button><div class="x-feedback-panel"><b>ご意見をお聞かせください</b><textarea class="x-textarea" placeholder="気づいた点を入力"></textarea><button class="x-btn x-primary">送信</button></div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">フィードバックウィジェット</span><span class="en">Feedback Widget</span></div><div class="desc">画面端に常駐し、その場で意見や不具合を送れる小型フォーム。</div><div class="say">継続的な意見収集には、画面端に固定したFeedback Widgetを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content comparison table pricing table 比較表 料金表">
+<div class="demo"><div class="extra-ui x-pricing"><div class="x-pricing-col"><b>Free</b><span>¥0</span><ul><li>1 project</li><li>Community support</li></ul></div><div class="x-pricing-col highlight"><b>Pro</b><span>¥1,200</span><ul><li>Unlimited projects</li><li>Priority support</li></ul></div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">料金比較テーブル</span><span class="en">Pricing Table</span></div><div class="desc">プランごとの価格と主要機能を並べて比較する。</div><div class="say">複数プランの訴求には、推奨プランを強調したPricing Tableを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content testimonial quote review 推薦 引用">
+<div class="demo"><div class="extra-ui x-testimonial"><p>「導入から1週間でオンボーディング時間が半分になりました。」</p><div class="x-testimonial-author"><div class="x-avatar small">MK</div><div><b>Mori Kato</b><span>VP of Product</span></div></div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">推薦の声</span><span class="en">Testimonial</span></div><div class="desc">利用者の引用と発言者情報をまとめて信頼性を伝える。</div><div class="say">導入事例のページには、発言者の氏名・役職を添えたTestimonialを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content stat comparison before after 比較 ビフォーアフター">
+<div class="demo"><div class="extra-ui x-compare"><div><span>Before</span><b>42 min</b></div><div class="x-compare-arrow">→</div><div><span>After</span><b>9 min</b></div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">ビフォーアフター比較</span><span class="en">Before/After Comparison</span></div><div class="desc">導入前後の数値を並べて改善効果を示す。</div><div class="say">改善効果を訴求する場合は、導入前と導入後の値を対比させたComparisonを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content faq list question answer よくある質問 FAQ">
+<div class="demo"><div class="extra-ui x-faq"><div class="x-faq-item"><button class="x-faq-q">請求はいつ発生しますか？<span>⌄</span></button><div class="x-faq-a">毎月1日に前月分をまとめて請求します。</div></div><div class="x-faq-item"><button class="x-faq-q">プランは後から変更できますか？<span>⌄</span></button><div class="x-faq-a">いつでもアップグレード・ダウングレードが可能です。</div></div></div><div class="demo-note">質問をクリックで開閉</div></div>
+<div class="info"><div class="names"><span class="jp">FAQリスト</span><span class="en">FAQ List</span></div><div class="desc">質問と回答を開閉式でまとめた一覧。</div><div class="say">よくある質問にはアコーディオン形式のFAQ Listを使用し、検索と併用できるようにする。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content team member grid avatar list チームメンバー 一覧">
+<div class="demo"><div class="extra-ui x-team-grid"><div><div class="x-avatar">AK</div><b>Aki</b></div><div><div class="x-avatar" style="background:#d7cfe8">MK</div><b>Mori</b></div><div><div class="x-avatar" style="background:#cde0d1">ST</div><b>Sato</b></div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">チームメンバーグリッド</span><span class="en">Team Member Grid</span></div><div class="desc">アバターと名前を格子状に並べて一覧化する。</div><div class="say">チームや登壇者の紹介には、アバターを均等配置したTeam Member Gridを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content metric callout big number 大きな数字 ハイライト指標">
+<div class="demo"><div class="extra-ui x-callout"><b>1.2M</b><span>月間アクティブユーザー</span></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">指標コールアウト</span><span class="en">Metric Callout</span></div><div class="desc">1つの数値を大きく強調して見せる。</div><div class="say">最も伝えたい単一指標には、他の要素より大きなMetric Calloutを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="dashboard mini legend chart legend 凡例 チャート凡例">
+<div class="demo"><div class="extra-ui x-legend"><span><i style="background:#111821"></i>Web</span><span><i style="background:#7897bc"></i>Mobile</span><span><i style="background:#c9d6e3"></i>API</span></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">チャート凡例</span><span class="en">Chart Legend</span></div><div class="desc">色と系列名を対応させた小さな凡例。</div><div class="say">複数系列のチャートには、色の意味が分かるChart Legendを併記する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="dashboard alert threshold config アラート閾値設定 モニタリング">
+<div class="demo"><div class="extra-ui x-threshold"><span>CPU使用率アラート</span><input type="range" min="0" max="100" value="80" class="x-threshold-range"><b>80%</b></div><div class="demo-note">しきい値を調整</div></div>
+<div class="info"><div class="names"><span class="jp">アラート閾値設定</span><span class="en">Alert Threshold Config</span></div><div class="desc">監視項目の警告ラインをスライダーで調整する。</div><div class="say">監視設定には、現在値を伴うAlert Threshold Configを使用し、変更影響を明確にする。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<div class="section-title">More Interaction Patterns</div>
+
+<article class="card" data-tags="input toggle button icon like heart お気に入り いいね">
+<div class="demo"><button class="extra-ui x-like-btn" aria-pressed="false">♡ <span>128</span></button><div class="demo-note">クリックでいいね</div></div>
+<div class="info"><div class="names"><span class="jp">いいねボタン</span><span class="en">Like Button</span></div><div class="desc">押下でアイコンとカウントが同時に変化する小さな操作。</div><div class="say">共感やお気に入り登録には、状態とカウントが同時に変わるLike Buttonを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input bookmark save toggle icon ブックマーク 保存">
+<div class="demo"><button class="extra-ui x-bookmark-btn" aria-pressed="false">🔖 保存する</button><div class="demo-note">クリックで保存状態を切替</div></div>
+<div class="info"><div class="names"><span class="jp">ブックマークボタン</span><span class="en">Bookmark Button</span></div><div class="desc">後で見返す項目を印付けるトグル操作。</div><div class="say">後で参照したい項目には、状態がラベルとアイコンの両方で分かるBookmark Buttonを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input toggle chip filter single select 単一選択チップ">
+<div class="demo"><div class="extra-ui x-chip-single"><button class="active">Small</button><button>Medium</button><button>Large</button></div><div class="demo-note">1つだけ選択</div></div>
+<div class="info"><div class="names"><span class="jp">単一選択チップ</span><span class="en">Single-select Chip</span></div><div class="desc">相互排他な少数の候補をチップの見た目で選ばせる。</div><div class="say">サイズやカラーなど排他的なバリエーション選択には、単一選択のChipグループを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input inline number range dial knob つまみ ダイヤル">
+<div class="demo"><div class="extra-ui x-dial-wrap"><div class="x-dial" style="--deg:252"><i></i></div><div class="x-dial-value">70%</div><div class="action-row"><button class="mini-btn x-dial-minus">-10</button><button class="mini-btn x-dial-plus">+10</button></div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">回転ダイヤル</span><span class="en">Rotary Dial</span></div><div class="desc">円形のつまみで連続値を調整する、機器操作に近い入力。</div><div class="say">音量やしきい値のような連続値には、視覚的に直感的なRotary Dialを使用できる。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input toggle card selectable plan card カード選択 プラン選択">
+<div class="demo"><div class="extra-ui x-plan-cards"><button class="x-plan active"><b>Starter</b><span>¥0 / 月</span></button><button class="x-plan"><b>Pro</b><span>¥1,200 / 月</span></button></div><div class="demo-note">カードをクリックで選択</div></div>
+<div class="info"><div class="names"><span class="jp">選択式プランカード</span><span class="en">Selectable Plan Card</span></div><div class="desc">ラジオボタンの代わりにカード全体を選択領域にする。</div><div class="say">少数の選択肢を強調して見せたい場合は、カード全体をクリック可能にしたPlan Cardを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="navigation stacked page tab underline アンダーラインタブ">
+<div class="demo"><div class="extra-ui x-underline-tabs"><button class="active">概要</button><button>メンバー</button><button>設定</button></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">下線タブ</span><span class="en">Underline Tabs</span></div><div class="desc">背景でなく下線の移動で選択状態を示す軽量なタブ。</div><div class="say">主要ナビゲーションに近いタブには、選択位置が下線でスライドするUnderline Tabsを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="navigation rail nav icon only vertical アイコンレール ナビ">
+<div class="demo"><div class="extra-ui x-rail"><button class="active" aria-label="ホーム">⌂</button><button aria-label="検索">⌕</button><button aria-label="通知">♧</button><button aria-label="設定">⚙</button></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">アイコンレールナビ</span><span class="en">Icon Rail Navigation</span></div><div class="desc">アイコンのみを縦に並べた省スペースなナビゲーション。</div><div class="say">画面幅を優先したい場合は、ラベルを省いたIcon Rail Navigationを使用し、ツールチップで補足する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="navigation load more button pagination もっと見る 追加読み込み">
+<div class="demo"><div class="extra-ui x-load-more"><div class="x-load-list"><span>Item 1</span><span>Item 2</span><span>Item 3</span></div><button class="x-btn x-load-more-btn">もっと見る</button></div><div class="demo-note">クリックで追加表示</div></div>
+<div class="info"><div class="names"><span class="jp">もっと見るボタン</span><span class="en">Load More Button</span></div><div class="desc">ページ送りせず、ボタン操作で追加項目を継ぎ足す。</div><div class="say">一覧の追加読み込みには、明示的な操作で件数を増やすLoad Moreボタンを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="feedback toast stack multiple notifications 複数トースト スタック">
+<div class="demo"><button class="x-btn extra-ui x-toast-stack-trigger">通知を3件発生</button><div class="extra-ui x-toast-stack"></div><div class="demo-note">クリックで複数表示</div></div>
+<div class="info"><div class="names"><span class="jp">トーストスタック</span><span class="en">Toast Stack</span></div><div class="desc">複数の通知が連続発生した際に積み重ねて表示する。</div><div class="say">短時間に複数の完了通知が起こる場合は、重ねて表示されるToast Stackを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="feedback inline loading button spinner button 送信中ボタン">
+<div class="demo"><button class="extra-ui x-btn x-primary x-loading-btn">Save changes</button><div class="demo-note">クリックで送信中表示</div></div>
+<div class="info"><div class="names"><span class="jp">ローディングボタン</span><span class="en">Loading Button</span></div><div class="desc">送信中はボタン自体がスピナー表示に切り替わる。</div><div class="say">送信操作のボタンには、処理中を示すLoading状態を設け、二重送信を防ぐ。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="feedback network status indicator connection quality 通信品質 表示">
+<div class="demo"><div class="extra-ui x-netstatus"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><span>接続良好</span></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">通信品質インジケーター</span><span class="en">Network Status Indicator</span></div><div class="desc">段階的なバーで通信状態の良し悪しを示す。</div><div class="say">リアルタイム性が重要な機能には、接続品質を示すNetwork Status Indicatorを併記する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="feedback maintenance mode banner scheduled downtime メンテナンス通知">
+<div class="demo"><div class="extra-ui x-maintenance">🛠 <div><b>メンテナンス予定</b><span>8/25 02:00–04:00 (JST) はサービスを停止します</span></div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">メンテナンス通知</span><span class="en">Maintenance Banner</span></div><div class="desc">計画停止の日時を事前に案内する固定バナー。</div><div class="say">計画メンテナンスの告知には、開始・終了時刻を明示したMaintenance Bannerを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="overlay image crop avatar upload 画像切り抜き トリミング">
+<div class="demo"><div class="extra-ui x-crop"><div class="x-crop-frame"><div class="x-crop-handle tl"></div><div class="x-crop-handle br"></div></div><button class="x-btn x-primary">適用</button></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">画像トリミング</span><span class="en">Image Crop</span></div><div class="desc">アップロード画像の一部をハンドル操作で切り抜く。</div><div class="say">アバターやカバー画像の設定には、範囲をハンドルで調整できるImage Cropを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="overlay nested modal stacked dialog 多重モーダル ネスト">
+<div class="demo"><button class="x-btn extra-ui x-nested-open">Edit member</button><div class="x-nested-bg"></div><div class="x-nested-modal"><b>Edit member</b><button class="x-btn x-danger x-nested-inner-open" style="margin-top:9px">Remove member</button><div class="x-nested-inner-bg"></div><div class="x-nested-inner-modal"><b>本当に削除しますか？</b><div class="modal-actions" style="margin-top:9px"><button class="mini-btn x-nested-inner-close">Cancel</button><button class="mini-btn primary">Remove</button></div></div><button class="x-btn x-nested-close" style="margin-top:9px">Close</button></div><div class="demo-note">モーダルの中からさらに開く</div></div>
+<div class="info"><div class="names"><span class="jp">多重モーダル</span><span class="en">Nested Modal</span></div><div class="desc">モーダルの中からさらに確認用モーダルを重ねて開く。</div><div class="say">編集画面内での破壊的操作には、元のモーダルの上に重なるNested Modalで確認する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="overlay toast with action inline button 操作付き通知">
+<div class="demo"><button class="x-btn extra-ui x-action-toast-trigger">招待を送信</button><div class="extra-ui x-action-toast"><span>招待を送信しました</span><button class="x-action-toast-btn">表示</button></div><div class="demo-note">クリックで通知と操作を表示</div></div>
+<div class="info"><div class="names"><span class="jp">操作付きトースト</span><span class="en">Actionable Toast</span></div><div class="desc">通知メッセージに関連操作のボタンを添える。</div><div class="say">結果確認や関連ページへの遷移が有用な通知には、操作ボタン付きのToastを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content stat card icon metric icon付き指標カード">
+<div class="demo"><div class="extra-ui x-stat-icon"><i>👥</i><div><b>2,481</b><span>Active users</span></div></div><div class="demo-note">表示例</div></div>
+<div class="info"><div class="names"><span class="jp">アイコン付き指標カード</span><span class="en">Icon Stat Card</span></div><div class="desc">アイコンで種別を示しつつ数値を強調する小型カード。</div><div class="say">複数指標を並べる場合は、種別が一目で分かるアイコン付きStat Cardを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content vertical divider list two column 縦区切り 2カラムリスト">
+<div class="demo"><div class="extra-ui x-split-list"><div><b>Plan</b><span>Pro</span></div><div><b>Renews</b><span>Sep 1, 2026</span></div><div><b>Seats</b><span>12 / 20</span></div></div><div class="demo-note">表示例</div></div>
+<div class="info"><div class="names"><span class="jp">縦区切りサマリー</span><span class="en">Split Summary List</span></div><div class="desc">項目名と値を縦線で区切って横に並べる。</div><div class="say">少数の関連情報を1行で見せたい場合は、縦区切りのSplit Summary Listを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content collapsible code diff viewer 差分表示 コード差分">
+<div class="demo"><div class="extra-ui x-diff"><div class="x-diff-line del">- const timeout = 3000;</div><div class="x-diff-line add">+ const timeout = 5000;</div><div class="x-diff-line">  export default timeout;</div></div><div class="demo-note">追加・削除行の表示例</div></div>
+<div class="info"><div class="names"><span class="jp">差分ビューア</span><span class="en">Diff Viewer</span></div><div class="desc">追加・削除された行を色分けして変更内容を示す。</div><div class="say">コードやテキストの変更確認には、追加・削除を色で区別したDiff Viewerを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content qr code display share コード 二次元コード">
+<div class="demo"><div class="extra-ui x-qr"><div class="x-qr-box"></div><span>スマートフォンでスキャン</span></div><div class="demo-note">表示例（静的なQRコード）</div></div>
+<div class="info"><div class="names"><span class="jp">QRコード表示</span><span class="en">QR Code Display</span></div><div class="desc">URLやトークンをQRコードとして提示する。</div><div class="say">モバイルへの受け渡しにはQR Code Displayを用意し、代替のテキストリンクも併記する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content weather widget forecast card 天気ウィジェット">
+<div class="demo"><div class="extra-ui x-weather"><i>☀</i><div><b>24°C</b><span>Tokyo · Sunny</span></div></div><div class="demo-note">表示例</div></div>
+<div class="info"><div class="names"><span class="jp">天気ウィジェット</span><span class="en">Weather Widget</span></div><div class="desc">現在地の気温と天候をアイコンで簡潔に示す。</div><div class="say">補助的な環境情報の表示には、アイコンと数値をまとめたWeather Widgetを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="dashboard live counter realtime metric リアルタイムカウンター">
+<div class="demo"><div class="extra-ui x-live-counter"><span class="x-live-dot"></span><b>1,842</b><span>人が閲覧中</span></div><div class="demo-note">数秒ごとに値が変化</div></div>
+<div class="info"><div class="names"><span class="jp">リアルタイムカウンター</span><span class="en">Live Counter</span></div><div class="desc">値が定期的に更新されることを示す小さな指標。</div><div class="say">同時接続数などの即時性が重要な値には、更新中を示すLive Counterを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="dashboard budget usage meter capacity 予算メーター 使用量">
+<div class="demo"><div class="extra-ui x-budget"><div class="x-budget-bar"><i style="width:68%"></i></div><span>¥68,000 / ¥100,000 使用</span></div><div class="demo-note">使用量の表示例</div></div>
+<div class="info"><div class="names"><span class="jp">予算使用量メーター</span><span class="en">Budget Usage Meter</span></div><div class="desc">上限に対する現在の使用量をバーと数値で示す。</div><div class="say">予算やクォータの消費状況には、上限と現在値を併記したUsage Meterを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="dashboard team leaderboard ranking avatars チームリーダーボード">
+<div class="demo"><div class="extra-ui x-team-rank"><div><span>1</span><div class="x-avatar small">AK</div><b>Aki</b><em>412 pts</em></div><div><span>2</span><div class="x-avatar small" style="background:#d7cfe8">MK</div><b>Mori</b><em>378 pts</em></div></div><div class="demo-note">表示例</div></div>
+<div class="info"><div class="names"><span class="jp">チームリーダーボード</span><span class="en">Team Leaderboard</span></div><div class="desc">アバター付きで順位とスコアを示すランキング表示。</div><div class="say">ゲーミフィケーション要素には、アバターと得点を並べたTeam Leaderboardを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<div class="section-title">More Niche & Specialized Patterns</div>
+
+<article class="card" data-tags="input quantity cart stepper commerce 数量選択 カート">
+<div class="demo"><div class="extra-ui x-cart-row"><span>商品A</span><div class="x-stepper"><button class="x-minus">−</button><output>2</output><button class="x-plus">＋</button></div><b>¥2,400</b></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">カート数量選択</span><span class="en">Cart Quantity Stepper</span></div><div class="desc">商品名・数量・小計を1行にまとめたカート用の入力。</div><div class="say">カート画面の各行には、数量調整と小計が同時に見えるCart Quantity Stepperを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input size selector variant swatch サイズ選択 バリアント">
+<div class="demo"><div class="extra-ui x-size-select"><button>XS</button><button class="active">S</button><button>M</button><button>L</button><button disabled>XL</button></div><div class="demo-note">在庫切れは選択不可</div></div>
+<div class="info"><div class="names"><span class="jp">サイズセレクター</span><span class="en">Size Selector</span></div><div class="desc">在庫のないサイズを無効化しつつ選択させる。</div><div class="say">商品バリエーション選択には、在庫切れを判別できるSize Selectorを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input coupon promo code apply クーポン プロモコード">
+<div class="demo"><div class="extra-ui x-coupon"><input class="x-field" placeholder="クーポンコード"><button class="x-btn">適用</button></div><div class="x-coupon-note"></div><div class="demo-note">コードを入力して適用</div></div>
+<div class="info"><div class="names"><span class="jp">クーポン入力</span><span class="en">Coupon Code Input</span></div><div class="desc">プロモーションコードを入力・検証する専用フィールド。</div><div class="say">割引適用のフローには、適用結果がその場で分かるCoupon Code Inputを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input address autocomplete form 住所入力 郵便番号">
+<div class="demo"><div class="extra-ui x-stack"><label class="x-label">郵便番号<input class="x-field x-zip-input" placeholder="150-0001"></label><label class="x-label">住所<input class="x-field x-address-output" placeholder="自動入力されます"></label></div><div class="demo-note">郵便番号を入力</div></div>
+<div class="info"><div class="names"><span class="jp">住所自動入力</span><span class="en">Address Autofill</span></div><div class="desc">郵便番号の入力から住所欄を自動補完する。</div><div class="say">配送先入力には、郵便番号から都道府県以降を自動補完するAddress Autofillを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input card number expiry cvv payment カード番号 決済入力">
+<div class="demo"><div class="extra-ui x-stack"><input class="x-field" placeholder="1234 5678 9012 3456"><div class="x-range" style="gap:8px"><input class="x-field" style="width:70px" placeholder="MM/YY"><input class="x-field" style="width:56px" placeholder="CVV"></div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">カード決済フォーム</span><span class="en">Card Payment Form</span></div><div class="desc">カード番号・有効期限・セキュリティコードをまとめた入力。</div><div class="say">決済情報の入力には、桁数に応じた自動整形を伴うCard Payment Formを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input emoji picker reaction 絵文字 リアクション選択">
+<div class="demo"><div class="extra-ui x-emoji-picker"><button class="x-emoji-trigger">😊</button><div class="x-emoji-menu"><button>👍</button><button>❤️</button><button>😂</button><button>🎉</button><button>👀</button></div></div><div class="demo-note">クリックで選択</div></div>
+<div class="info"><div class="names"><span class="jp">絵文字ピッカー</span><span class="en">Emoji Picker</span></div><div class="desc">短い候補群から絵文字リアクションを選ぶ小さなメニュー。</div><div class="say">メッセージへの即時反応には、候補を絞ったEmoji Pickerを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input signature pad draw canvas 署名 サイン">
+<div class="demo"><div class="extra-ui x-sigpad"><canvas class="x-sigpad-canvas" width="220" height="70"></canvas><button class="mini-btn x-sigpad-clear">クリア</button></div><div class="demo-note">ドラッグして署名</div></div>
+<div class="info"><div class="names"><span class="jp">署名パッド</span><span class="en">Signature Pad</span></div><div class="desc">マウスやタッチでその場に手書き署名を残す。</div><div class="say">同意書や受領確認には、消去操作を備えたSignature Padを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input voice input microphone dictation 音声入力 マイク">
+<div class="demo"><div class="extra-ui x-voice"><button class="x-voice-btn" aria-pressed="false">🎙</button><span class="x-voice-status">タップして話す</span></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">音声入力ボタン</span><span class="en">Voice Input Button</span></div><div class="desc">録音中かどうかを視覚的に示すマイク操作。</div><div class="say">音声によるテキスト入力には、録音中の状態が分かるVoice Input Buttonを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="navigation wizard progress dots carousel indicator ドットインジケーター">
+<div class="demo"><div class="extra-ui x-dots"><button class="active" aria-label="1枚目"></button><button aria-label="2枚目"></button><button aria-label="3枚目"></button></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">ドットインジケーター</span><span class="en">Dot Indicator</span></div><div class="desc">カルーセルやオンボーディングの現在位置を点で示す。</div><div class="say">スライド形式のコンテンツには、現在位置が分かるDot Indicatorを併置する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="navigation mega menu dropdown categories メガメニュー カテゴリ">
+<div class="demo"><div class="extra-ui x-mega"><button class="x-mega-trigger">Products ⌄</button><div class="x-mega-menu"><div><b>Analytics</b><span>Dashboards</span><span>Reports</span></div><div><b>Platform</b><span>API</span><span>Webhooks</span></div></div></div><div class="demo-note">クリックで展開</div></div>
+<div class="info"><div class="names"><span class="jp">メガメニュー</span><span class="en">Mega Menu</span></div><div class="desc">複数カテゴリを列に分けて一度に表示する大型ドロップダウン。</div><div class="say">項目数が多いグローバルナビゲーションには、カテゴリ分けしたMega Menuを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="navigation back button history 戻るボタン 履歴">
+<div class="demo"><div class="extra-ui x-back-row"><button class="x-back-btn">← 戻る</button><b>Project settings</b></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">戻るボタン付きヘッダー</span><span class="en">Back Button Header</span></div><div class="desc">前の画面への明示的な戻り導線をタイトルと併記する。</div><div class="say">階層の深いモバイル画面には、戻る操作とタイトルを1行にまとめたHeaderを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="navigation tab overflow scrollable tabs 横スクロールタブ 折返しなし">
+<div class="demo"><div class="extra-ui x-scroll-tabs"><button class="active">All</button><button>Design</button><button>Engineering</button><button>Marketing</button><button>Sales</button><button>Support</button></div><div class="demo-note">横スクロールで続きを表示</div></div>
+<div class="info"><div class="names"><span class="jp">横スクロールタブ</span><span class="en">Scrollable Tabs</span></div><div class="desc">折り返さず横方向のスクロールで多数のタブを収める。</div><div class="say">タブ数が画面幅を超える場合は、折り返さないScrollable Tabsを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="feedback like counter animation heart burst いいねアニメーション">
+<div class="demo"><button class="extra-ui x-heart-burst">❤ <span>反応する</span></button><div class="demo-note">クリックで演出</div></div>
+<div class="info"><div class="names"><span class="jp">リアクションバースト</span><span class="en">Reaction Burst</span></div><div class="desc">クリック時に短いアニメーションで反応を強調する。</div><div class="say">ポジティブな反応の入力には、一瞬だけ拡大するReaction Burstの演出を添える。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="feedback typing indicator chat 入力中 タイピングインジケーター">
+<div class="demo"><div class="extra-ui x-typing"><div class="x-avatar small">MK</div><div class="x-typing-dots"><i></i><i></i><i></i></div></div><div class="demo-note">相手が入力中を表現</div></div>
+<div class="info"><div class="names"><span class="jp">入力中インジケーター</span><span class="en">Typing Indicator</span></div><div class="desc">相手が返信を入力中であることを示すアニメーション。</div><div class="say">チャットには、相手の入力中状態を伝えるTyping Indicatorを表示する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="feedback read receipt seen chat 既読 チャット既読">
+<div class="demo"><div class="extra-ui x-receipt"><div class="x-chat-bubble">了解です、進めます。</div><span class="x-receipt-status">既読 14:02</span></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">既読表示</span><span class="en">Read Receipt</span></div><div class="desc">メッセージが相手に読まれたことと時刻を示す。</div><div class="say">1対1のチャットには、既読状態と時刻を添えたRead Receiptを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="feedback battery low storage warning 容量警告 バッテリー">
+<div class="demo"><div class="extra-ui x-storage-warn"><div class="x-storage-bar"><i style="width:92%"></i></div><span>ストレージ残り8% - 空き容量を確保してください</span></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">容量不足警告</span><span class="en">Storage Warning</span></div><div class="desc">残り容量が少ないことをバーと文言で警告する。</div><div class="say">ストレージやクォータの逼迫には、視覚的なStorage Warningで早めに気づかせる。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="feedback celebratory confetti success animation 成功演出 紙吹雪">
+<div class="demo"><button class="x-btn extra-ui x-primary x-confetti-trigger">目標を達成</button><div class="x-confetti-layer"></div><div class="demo-note">クリックで演出</div></div>
+<div class="info"><div class="names"><span class="jp">成功演出（紙吹雪）</span><span class="en">Success Confetti</span></div><div class="desc">達成や完了の瞬間を華やかな演出で強調する。</div><div class="say">大きな達成イベントには、一度きりのSuccess Confetti演出を使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="overlay swipe to dismiss card stack カードスタック スワイプ削除">
+<div class="demo"><div class="extra-ui x-swipe-stack"><div class="x-swipe-card">Card A</div><div class="x-swipe-card" style="top:6px;opacity:.7">Card B</div></div><div class="demo-note">上のカードをクリックで送る</div></div>
+<div class="info"><div class="names"><span class="jp">スワイプカードスタック</span><span class="en">Swipe Card Stack</span></div><div class="desc">重なったカードを1枚ずつ操作して処理する。</div><div class="say">1件ずつ判断させたいコンテンツには、Swipe Card Stackの形式を使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="overlay pip picture in picture mini player ミニプレイヤー">
+<div class="demo"><div class="extra-ui x-pip"><div class="x-pip-frame">▶</div><span>再生中: Weekly sync recording</span></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">ミニプレイヤー</span><span class="en">Picture-in-Picture Player</span></div><div class="desc">画面隅に固定された小型の再生コントロール。</div><div class="say">他の操作を続けながら視聴する場合は、隅に固定されるPiP Playerを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="overlay permission request dialog camera microphone 権限リクエスト">
+<div class="demo"><div class="extra-ui x-permission"><i>🎙</i><div><b>マイクへのアクセス</b><span>音声入力機能を使うために必要です</span></div><div class="action-row"><button class="mini-btn">許可しない</button><button class="mini-btn primary">許可する</button></div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">権限リクエストダイアログ</span><span class="en">Permission Request Dialog</span></div><div class="desc">機能に必要な権限を理由とともに確認する。</div><div class="say">OS標準の許可ダイアログの前には、理由を説明するPermission Request Dialogを挟む。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content recipe step ingredient list レシピ 手順リスト">
+<div class="demo"><div class="extra-ui x-steps-list"><label><input type="checkbox">材料を計量する</label><label><input type="checkbox" checked>フライパンを温める</label><label><input type="checkbox">中火で5分焼く</label></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">手順チェックリスト</span><span class="en">Step Checklist</span></div><div class="desc">順序のある作業手順をチェックしながら進める。</div><div class="say">レシピや作業手順書には、完了をチェックできるStep Checklistを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content event ticket boarding pass card チケット 搭乗券風カード">
+<div class="demo"><div class="extra-ui x-ticket"><div class="x-ticket-main"><b>Design Conference 2026</b><span>Aug 28 · Tokyo Big Sight</span></div><div class="x-ticket-stub">A-142</div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">チケットカード</span><span class="en">Ticket Card</span></div><div class="desc">半券のような切れ込みで入場券らしさを演出するカード。</div><div class="say">イベントチケットや搭乗券の表示には、Ticket Card特有の見た目を使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content map pin location card 地図ピン 位置情報カード">
+<div class="demo"><div class="extra-ui x-location-card"><div class="x-location-map"></div><div><b>Shibuya Office</b><span>2-1 Dogenzaka, Shibuya-ku</span></div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">位置情報カード</span><span class="en">Location Card</span></div><div class="desc">簡易マップと住所を組み合わせた場所の要約表示。</div><div class="say">拠点や店舗の紹介には、地図サムネイルを添えたLocation Cardを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content podcast audio player waveform 音声プレイヤー 波形">
+<div class="demo"><div class="extra-ui x-audio"><button class="x-audio-play">▶</button><div class="x-audio-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span>12:04</span></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">音声プレイヤー</span><span class="en">Audio Player</span></div><div class="desc">波形と再生位置を示すコンパクトな音声コントロール。</div><div class="say">ポッドキャストや録音の再生には、波形表示付きのAudio Playerを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content recipe nutrition label fact box 栄養成分表示 ラベル">
+<div class="demo"><div class="extra-ui x-factbox"><div><span>Calories</span><b>420</b></div><div><span>Protein</span><b>18g</b></div><div><span>Carbs</span><b>52g</b></div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">成分表示ラベル</span><span class="en">Fact Box</span></div><div class="desc">項目名と数値を整列させた簡易な事実表示。</div><div class="say">栄養成分やスペック表示には、整列されたFact Boxの形式を使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content collapsible terms agreement 利用規約 折りたたみ同意">
+<div class="demo"><div class="extra-ui x-terms"><div class="x-terms-box">第1条（適用範囲）本規約は本サービスの利用に関する一切の関係に適用されます…</div><label><input type="checkbox">利用規約に同意します</label></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">利用規約同意欄</span><span class="en">Terms Agreement Box</span></div><div class="desc">長文をスクロール領域に収め、同意チェックを併設する。</div><div class="say">利用規約への同意には、本文をスクロール表示するTerms Agreement Boxを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content org chart hierarchy card 組織図 階層カード">
+<div class="demo"><div class="extra-ui x-orgchart"><div class="x-org-node root">CEO</div><div class="x-org-children"><div class="x-org-node">VP Eng</div><div class="x-org-node">VP Sales</div></div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">組織図</span><span class="en">Org Chart</span></div><div class="desc">上下関係をノードと接続線で表す階層図。</div><div class="say">レポートラインの説明には、上下関係が明確なOrg Chartを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="dashboard mini bar chart inline sparkbar インラインバーチャート">
+<div class="demo"><div class="extra-ui x-sparkbar"><span>Mon</span><i style="width:40%"></i><span>Tue</span><i style="width:70%"></i><span>Wed</span><i style="width:55%"></i></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">インラインバーチャート</span><span class="en">Inline Bar Chart</span></div><div class="desc">曜日や項目ごとの値を短い横棒で並べる軽量チャート。</div><div class="say">表の中で傾向だけ示したい場合は、セル内に収まるInline Bar Chartを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="dashboard error rate uptime badge status page 稼働率バッジ">
+<div class="demo"><div class="extra-ui x-uptime-badge"><i class="ok"></i>All systems operational<span>99.98% uptime</span></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">稼働率バッジ</span><span class="en">Uptime Badge</span></div><div class="desc">現在の稼働状況と稼働率を1行で示す。</div><div class="say">ステータスページの見出しには、現在の状態と稼働率を併記したUptime Badgeを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="dashboard cost breakdown donut spend チャート費用内訳 ドーナツ">
+<div class="demo"><div class="extra-ui x-cost-donut"><div class="x-donut"></div><div class="x-cost-legend"><span><i style="background:#111821"></i>Compute ¥4.2m</span><span><i style="background:#7897bc"></i>Storage ¥1.1m</span><span><i style="background:#c9d6e3"></i>Network ¥0.6m</span></div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">費用内訳ドーナツ</span><span class="en">Cost Breakdown Donut</span></div><div class="desc">支出の内訳を円グラフと凡例で示す。</div><div class="say">コスト管理画面には、内訳と金額を併記したCost Breakdown Donutを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="dashboard team capacity workload 稼働率 チームキャパシティ">
+<div class="demo"><div class="extra-ui x-capacity"><div><span>Aki</span><div class="x-capacity-bar"><i style="width:92%" class="over"></i></div></div><div><span>Mori</span><div class="x-capacity-bar"><i style="width:64%"></i></div></div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">チームキャパシティ</span><span class="en">Team Capacity</span></div><div class="desc">メンバーごとの稼働負荷を横棒で比較する。</div><div class="say">アサイン調整の判断には、過負荷が分かるTeam Capacityの一覧を使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="dashboard version release timeline changelog リリースタイムライン 変更履歴">
+<div class="demo"><div class="extra-ui x-release"><div class="x-release-item"><b>v2.4.0</b><span>Aug 20 · ダッシュボード比較期間を追加</span></div><div class="x-release-item"><b>v2.3.1</b><span>Aug 12 · バグ修正</span></div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">リリースタイムライン</span><span class="en">Release Timeline</span></div><div class="desc">バージョンごとの変更内容を時系列で示す。</div><div class="say">変更履歴ページには、バージョンと概要を併記したRelease Timelineを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input drag reorder handle grid grip ドラッグハンドル グリッド並替">
+<div class="demo"><div class="extra-ui x-grip-grid"><div class="x-grip-tile"><span>⠿</span>Widget A</div><div class="x-grip-tile"><span>⠿</span>Widget B</div><div class="x-grip-tile"><span>⠿</span>Widget C</div></div><div class="demo-note">ハンドルでドラッグ想定</div></div>
+<div class="info"><div class="names"><span class="jp">ドラッグ可能グリッド</span><span class="en">Draggable Grid</span></div><div class="desc">グリップアイコンを掴んで並び替えるグリッド配置。</div><div class="say">自由配置のウィジェットには、明示的なグリップを持つDraggable Gridを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input toggle theme dark light switch ダークモード切替">
+<div class="demo"><button class="extra-ui x-theme-toggle" aria-pressed="false"><span class="x-theme-icon">☀</span></button><div class="demo-note">クリックで切替</div></div>
+<div class="info"><div class="names"><span class="jp">ダークモード切替</span><span class="en">Theme Toggle</span></div><div class="desc">ライト・ダークのテーマを1操作で切り替える。</div><div class="say">テーマ切り替えには、現在のモードが分かるアイコン付きのTheme Toggleを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="input language selector locale switch 言語切替 ロケール">
+<div class="demo"><div class="extra-ui x-locale"><button class="x-locale-trigger">🌐 日本語</button><div class="x-locale-menu"><button>日本語</button><button>English</button><button>한국어</button></div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">言語セレクター</span><span class="en">Language Selector</span></div><div class="desc">対応言語を切り替えるためのコンパクトなメニュー。</div><div class="say">多言語対応の画面には、現在の言語が分かるLanguage Selectorをヘッダーに置く。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="feedback accessibility focus trap skip link スキップリンク アクセシビリティ">
+<div class="demo"><div class="extra-ui x-skiplink-demo"><a class="x-skiplink" href="#main">メインコンテンツへスキップ</a><span>Tabキーで最初に表示されるリンク</span></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">スキップリンク</span><span class="en">Skip Link</span></div><div class="desc">キーボード利用者がナビゲーションを飛ばして本文へ移動できるリンク。</div><div class="say">アクセシビリティ対応として、ページ先頭にはSkip Linkを設置する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="feedback high contrast accessibility toggle コントラスト切替 アクセシビリティ">
+<div class="demo"><div class="extra-ui x-a11y-row"><span>高コントラストモード</span><button class="toggle"><span class="knob"></span></button></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">高コントラストモード切替</span><span class="en">High Contrast Toggle</span></div><div class="desc">視認性を高める配色に切り替える設定項目。</div><div class="say">アクセシビリティ設定には、コントラスト比を上げるHigh Contrast Toggleを用意する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content badge achievement unlock gamification 実績バッジ 解除">
+<div class="demo"><div class="extra-ui x-achievement"><i>🏆</i><div><b>初めてのデプロイ</b><span>実績を解除しました</span></div></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">実績バッジ</span><span class="en">Achievement Badge</span></div><div class="desc">達成した実績をアイコンと説明で通知する。</div><div class="say">ゲーミフィケーション要素には、解除演出を伴うAchievement Badgeを使用する。</div><button class="copy">指示文をコピー</button></div>
+</article>
+
+<article class="card" data-tags="content level xp bar progress game レベル 経験値バー">
+<div class="demo"><div class="extra-ui x-xpbar"><span>Lv. 12</span><div class="x-xp-track"><i style="width:64%"></i></div><span>640 / 1000 XP</span></div><div class="demo-note">操作して状態を確認</div></div>
+<div class="info"><div class="names"><span class="jp">経験値バー</span><span class="en">XP Bar</span></div><div class="desc">現在のレベルと次のレベルまでの進捗を示す。</div><div class="say">ゲーミフィケーションされた進捗表示には、現在値と必要量を併記したXP Barを使用する。</div><button class="copy">指示文をコピー</button></div>
 </article>
 
 <div class="section-title">More React / Vue Dashboard Components</div>
